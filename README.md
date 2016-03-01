@@ -2,7 +2,7 @@
 
 ## Cloning
 
-git clone --recursive git@gitlab.uni-koblenz.de:ldebald/MarkerSlamRosFree.git
+git clone --recursive https://github.com/cfneuhaus/visual_marker_mapping.git
 
 
 
