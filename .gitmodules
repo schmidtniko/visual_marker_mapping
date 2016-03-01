@@ -1,0 +1,3 @@
+[submodule "fast_mit_apriltags"]
+	path = fast_mit_apriltags
+	url = https://github.com/cfneuhaus/fast_mit_apriltags
