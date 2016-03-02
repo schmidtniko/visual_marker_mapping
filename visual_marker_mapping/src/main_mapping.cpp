@@ -8,6 +8,7 @@
 #include "visual_marker_mapping/cameraUtilities.h"
 #include "visual_marker_mapping/TagReconstructor.h"
 #include "visual_marker_mapping/DetectionIO.h"
+#include "visual_marker_mapping/ReconstructionIO.h"
 
 //------------------------------------------------------------------------------------------------------------
 template <typename T>
@@ -30,7 +31,7 @@ po::variables_map loadParameters(int argc, char* argv[])
     options.add_options()("help,?", "produces this help message")(
         "project_path", po::value<std::string>()->required(), "Path to project to be processed")(
         "camera_parameter_file", po::value<std::string>()->default_value(""),
-        "Path to the json file with the camera parameters.")("reconst_json_filename",
+        "Path to the json file with the camera parameters.")("reconstruction_filename",
         po::value<std::string>()->default_value("reconstruction.json"),
         "Filename of the file in which the json with reconstructed Tags and Cameras is stored. It "
         "is saved in the root folder.")("json_filename",
@@ -53,14 +54,6 @@ po::variables_map loadParameters(int argc, char* argv[])
 
     po::notify(vm);
 
-    std::string configFilePath = vm["config_file"].as<std::string>();
-    std::ifstream ini_file(configFilePath);
-
-    if (!ini_file) throw std::runtime_error("Could not open the config file: " + configFilePath);
-
-    po::store(po::parse_config_file(ini_file, fileOptions, true), vm);
-    po::notify(vm);
-
     return vm;
 }
 //------------------------------------------------------------------------------------------------------------
@@ -76,18 +69,41 @@ int main(int argc, char* argv[])
 
         const std::string cam_intrinsics_file = (project_path / "camera_intrinsics.json").string();
         const int startId = vm["start_tag_id"].as<int>();
-        const std::string jsonRecFilepath
-            = (project_path / vm["reconst_json_filename"].as<std::string>()).string();
+        const std::string reconstruction_file
+            = (project_path / vm["reconstruction_filename"].as<std::string>()).string();
         const int maxThreads
             = std::thread::hardware_concurrency() ? std::thread::hardware_concurrency() : 4;
 
-        const camSurv::CameraModel camModel = camSurv::readCameraModel(cam_intrinsics_file);
+        if (boost::filesystem::exists(detection_result_filename))
+        {
+            while (1)
+            {
+                std::cerr << "Output file '" << reconstruction_file
+                          << "' already exists. Overwrite? (y/n) ";
+                char yn;
+                std::cin >> yn;
+                if (yn == 'n')
+                {
+                    std::cout << "Exiting!" << std::endl;
+                    exit(1);
+                }
+                else if (yn == 'y')
+                    break;
+            }
+        }
+
+        const camSurv::CameraModel camera_model = camSurv::readCameraModel(cam_intrinsics_file);
 
         camSurv::TagReconstructor reconstructor;
         reconstructor.readTags(detection_result_filename);
-        reconstructor.setCameraModel(camModel);
+        reconstructor.setCameraModel(camera_model);
         reconstructor.setOriginTagId(startId);
         reconstructor.startReconstruction(maxThreads);
+
+        camSurv::exportReconstructions(reconstruction_file, reconstructor.getReconstructedTags(),
+            reconstructor.getReconstructedCameras(), camera_model);
+
+        std::cout << "Wrote " << reconstruction_file << "!" << std::endl;
     }
     catch (const std::exception& ex)
     {

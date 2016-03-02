@@ -85,15 +85,16 @@ int main(int argc, char* argv[])
         {
             while (1)
             {
-                std::cerr << "Output file '" << detection_result_filename << "' already exists. Overwrite? (y/n) ";
+                std::cerr << "Output file '" << detection_result_filename
+                          << "' already exists. Overwrite? (y/n) ";
                 char yn;
                 std::cin >> yn;
-                if (yn=='n')
+                if (yn == 'n')
                 {
                     std::cout << "Exiting!" << std::endl;
                     exit(1);
                 }
-                else if (yn=='y')
+                else if (yn == 'y')
                     break;
             }
         }
