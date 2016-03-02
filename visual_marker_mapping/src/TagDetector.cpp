@@ -23,7 +23,7 @@ TagDetector::TagDetector(const std::string& rootPath, const std::string& imgPath
     , _visHeight(visHeight)
     , _markerWidth(markerWidth)
     , _markerHeight(markerHeight)
-    ,tagCodes(AprilTags::tagCodes36h11)
+    , tagCodes(AprilTags::tagCodes36h11)
 {
 }
 //-------------------------------------------------------------------------------------------------
