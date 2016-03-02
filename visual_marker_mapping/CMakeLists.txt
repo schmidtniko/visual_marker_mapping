@@ -2,16 +2,10 @@ cmake_minimum_required (VERSION 2.6)
 project(visual_marker_mapping)
 
 if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
-  # Update if necessary
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic")
 endif()
 
-include_directories(include
-                    ${Boost_INCLUDE_DIRS}
-                    ${CERES_INCLUDE_DIRS})
-
-file(GLOB_RECURSE SOURCES "src/*.cpp")
-add_library(camSurv
+add_library(visual_marker_mapping_lib
             src/TagReconstructor.cpp
             src/TagDetector.cpp
             src/ReconstructionIO.cpp
@@ -22,19 +16,36 @@ add_library(camSurv
             src/fileUtilities.cpp
             src/propertyTreeUtilities.cpp)
 
-target_link_libraries(camSurv
+set_property(TARGET visual_marker_mapping_lib PROPERTY CXX_STANDARD 11)
+set_property(TARGET visual_marker_mapping_lib PROPERTY CXX_STANDARD_REQUIRED ON)
+
+target_include_directories(visual_marker_mapping_lib PUBLIC
+                           include
+                           ${Boost_INCLUDE_DIRS}
+                           ${CERES_INCLUDE_DIRS})
+
+
+target_link_libraries(visual_marker_mapping_lib
+                      ${OpenCV_LIBS}
                       ${CERES_LIBRARIES}
-                      ${Boost_LIBRARIES})
+                      ${Boost_LIBRARIES}
+                      apriltags)
 
+add_executable(visual_marker_mapping
+               src/main.cpp)
 
-add_executable( ${PROJECT_NAME}
-                ${SOURCES})
+set_property(TARGET visual_marker_mapping PROPERTY CXX_STANDARD 11)
+set_property(TARGET visual_marker_mapping PROPERTY CXX_STANDARD_REQUIRED ON)
 
-target_link_libraries(  ${PROJECT_NAME}   
-                        ${OpenCV_LIBS}
-                        ${CERES_LIBRARIES}
-                        ${Boost_LIBRARIES}
-                        apriltags)
+target_include_directories(visual_marker_mapping_lib PUBLIC
+                           include
+                           ${Boost_INCLUDE_DIRS}
+                           ${CERES_INCLUDE_DIRS})
 
-set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 11)
-set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD_REQUIRED ON)
+target_link_libraries(visual_marker_mapping
+                      ${OpenCV_LIBS}
+                      ${CERES_LIBRARIES}
+                      ${Boost_LIBRARIES}
+                      visual_marker_mapping_lib
+                      apriltags)
+
