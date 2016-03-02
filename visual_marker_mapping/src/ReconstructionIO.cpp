@@ -1,6 +1,6 @@
-#include "cameraSurveyingWithAprilTags/ReconstructionIO.h"
-#include "cameraSurveyingWithAprilTags/propertyTreeUtilities.h"
-#include "cameraSurveyingWithAprilTags/cameraUtilities.h"
+#include "visual_marker_mapping/ReconstructionIO.h"
+#include "visual_marker_mapping/propertyTreeUtilities.h"
+#include "visual_marker_mapping/cameraUtilities.h"
 #include <iostream>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>

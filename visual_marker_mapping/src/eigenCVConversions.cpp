@@ -1,11 +1,4 @@
-/*
- * EigenCVConversions.cpp
- *
- *  Created on: 10.04.2014
- *      Author: Stephan Manthe
- */
-
-#include "cameraSurveyingWithAprilTags/eigenCVConversions.h"
+#include "visual_marker_mapping/eigenCVConversions.h"
 #include <opencv2/calib3d/calib3d.hpp>
 #include <opencv2/core/eigen.hpp>
 #include <iostream>

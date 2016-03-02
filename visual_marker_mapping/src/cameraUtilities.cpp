@@ -1,12 +1,5 @@
-/*
- *  CameraUtilities.cpp
- *
- *  Created on: 06.02.16
- *      Author: Stephan Manthe
- */
-
-#include "cameraSurveyingWithAprilTags/cameraUtilities.h"
-#include "cameraSurveyingWithAprilTags/propertyTreeUtilities.h"
+#include "visual_marker_mapping/cameraUtilities.h"
+#include "visual_marker_mapping/propertyTreeUtilities.h"
 
 #include <boost/filesystem.hpp>
 #include <boost/property_tree/json_parser.hpp>

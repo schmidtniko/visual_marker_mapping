@@ -1,16 +1,9 @@
-/*
- *  TagReconstructor.h
- *
- *  Created on: 31.12.15
- *      Author: Stephan Manthe
- */
-
 #ifndef TAGRECONSTRUCTOR_H_
 #define TAGRECONSTRUCTOR_H_
 
-#include "cameraSurveyingWithAprilTags/TagDetector.h"
-#include "cameraSurveyingWithAprilTags/CameraModel.h"
-#include "cameraSurveyingWithAprilTags/Camera.h"
+#include "visual_marker_mapping/TagDetector.h"
+#include "visual_marker_mapping/CameraModel.h"
+#include "visual_marker_mapping/Camera.h"
 
 #include <Eigen/Core>
 #include <Eigen/StdVector>

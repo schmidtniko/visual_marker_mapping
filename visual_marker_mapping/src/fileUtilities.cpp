@@ -1,11 +1,4 @@
-/*
- * fileUtilities.cpp
- *
- *  Created on: 21.03.2015
- *      Author: Stephan Manthe
- */
-
-#include "cameraSurveyingWithAprilTags/fileUtilities.h"
+#include "visual_marker_mapping/fileUtilities.h"
 #include <boost/filesystem.hpp>
 #include <iostream>
 #include <regex>

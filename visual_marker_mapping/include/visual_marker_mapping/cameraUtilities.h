@@ -1,16 +1,9 @@
-/*
- *  CameraUtilities.h
- *
- *  Created on: 06.02.16
- *      Author: Stephan Manthe
- */
-
 #ifndef CAMERAUTILITIES_H_
 #define CAMERAUTILITIES_H_
 
-#include "cameraSurveyingWithAprilTags/Camera.h"
-#include "cameraSurveyingWithAprilTags/CameraModel.h"
-#include "cameraSurveyingWithAprilTags/propertyTreeUtilities.h"
+#include "visual_marker_mapping/Camera.h"
+#include "visual_marker_mapping/CameraModel.h"
+#include "visual_marker_mapping/propertyTreeUtilities.h"
 #include <boost/property_tree/ptree.hpp>
 
 

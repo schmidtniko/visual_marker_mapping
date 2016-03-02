@@ -1,10 +1,3 @@
-/*
- * fileUtilities.h
- *
- *  Created on: 21.03.2015
- *      Author: Stephan Manthe
- */
-
 #ifndef FILEUTILITIES_H_
 #define FILEUTILITIES_H_
 

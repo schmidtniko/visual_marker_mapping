@@ -1,8 +1,7 @@
-//Detector Lib impl
-#include "cameraSurveyingWithAprilTags/TagDetector.h"
+#include "visual_marker_mapping/TagDetector.h"
 #include "AprilTags/Tag36h11.h"
-#include "cameraSurveyingWithAprilTags/fileUtilities.h"
-#include "cameraSurveyingWithAprilTags/DetectionIO.h"
+#include "visual_marker_mapping/fileUtilities.h"
+#include "visual_marker_mapping/DetectionIO.h"
 #include <set>
 #include <memory>
 #include <map>

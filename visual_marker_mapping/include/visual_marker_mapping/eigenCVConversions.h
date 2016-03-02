@@ -1,10 +1,3 @@
-/*
- * EigenCVConversions.h
- *
- *  Created on: 10.04.2014
- *      Author: Stephan Manthe
- */
-
 #ifndef EIGENCVCONVERSIONS_H_
 #define EIGENCVCONVERSIONS_H_
 

@@ -1,11 +1,4 @@
-/*
- *  CameraModel.cpp
- *
- *  Created on: 06.02.16
- *      Author: Stephan Manthe
- */
-
-#include "cameraSurveyingWithAprilTags/CameraModel.h"
+#include "visual_marker_mapping/CameraModel.h"
 #include <iostream>
 
 namespace camSurv

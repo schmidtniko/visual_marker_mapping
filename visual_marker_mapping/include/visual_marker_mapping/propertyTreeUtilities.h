@@ -1,10 +1,3 @@
-/*
- *  propertyTreeUtilities.h
- *
- *  Created on: 31.01.16
- *      Author: Stephan Manthe
- */
-
 #ifndef PROPERTYTREEUTILITIES_H_
 #define PROPERTYTREEUTILITIES_H_
 

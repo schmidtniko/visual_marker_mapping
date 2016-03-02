@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 2.6)
-project(camSurveying)
+project(visual_marker_mapping)
 
 include_directories(include
                     ${Boost_INCLUDE_DIRS}
@@ -30,3 +30,6 @@ target_link_libraries(  ${PROJECT_NAME}
                         ${CERES_LIBRARIES}
                         ${Boost_LIBRARIES}
                         apriltags)
+
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 11)
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD_REQUIRED ON)

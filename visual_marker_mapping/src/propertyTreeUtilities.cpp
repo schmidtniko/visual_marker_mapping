@@ -1,11 +1,4 @@
-/*
- *  propertyTreeUtilities.cpp
- *
- *  Created on: 31.01.16
- *      Author: Stephan Manthe
- */
-
-#include "cameraSurveyingWithAprilTags/propertyTreeUtilities.h"
+#include "visual_marker_mapping/propertyTreeUtilities.h"
 
 namespace camSurv
 {

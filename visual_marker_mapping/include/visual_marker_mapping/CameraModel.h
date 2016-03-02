@@ -1,10 +1,3 @@
-/*
- *  CameraModel.h
- *
- *  Created on: 06.02.16
- *      Author: Stephan Manthe
- */
-
 #ifndef CAMERAMODEL_H_
 #define CAMERAMODEL_H_
 

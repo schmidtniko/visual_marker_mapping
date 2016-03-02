@@ -1,15 +1,9 @@
- /*
- *  TagReconstructor.cpp
- *
- *  Created on: 31.12.15
- *      Author: Stephan Manthe
- */
-#include "cameraSurveyingWithAprilTags/TagReconstructor.h"
-#include "cameraSurveyingWithAprilTags/eigenCVConversions.h"
-#include "cameraSurveyingWithAprilTags/ReconstructionIO.h"
-#include "cameraSurveyingWithAprilTags/tagReconstructionCostFunction.h"
-#include "cameraSurveyingWithAprilTags/cameraUtilities.h"
-#include "cameraSurveyingWithAprilTags/DetectionIO.h"
+#include "visual_marker_mapping/TagReconstructor.h"
+#include "visual_marker_mapping/eigenCVConversions.h"
+#include "visual_marker_mapping/ReconstructionIO.h"
+#include "visual_marker_mapping/tagReconstructionCostFunction.h"
+#include "visual_marker_mapping/cameraUtilities.h"
+#include "visual_marker_mapping/DetectionIO.h"
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>

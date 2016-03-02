@@ -2,12 +2,12 @@
 #include <iostream>
 #include <fstream>
 #include <chrono>
-#include "cameraSurveyingWithAprilTags/TagDetector.h"
+#include "visual_marker_mapping/TagDetector.h"
 #include <boost/program_options.hpp>
 #include <boost/filesystem.hpp>
-#include "cameraSurveyingWithAprilTags/cameraUtilities.h"
-#include "cameraSurveyingWithAprilTags/TagReconstructor.h"
-#include "cameraSurveyingWithAprilTags/DetectionIO.h"
+#include "visual_marker_mapping/cameraUtilities.h"
+#include "visual_marker_mapping/TagReconstructor.h"
+#include "visual_marker_mapping/DetectionIO.h"
 
 //------------------------------------------------------------------------------------------------------------
 template<typename T>
