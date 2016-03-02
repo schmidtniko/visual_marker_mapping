@@ -3,9 +3,11 @@
 ## Cloning
 
 Via HTTPS:
+
 `git clone --recursive https://github.com/cfneuhaus/visual_marker_mapping.git`
 
 Via SSH:
+
 `git clone --recursive git@github.com:cfneuhaus/visual_marker_mapping.git`
 
 ## Ceres
