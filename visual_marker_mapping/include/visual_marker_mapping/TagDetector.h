@@ -1,7 +1,6 @@
 #ifndef VISUAL_MARKER_MAPPING_TAGDETECTOR_H_
 #define VISUAL_MARKER_MAPPING_TAGDETECTOR_H_
 
-#include "AprilTags/TagDetector.h"
 #include <Eigen/StdVector>
 #include <string>
 #include <vector>
@@ -52,8 +51,6 @@ private:
     std::string _detectedTagsImgPath;
     int _visWidth, _visHeight;
     double _markerWidth, _markerHeight;
-
-    AprilTags::TagCodes tagCodes;
 };
 }
 

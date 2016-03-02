@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <chrono>
+#include <thread>
 #include "visual_marker_mapping/TagDetector.h"
 #include <boost/program_options.hpp>
 #include <boost/filesystem.hpp>

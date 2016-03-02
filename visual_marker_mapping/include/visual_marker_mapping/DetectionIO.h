@@ -1,7 +1,7 @@
 #ifndef VISUAL_MARKER_MAPPING_DETECTIONIO_H
 #define VISUAL_MARKER_MAPPING_DETECTIONIO_H
 
-#include "TagDetector.h"
+#include "visual_marker_mapping/TagDetector.h"
 #include <string>
 
 namespace camSurv

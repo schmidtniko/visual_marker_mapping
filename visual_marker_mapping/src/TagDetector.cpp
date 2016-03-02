@@ -1,4 +1,5 @@
 #include "visual_marker_mapping/TagDetector.h"
+#include "AprilTags/TagDetector.h"
 #include "AprilTags/Tag36h11.h"
 #include "visual_marker_mapping/fileUtilities.h"
 #include "visual_marker_mapping/DetectionIO.h"
@@ -20,7 +21,6 @@ TagDetector::TagDetector(const std::string& detectedTagsImgPath, int visHeight, 
     , _visHeight(visHeight)
     , _markerWidth(markerWidth)
     , _markerHeight(markerHeight)
-    , tagCodes(AprilTags::tagCodes36h11)
 {
 }
 //-------------------------------------------------------------------------------------------------

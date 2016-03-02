@@ -24,7 +24,7 @@ DetectionResult readDetectionResult(const std::string& filename)
     {
         Tag tag;
         tag.tagId = pt.second.get<int>("id");
-        tag.tagType = pt.second.get<string>("tag_type");
+        tag.tagType = pt.second.get<std::string>("tag_type");
         tag.width = pt.second.get<double>("width");
         tag.height = pt.second.get<double>("height");
         result.tags.push_back(tag);
