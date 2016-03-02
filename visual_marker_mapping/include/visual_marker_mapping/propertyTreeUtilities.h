@@ -17,8 +17,7 @@ namespace pt = boost::property_tree;
  * @param pt A property tree whose content is an array.
  * @return A std::vector of type T with the content of the vector
  */
-template <typename T>
-std::vector<T> as_vector(pt::ptree const& pt)
+template <typename T> std::vector<T> as_vector(pt::ptree const& pt)
 {
     std::vector<T> vec;
     for (auto& item : pt)
@@ -31,15 +30,17 @@ std::vector<T> as_vector(pt::ptree const& pt)
  * @param matrix A arbitrary Eigen matrix.
  * @return The property tree
  */
-template<typename Derived>
+template <typename Derived>
 pt::ptree matrix2PropertyTreeEigen(const Eigen::MatrixBase<Derived>& matrix)
 {
-    constexpr bool isStaticColVector = (Derived::ColsAtCompileTime==1)&&(Derived::RowsAtCompileTime!=Eigen::Dynamic);
-    constexpr bool isStaticRowVector = (Derived::RowsAtCompileTime==1)&&(Derived::ColsAtCompileTime!=Eigen::Dynamic);
-    if (isStaticColVector||isStaticRowVector)
+    constexpr bool isStaticColVector
+        = (Derived::ColsAtCompileTime == 1) && (Derived::RowsAtCompileTime != Eigen::Dynamic);
+    constexpr bool isStaticRowVector
+        = (Derived::RowsAtCompileTime == 1) && (Derived::ColsAtCompileTime != Eigen::Dynamic);
+    if (isStaticColVector || isStaticRowVector)
     {
-        pt::ptree coefficents; 
-        for (int r=0;r<matrix.rows();r++)
+        pt::ptree coefficents;
+        for (int r = 0; r < matrix.rows(); r++)
         {
             pt::ptree coefficent;
             coefficent.put("", matrix(r));
@@ -52,19 +53,18 @@ pt::ptree matrix2PropertyTreeEigen(const Eigen::MatrixBase<Derived>& matrix)
 
     tree.put("rows", matrix.rows());
     tree.put("cols", matrix.cols());
-   
-    pt::ptree coefficents; 
+
+    pt::ptree coefficents;
     for (int i = 0; i < matrix.rows(); ++i)
         for (int j = 0; j < matrix.cols(); ++j)
         {
             pt::ptree coefficent;
-            coefficent.put("", matrix(i,j));
+            coefficent.put("", matrix(i, j));
             coefficents.push_back(std::make_pair("", coefficent));
         }
 
     tree.add_child("coefficents", coefficents);
     return tree;
-
 }
 
 /**
@@ -72,20 +72,19 @@ pt::ptree matrix2PropertyTreeEigen(const Eigen::MatrixBase<Derived>& matrix)
  * @param matrix A arbitrary Eigen matrix.
  * @return The property tree
  */
-template<typename T>
-pt::ptree matrix2PropertyTreeCv(const cv::Mat& matrix)
+template <typename T> pt::ptree matrix2PropertyTreeCv(const cv::Mat& matrix)
 {
     pt::ptree tree;
-    
+
     tree.put("rows", matrix.rows);
     tree.put("cols", matrix.cols);
-   
-    pt::ptree coefficents; 
+
+    pt::ptree coefficents;
     for (int i = 0; i < matrix.rows; ++i)
         for (int j = 0; j < matrix.cols; ++j)
         {
             pt::ptree coefficent;
-            coefficent.put("", matrix.at<T>(i,j));
+            coefficent.put("", matrix.at<T>(i, j));
             coefficents.push_back(std::make_pair("", coefficent));
         }
 
@@ -99,25 +98,28 @@ pt::ptree matrix2PropertyTreeCv(const cv::Mat& matrix)
  * @param tree The property tree
  * @return The matrix which was read
  */
-template<typename EigenMatrix>
-EigenMatrix propertyTree2EigenMatrix(const pt::ptree& tree)
+template <typename EigenMatrix> EigenMatrix propertyTree2EigenMatrix(const pt::ptree& tree)
 {
-    constexpr bool isStaticColVector = (EigenMatrix::ColsAtCompileTime==1)&&(EigenMatrix::RowsAtCompileTime!=Eigen::Dynamic);
-    constexpr bool isStaticRowVector = (EigenMatrix::RowsAtCompileTime==1)&&(EigenMatrix::ColsAtCompileTime!=Eigen::Dynamic);
-    if (isStaticColVector||isStaticRowVector)
+    constexpr bool isStaticColVector = (EigenMatrix::ColsAtCompileTime == 1)
+        && (EigenMatrix::RowsAtCompileTime != Eigen::Dynamic);
+    constexpr bool isStaticRowVector = (EigenMatrix::RowsAtCompileTime == 1)
+        && (EigenMatrix::ColsAtCompileTime != Eigen::Dynamic);
+    if (isStaticColVector || isStaticRowVector)
     {
-        constexpr int numElements = EigenMatrix::ColsAtCompileTime*EigenMatrix::RowsAtCompileTime;
+        constexpr int numElements = EigenMatrix::ColsAtCompileTime * EigenMatrix::RowsAtCompileTime;
         EigenMatrix ret;
 
-        int i=0;
+        int i = 0;
         for (const auto& item : tree)
         {
-            if (i==numElements)
-                throw std::runtime_error("Too many parameters in vector. Expected " + std::to_string(numElements) + "!");
-            ret(i++)=item.second.get_value<double>();
+            if (i == numElements)
+                throw std::runtime_error(
+                    "Too many parameters in vector. Expected " + std::to_string(numElements) + "!");
+            ret(i++) = item.second.get_value<double>();
         }
-        if (i<numElements)
-            throw std::runtime_error("Not enough many parameters in vector. Expected " + std::to_string(numElements) + ", got " + std::to_string(i) + "!");
+        if (i < numElements)
+            throw std::runtime_error("Not enough many parameters in vector. Expected "
+                + std::to_string(numElements) + ", got " + std::to_string(i) + "!");
 
         return ret;
     }
@@ -132,7 +134,7 @@ EigenMatrix propertyTree2EigenMatrix(const pt::ptree& tree)
     for (int i = 0; i < rows; ++i)
         for (int j = 0; j < cols; j++)
         {
-            matrix(i,j) = coefficents.at(i*cols+j);
+            matrix(i, j) = coefficents.at(i * cols + j);
         }
 
     return matrix;

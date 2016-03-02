@@ -12,7 +12,8 @@ struct TagObservation
 {
     int imageId = -1;
     int tagId = -1;
-    std::vector<Eigen::Vector2d, Eigen::aligned_allocator<Eigen::Vector2d> > corners; //observed Tag corners
+    std::vector<Eigen::Vector2d, Eigen::aligned_allocator<Eigen::Vector2d> >
+        corners; // observed Tag corners
 };
 
 struct TagImg
@@ -38,25 +39,23 @@ struct DetectionResult
 
 class TagDetector
 {
-    public:
-        TagDetector(const std::string& rootPath, 
-                    const std::string& imgPath,
-                    const std::string& detectedTagsImgPath,
-                    int visHeight, 
-                    int visWidth,
-                    double markerWidth,
-                    double markerHeight);
+public:
+    TagDetector(const std::string& rootPath, const std::string& imgPath,
+        const std::string& detectedTagsImgPath, int visHeight, int visWidth, double markerWidth,
+        double markerHeight);
 
-        DetectionResult detectTags(const std::string& folder, bool doCornerRefinment, bool showMarkers);
-        DetectionResult detectTags(const std::vector<std::string>& filePaths, bool doCornerRefinment, bool showMarkers);
-    private:
-        std::string _rootPath;
-        std::string _imgPath;
-        std::string _detectedTagsImgPath;
-        int _visWidth, _visHeight;
-        double _markerWidth, _markerHeight;       
-    
-        AprilTags::TagCodes tagCodes;
+    DetectionResult detectTags(const std::string& folder, bool doCornerRefinment, bool showMarkers);
+    DetectionResult detectTags(
+        const std::vector<std::string>& filePaths, bool doCornerRefinment, bool showMarkers);
+
+private:
+    std::string _rootPath;
+    std::string _imgPath;
+    std::string _detectedTagsImgPath;
+    int _visWidth, _visHeight;
+    double _markerWidth, _markerHeight;
+
+    AprilTags::TagCodes tagCodes;
 };
 }
 

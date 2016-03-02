@@ -3,7 +3,7 @@
 namespace camSurv
 {
 namespace pt = boost::property_tree;
-//-----------------------------------------------------------------------------    
+//-----------------------------------------------------------------------------
 cv::Mat propertyTree2CvMatrix(const pt::ptree& tree)
 {
     int rows = tree.get<int>("rows");
@@ -15,7 +15,7 @@ cv::Mat propertyTree2CvMatrix(const pt::ptree& tree)
     for (int i = 0; i < rows; ++i)
         for (int j = 0; j < cols; j++)
         {
-            matrix.at<double>(i,j) = coefficents.at(i*cols+j);
+            matrix.at<double>(i, j) = coefficents.at(i * cols + j);
         }
 
     return matrix;

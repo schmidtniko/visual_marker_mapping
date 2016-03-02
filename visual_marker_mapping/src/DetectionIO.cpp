@@ -7,15 +7,16 @@ namespace camSurv
 //-----------------------------------------------------------------------------
 DetectionResult readDetectionResult(const std::string& filename)
 {
-	boost::property_tree::ptree ptree;
+    boost::property_tree::ptree ptree;
     boost::property_tree::read_json(filename, ptree);
 
     DetectionResult result;
-    for(const auto& pt : ptree.get_child("images"))
+    for (const auto& pt : ptree.get_child("images"))
     {
         TagImg img;
         img.imageId = pt.second.get<int>("id");
-        img.filename = pt.second.get<std::string>("filename");;
+        img.filename = pt.second.get<std::string>("filename");
+        ;
         result.images.push_back(img);
     }
 
@@ -30,39 +31,37 @@ DetectionResult readDetectionResult(const std::string& filename)
     }
 
 
-    for(const auto& pt : ptree.get_child("tag_observations"))
+    for (const auto& pt : ptree.get_child("tag_observations"))
     {
-    	TagObservation tagObs;
+        TagObservation tagObs;
         for (const auto& corner : pt.second.get_child("observations"))
         {
             std::vector<double> values;
             for (const auto& value : corner.second)
                 values.push_back(value.second.get_value<double>());
 
-            if (values.size()!=2)
-                throw std::runtime_error("Unexpected number of values");
+            if (values.size() != 2) throw std::runtime_error("Unexpected number of values");
 
             tagObs.corners.emplace_back(values.at(0), values.at(1));
         }
-        if (tagObs.corners.size()!=4)
-            throw std::runtime_error("Unexpected number of values");
-        
+        if (tagObs.corners.size() != 4) throw std::runtime_error("Unexpected number of values");
+
         tagObs.imageId = pt.second.get<int>("image_id");
         tagObs.tagId = pt.second.get<int>("tag_id");
         result.tagObservations.push_back(tagObs);
     }
-    
+
     return result;
 }
 //-----------------------------------------------------------------------------
 bool writeDetectionResult(const DetectionResult& result, const std::string& filename)
 {
-	boost::property_tree::ptree ptree;
+    boost::property_tree::ptree ptree;
 
-	boost::property_tree::ptree pt_imgs;
-	for (const auto& img : result.images)
-	{
-		boost::property_tree::ptree pt;
+    boost::property_tree::ptree pt_imgs;
+    for (const auto& img : result.images)
+    {
+        boost::property_tree::ptree pt;
         pt.put("filename", img.filename);
         pt.put("id", img.imageId);
         pt_imgs.push_back(std::make_pair("", pt));
@@ -70,9 +69,9 @@ bool writeDetectionResult(const DetectionResult& result, const std::string& file
     ptree.add_child("images", pt_imgs);
 
     boost::property_tree::ptree pt_tags;
-	for (const auto& tag : result.tags)
-	{
-		boost::property_tree::ptree pt;
+    for (const auto& tag : result.tags)
+    {
+        boost::property_tree::ptree pt;
         pt.put("id", tag.tagId);
         pt.put("tag_type", tag.tagType);
         pt.put("width", tag.width);
@@ -82,20 +81,20 @@ bool writeDetectionResult(const DetectionResult& result, const std::string& file
     ptree.add_child("tags", pt_tags);
 
     boost::property_tree::ptree pt_tag_observations;
-	for (const auto& tagObs : result.tagObservations)
-	{
-		boost::property_tree::ptree pt;
+    for (const auto& tagObs : result.tagObservations)
+    {
+        boost::property_tree::ptree pt;
         pt.put("image_id", tagObs.imageId);
         pt.put("tag_id", tagObs.tagId);
 
-        auto mkPt = []( double p ) 
+        auto mkPt = [](double p)
         {
             boost::property_tree::ptree pt;
-            pt.put("", p); 
+            pt.put("", p);
             return pt;
         };
         boost::property_tree::ptree observations;
-        for (int i = 0; i < 4; ++i) 
+        for (int i = 0; i < 4; ++i)
         {
             boost::property_tree::ptree coord;
             coord.push_back(std::make_pair("", mkPt(tagObs.corners[i].x())));
@@ -103,7 +102,7 @@ bool writeDetectionResult(const DetectionResult& result, const std::string& file
             observations.push_back(std::make_pair("", coord));
         }
 
-	    pt.add_child("observations", observations);
+        pt.add_child("observations", observations);
         pt_tag_observations.push_back(std::make_pair("", pt));
     }
     ptree.add_child("tag_observations", pt_tag_observations);
@@ -111,7 +110,6 @@ bool writeDetectionResult(const DetectionResult& result, const std::string& file
     boost::property_tree::json_parser::write_json(filename, ptree);
 
     return true;
-
 }
 //-----------------------------------------------------------------------------
 }

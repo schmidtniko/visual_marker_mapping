@@ -23,7 +23,7 @@ struct CameraModel
 
     /**
      * Computes a calibration matrix K from fx, fy, cx, cy
-     */    
+     */
     Eigen::Matrix3d getK() const;
 
     /**
@@ -34,4 +34,4 @@ struct CameraModel
 };
 }
 
-#endif 
+#endif
