@@ -1,9 +1,11 @@
-#ifndef TAGRECONSTRUCTIONCOSTFUNCTION_H_
-#define TAGRECONSTRUCTIONCOSTFUNCTION_H_
+#ifndef VISUAL_MARKER_MAPPING_TAGRECONSTRUCTIONCOSTFUNCTION_H_
+#define VISUAL_MARKER_MAPPING_TAGRECONSTRUCTIONCOSTFUNCTION_H_
 
 #include <ceres/ceres.h>
 #include <ceres/rotation.h>
 
+namespace camSurv
+{
 struct OpenCVReprojectionError
 {
     OpenCVReprojectionError(const Eigen::Vector2d& observation,
@@ -175,4 +177,5 @@ struct TagReconstructionCostFunction
     Eigen::Matrix<double, 5, 1> d;
     Eigen::Matrix3d K;
 };
+}
 #endif

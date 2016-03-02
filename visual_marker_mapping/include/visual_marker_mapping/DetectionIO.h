@@ -1,5 +1,5 @@
-#ifndef DETECTIONIO_H
-#define DETECTIONIO_H
+#ifndef VISUAL_MARKER_MAPPING_DETECTIONIO_H
+#define VISUAL_MARKER_MAPPING_DETECTIONIO_H
 
 #include "TagDetector.h"
 #include <string>

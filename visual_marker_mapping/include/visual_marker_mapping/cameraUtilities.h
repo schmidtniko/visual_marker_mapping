@@ -1,5 +1,5 @@
-#ifndef CAMERAUTILITIES_H_
-#define CAMERAUTILITIES_H_
+#ifndef VISUAL_MARKER_MAPPING_CAMERAUTILITIES_H_
+#define VISUAL_MARKER_MAPPING_CAMERAUTILITIES_H_
 
 #include "visual_marker_mapping/Camera.h"
 #include "visual_marker_mapping/CameraModel.h"

@@ -1,5 +1,5 @@
-#ifndef FILEUTILITIES_H_
-#define FILEUTILITIES_H_
+#ifndef VISUAL_MARKER_MAPPING_FILEUTILITIES_H_
+#define VISUAL_MARKER_MAPPING_FILEUTILITIES_H_
 
 #include <vector>
 #include <string>

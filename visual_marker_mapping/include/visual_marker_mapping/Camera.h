@@ -1,5 +1,5 @@
-#ifndef CAMERA_H_
-#define CAMERA_H_
+#ifndef VISUAL_MARKER_MAPPING_CAMERA_H
+#define VISUAL_MARKER_MAPPING_CAMERA_H
 
 #include <Eigen/Core>
 #include <Eigen/Geometry>

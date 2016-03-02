@@ -1,5 +1,5 @@
-#ifndef EIGENCVCONVERSIONS_H_
-#define EIGENCVCONVERSIONS_H_
+#ifndef VISUAL_MARKER_MAPPING_EIGENCVCONVERSIONS_H_
+#define VISUAL_MARKER_MAPPING_EIGENCVCONVERSIONS_H_
 
 #include <Eigen/Core>
 #include <opencv2/core/core.hpp>

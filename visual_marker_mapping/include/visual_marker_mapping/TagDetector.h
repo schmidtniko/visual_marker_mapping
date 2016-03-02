@@ -1,5 +1,5 @@
-#ifndef TAGDETECTOR_H_
-#define TAGDETECTOR_H_
+#ifndef VISUAL_MARKER_MAPPING_TAGDETECTOR_H_
+#define VISUAL_MARKER_MAPPING_TAGDETECTOR_H_
 
 #include "AprilTags/TagDetector.h"
 #include <Eigen/StdVector>

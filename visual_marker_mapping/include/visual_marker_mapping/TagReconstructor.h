@@ -1,5 +1,5 @@
-#ifndef TAGRECONSTRUCTOR_H_
-#define TAGRECONSTRUCTOR_H_
+#ifndef VISUAL_MARKER_MAPPING_TAGRECONSTRUCTOR_H_
+#define VISUAL_MARKER_MAPPING_TAGRECONSTRUCTOR_H_
 
 #include "visual_marker_mapping/TagDetector.h"
 #include "visual_marker_mapping/CameraModel.h"
