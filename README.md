@@ -10,15 +10,20 @@ Via SSH:
 
 `git clone --recursive git@github.com:cfneuhaus/visual_marker_mapping.git`
 
-## Ceres
+## Dependencies
 
-`sudo apt-get install libceres-dev libsuitesparse-dev`
+`sudo apt-get install libceres-dev libsuitesparse-dev libopencv-dev`
 
-## OpenCV 
+## Building
 
-`sudo apt-get install libopencv-dev`
+### Ubuntu
 
-## CMake command 
+```
+mkdir build
+cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make -j5
+```
 
 ### Mac 
 
