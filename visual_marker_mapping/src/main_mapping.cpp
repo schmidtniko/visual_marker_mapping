@@ -28,11 +28,7 @@ po::variables_map loadParameters(int argc, char* argv[])
     po::options_description options("Allowed options");
     po::options_description fileOptions("Options for the config file");
     options.add_options()("help,?", "produces this help message")(
-        "config_file", po::value<std::string>()->required(), "Path to the config ini file")(
-        "do_reconstruction", po::bool_switch()->default_value(false), "")(
-        "show_tags", po::bool_switch()->default_value(false), "Visualizes the detected markers.")(
-        "do_corner_refinment", po::bool_switch()->default_value(false),
-        "If this option is set an additional corner refinment of the marker corners is done.");
+        "config_file", po::value<std::string>()->required(), "Path to the config ini file");
 
     fileOptions.add_options()("camera_parameter_file", po::value<std::string>()->default_value(""),
         "Path to the xml file with the camera parameters.")("tag_img_path",
@@ -108,46 +104,22 @@ int main(int argc, char* argv[])
     std::string projectPath = p.parent_path().string();
     // std::string rootPath = vm["root_path"].as<std::string>();
 
-    if (vm["do_reconstruction"].as<bool>())
-    {
-        const std::string camFilePath = projectPath + vm["camera_parameter_file"].as<std::string>();
-        const std::string jsonFilepath = projectPath + "/" + vm["json_filename"].as<std::string>();
-        const int startId = vm["start_tag_id"].as<int>();
-        const std::string jsonRecFilepath
-            = projectPath + "/" + vm["reconst_json_filename"].as<std::string>();
-        const int maxThreads = vm["max_threads"].as<int>();
+
+    const std::string camFilePath = projectPath + vm["camera_parameter_file"].as<std::string>();
+    const std::string jsonFilepath = projectPath + "/" + vm["json_filename"].as<std::string>();
+    const int startId = vm["start_tag_id"].as<int>();
+    const std::string jsonRecFilepath
+        = projectPath + "/" + vm["reconst_json_filename"].as<std::string>();
+    const int maxThreads = vm["max_threads"].as<int>();
 
 
-        camSurv::CameraModel camModel = camSurv::readCameraModel(camFilePath);
+    camSurv::CameraModel camModel = camSurv::readCameraModel(camFilePath);
 
-        camSurv::TagReconstructor reconstructor;
-        reconstructor.readTags(jsonFilepath);
-        reconstructor.setCameraModel(camModel);
-        reconstructor.setOriginTagId(startId);
-        reconstructor.startReconstruction(maxThreads);
-    }
-    else
-    {
-        auto tp = std::chrono::system_clock::now();
+    camSurv::TagReconstructor reconstructor;
+    reconstructor.readTags(jsonFilepath);
+    reconstructor.setCameraModel(camModel);
+    reconstructor.setOriginTagId(startId);
+    reconstructor.startReconstruction(maxThreads);
 
-        const std::string jsonFilename = vm["json_filename"].as<std::string>();
-        const std::string jsonRecFilepath
-            = projectPath + "/" + vm["reconst_json_filename"].as<std::string>();
-        const std::string markerImgPath = projectPath + vm["tag_img_path"].as<std::string>();
-        const std::string imgPath = vm["tag_img_path"].as<std::string>();
-        const std::string tagDetectionsPath = vm["tag_detections_path"].as<std::string>();
-        camSurv::TagDetector tagDetector(projectPath, imgPath, tagDetectionsPath,
-            vm["visualization_height"].as<int>(), vm["visualization_width"].as<int>(),
-            vm["tag_width"].as<double>(), vm["tag_height"].as<double>());
-
-        const std::string imgFolder = projectPath + "/" + imgPath;
-        const auto result = tagDetector.detectTags(
-            imgFolder, vm["do_corner_refinment"].as<bool>(), vm["show_tags"].as<bool>());
-        camSurv::writeDetectionResult(result, projectPath + "/" + jsonFilename);
-
-        auto tp2 = std::chrono::system_clock::now();
-        std::chrono::duration<double> elapsed_seconds = tp2 - tp;
-        std::cout << "elapsed_seconds = " << elapsed_seconds.count() << std::endl;
-    }
     return 0;
 }

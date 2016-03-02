@@ -13,12 +13,9 @@
 
 namespace camSurv
 {
-TagDetector::TagDetector(const std::string& rootPath, const std::string& imgPath,
-    const std::string& detectedTagsImgPath, int visHeight, int visWidth, double markerWidth,
-    double markerHeight)
-    : _rootPath(rootPath)
-    , _imgPath(imgPath)
-    , _detectedTagsImgPath(detectedTagsImgPath)
+TagDetector::TagDetector(const std::string& detectedTagsImgPath, int visHeight, int visWidth,
+    double markerWidth, double markerHeight)
+    : _detectedTagsImgPath(detectedTagsImgPath)
     , _visWidth(visWidth)
     , _visHeight(visHeight)
     , _markerWidth(markerWidth)
@@ -42,10 +39,9 @@ DetectionResult TagDetector::detectTags(
     auto tagDetector = std::unique_ptr<AprilTags::TagDetector>(
         new AprilTags::TagDetector(AprilTags::tagCodes36h11));
 
-    const std::string processedImgsPath = _rootPath + "/" + _detectedTagsImgPath;
+    const std::string processedImgsPath = _detectedTagsImgPath;
     if (!boost::filesystem::exists(processedImgsPath))
     {
-        std::cout << "creating path: " << processedImgsPath << std::endl;
         boost::filesystem::create_directories(processedImgsPath);
     }
 

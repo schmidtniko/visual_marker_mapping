@@ -40,7 +40,7 @@ struct DetectionResult
 class TagDetector
 {
 public:
-    TagDetector(const std::string& rootPath, const std::string& imgPath,
+    TagDetector(
         const std::string& detectedTagsImgPath, int visHeight, int visWidth, double markerWidth,
         double markerHeight);
 
@@ -49,8 +49,6 @@ public:
         const std::vector<std::string>& filePaths, bool doCornerRefinment, bool showMarkers);
 
 private:
-    std::string _rootPath;
-    std::string _imgPath;
     std::string _detectedTagsImgPath;
     int _visWidth, _visHeight;
     double _markerWidth, _markerHeight;
