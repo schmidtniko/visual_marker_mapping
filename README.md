@@ -33,4 +33,9 @@ make -j5
 
 Test Dataset:
 
-`wget https://agas.uni-koblenz.de/data/datasets/visual_marker_mapping/calibration_room1.zip`
+```
+wget https://agas.uni-koblenz.de/data/datasets/visual_marker_mapping/calibration_room1.zip
+unzip calibration_room1.zip
+visual_marker_detection --project_path calibration_room1
+visual_marker_mapping --project_path calibration_room1
+```
