@@ -24,7 +24,6 @@ target_include_directories(visual_marker_mapping_lib PUBLIC
                            ${Boost_INCLUDE_DIRS}
                            ${CERES_INCLUDE_DIRS})
 
-
 target_link_libraries(visual_marker_mapping_lib
                       ${OpenCV_LIBS}
                       ${CERES_LIBRARIES}
