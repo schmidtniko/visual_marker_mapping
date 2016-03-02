@@ -16,14 +16,14 @@ namespace camSurv
 TagDetector::TagDetector(const std::string& rootPath, const std::string& imgPath,
     const std::string& detectedTagsImgPath, int visHeight, int visWidth, double markerWidth,
     double markerHeight)
-    : tagCodes(AprilTags::tagCodes36h11)
-    , _rootPath(rootPath)
+    : _rootPath(rootPath)
     , _imgPath(imgPath)
     , _detectedTagsImgPath(detectedTagsImgPath)
-    , _visHeight(visHeight)
     , _visWidth(visWidth)
+    , _visHeight(visHeight)
     , _markerWidth(markerWidth)
     , _markerHeight(markerHeight)
+    ,tagCodes(AprilTags::tagCodes36h11)
 {
 }
 //-------------------------------------------------------------------------------------------------
@@ -52,6 +52,7 @@ DetectionResult TagDetector::detectTags(
     DetectionResult result;
 
     int imageId = 0;
+    int filteredImageId = 0;
     std::set<int> tagIds;
     for (const auto& filePath : filePaths)
     {
@@ -148,9 +149,9 @@ DetectionResult TagDetector::detectTags(
             std::cout << std::endl;
             TagImg img;
             img.filename = boost::filesystem::path(filePath).filename().string();
-            img.imageId = imageId;
+            img.imageId = filteredImageId;
             result.images.push_back(img);
-            imageId++;
+            filteredImageId++;
         }
 
         cv::imwrite(processedImgsPath + "/" + p.filename().string(), visualization);
@@ -162,6 +163,7 @@ DetectionResult TagDetector::detectTags(
             cv::waitKey(5000);
             cv::destroyWindow(p.filename().string());
         }
+        imageId++;
     }
 
     for (int i : tagIds)
