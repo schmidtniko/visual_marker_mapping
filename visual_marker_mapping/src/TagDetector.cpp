@@ -6,7 +6,7 @@
 #include <memory>
 #include <map>
 #include <regex>
-#include <cv.h>
+#include <opencv2/opencv.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/filesystem.hpp>
