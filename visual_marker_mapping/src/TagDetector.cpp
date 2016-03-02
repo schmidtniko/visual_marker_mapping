@@ -25,7 +25,7 @@ TagDetector::TagDetector(const std::string& detectedTagsImgPath, int visHeight, 
 }
 //-------------------------------------------------------------------------------------------------
 DetectionResult TagDetector::detectTags(
-    const std::vector<std::string>& filePaths, bool doCornerRefinment, bool showMarkers)
+    const std::vector<std::string>& filePaths, bool doCornerRefinement, bool showMarkers)
 {
     using boost::property_tree::ptree;
     if (filePaths.empty()) throw std::runtime_error("Filepaths for tag detections are empty.");
@@ -93,7 +93,7 @@ DetectionResult TagDetector::detectTags(
                 tagObs.corners[i] << detectedTag.p[i].first, detectedTag.p[i].second;
             // do opencv corner refinement
 
-            if (doCornerRefinment)
+            if (doCornerRefinement)
             {
                 std::vector<cv::Point2f> corners;
                 for (int i = 0; i < 4; i++)
@@ -178,12 +178,12 @@ DetectionResult TagDetector::detectTags(
 }
 //-------------------------------------------------------------------------------------------------
 DetectionResult TagDetector::detectTags(
-    const std::string& folder, bool doCornerRefinment, bool showMarkers)
+    const std::string& folder, bool doCornerRefinement, bool showMarkers)
 {
     std::regex reg(
         "(.*)\\.((png)|(jpg))", std::regex_constants::ECMAScript | std::regex_constants::icase);
     const std::vector<std::string> filePaths = camSurv::readFilesFromDir(folder, reg);
-    return detectTags(filePaths, doCornerRefinment, showMarkers);
+    return detectTags(filePaths, doCornerRefinement, showMarkers);
 }
 //-------------------------------------------------------------------------------------------------
 }

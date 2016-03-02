@@ -44,9 +44,9 @@ public:
         const std::string& detectedTagsImgPath, int visHeight, int visWidth, double markerWidth,
         double markerHeight);
 
-    DetectionResult detectTags(const std::string& folder, bool doCornerRefinment, bool showMarkers);
+    DetectionResult detectTags(const std::string& folder, bool doCornerRefinement, bool showMarkers);
     DetectionResult detectTags(
-        const std::vector<std::string>& filePaths, bool doCornerRefinment, bool showMarkers);
+        const std::vector<std::string>& filePaths, bool doCornerRefinement, bool showMarkers);
 
 private:
     std::string _detectedTagsImgPath;
