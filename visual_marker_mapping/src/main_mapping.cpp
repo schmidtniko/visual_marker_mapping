@@ -28,51 +28,18 @@ po::variables_map loadParameters(int argc, char* argv[])
     po::options_description options("Allowed options");
     po::options_description fileOptions("Options for the config file");
     options.add_options()("help,?", "produces this help message")(
-        "config_file", po::value<std::string>()->required(), "Path to the config ini file");
-
-    fileOptions.add_options()("camera_parameter_file", po::value<std::string>()->default_value(""),
-        "Path to the xml file with the camera parameters.")("tag_img_path",
-        po::value<std::string>()->default_value("."),
-        "Path to the folder with the images of the tags.")("tag_detections_path",
-        po::value<std::string>()->default_value("dbg_tag_detections"),
-        "Path to the folder where the processed images are stored.")("reconst_json_filename",
-        po::value<std::string>()->default_value("reconstructedObjects.json"),
+        "project_path", po::value<std::string>()->required(), "Path to project to be processed")(
+        "camera_parameter_file", po::value<std::string>()->default_value(""),
+        "Path to the json file with the camera parameters.")("reconst_json_filename",
+        po::value<std::string>()->default_value("reconstruction.json"),
         "Filename of the file in which the json with reconstructed Tags and Cameras is stored. It "
         "is saved in the root folder.")("json_filename",
         po::value<std::string>()->default_value("marker.json"),
-        "Filename of the file in which ths json is stored. It is saved in the root folder.");
-
-    fileOptions.add_options()("visualization_width",
-        po::value<int>()->default_value(1500)->notifier([](int param)
-            {
-                checkRange(param, "visualization_width", 640);
-            }),
-        "Width of an tag measured parallel to the tag name.")("visualization_height",
-        po::value<int>()->default_value(1000)->notifier([](int param)
-            {
-                checkRange<int>(param, "visualization_height", 480);
-            }),
-        "Height of an tag measured perpendicular to the tag name.")("tag_width",
-        po::value<double>()->default_value(0.116)->notifier([](int param)
-            {
-                checkRange<double>(param, "tag_width", 0.0);
-            }),
-        "Width of an tag measured parallel to the tag name.")("tag_height",
-        po::value<double>()->default_value(0.117)->notifier([](int param)
-            {
-                checkRange<double>(param, "tag_height", 0.0);
-            }),
-        "Height of an tag measured perpendicular to the tag name.")("max_threads",
-        po::value<int>()->default_value(1)->notifier([](int param)
-            {
-                checkRange<int>(param, "max_threads", 0);
-            }),
-        "The number of threads with which the program is working. Currently this parameter is only "
-        "used for Ceres.")("start_tag_id",
-        po::value<int>()->default_value(1)->notifier([](int param)
-            {
-                checkRange<int>(param, "start_tag_id", 0);
-            }),
+        "Filename of the file in which ths json is stored. It is saved in the root folder.")(
+        "start_tag_id", po::value<int>()->default_value(1)->notifier([](int param)
+                            {
+                                checkRange<int>(param, "start_tag_id", 0);
+                            }),
         "Id of the marker which will be in the origin of the model.");
 
     po::variables_map vm;
@@ -99,27 +66,33 @@ po::variables_map loadParameters(int argc, char* argv[])
 //------------------------------------------------------------------------------------------------------------
 int main(int argc, char* argv[])
 {
-    boost::program_options::variables_map vm = loadParameters(argc, argv);
-    boost::filesystem::path p(vm["config_file"].as<std::string>());
-    std::string projectPath = p.parent_path().string();
-    // std::string rootPath = vm["root_path"].as<std::string>();
+    try
+    {
+        boost::program_options::variables_map vm = loadParameters(argc, argv);
 
+        const boost::filesystem::path project_path = vm["project_path"].as<std::string>();
+        const std::string detection_result_filename
+            = (project_path / "marker_detections.json").string();
 
-    const std::string camFilePath = projectPath + vm["camera_parameter_file"].as<std::string>();
-    const std::string jsonFilepath = projectPath + "/" + vm["json_filename"].as<std::string>();
-    const int startId = vm["start_tag_id"].as<int>();
-    const std::string jsonRecFilepath
-        = projectPath + "/" + vm["reconst_json_filename"].as<std::string>();
-    const int maxThreads = vm["max_threads"].as<int>();
+        const std::string cam_intrinsics_file = (project_path / "camera_intrinsics.json").string();
+        const int startId = vm["start_tag_id"].as<int>();
+        const std::string jsonRecFilepath
+            = (project_path / vm["reconst_json_filename"].as<std::string>()).string();
+        const int maxThreads
+            = std::thread::hardware_concurrency() ? std::thread::hardware_concurrency() : 4;
 
+        const camSurv::CameraModel camModel = camSurv::readCameraModel(cam_intrinsics_file);
 
-    camSurv::CameraModel camModel = camSurv::readCameraModel(camFilePath);
-
-    camSurv::TagReconstructor reconstructor;
-    reconstructor.readTags(jsonFilepath);
-    reconstructor.setCameraModel(camModel);
-    reconstructor.setOriginTagId(startId);
-    reconstructor.startReconstruction(maxThreads);
+        camSurv::TagReconstructor reconstructor;
+        reconstructor.readTags(detection_result_filename);
+        reconstructor.setCameraModel(camModel);
+        reconstructor.setOriginTagId(startId);
+        reconstructor.startReconstruction(maxThreads);
+    }
+    catch (const std::exception& ex)
+    {
+        std::cout << "An exception occurred: " << ex.what() << std::endl;
+    }
 
     return 0;
 }

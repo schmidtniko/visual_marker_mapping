@@ -150,9 +150,9 @@ DetectionResult TagDetector::detectTags(
             filteredImageId++;
         }
         else
-            std::cout << "   No tags found!"
+            std::cout << "   No tags found!";
 
-        cv::imwrite(processedImgsPath + "/" + p.filename().string(), visualization);
+                cv::imwrite(processedImgsPath + "/" + p.filename().string(), visualization);
         if (showMarkers)
         {
             cv::resize(visualization, visualization, cv::Size(_visWidth, _visHeight));

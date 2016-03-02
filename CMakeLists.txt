@@ -11,7 +11,7 @@ find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
 # Find Boost
-find_package(Boost  COMPONENTS filesystem system program_options REQUIRED) 
+find_package(Boost COMPONENTS filesystem system program_options REQUIRED) 
 include_directories(${Boost_INCLUDE_DIR})
 
 # AprilTags

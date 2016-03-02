@@ -81,6 +81,23 @@ int main(int argc, char* argv[])
         const std::string img_path = (project_path / "images").string();
         const std::string marker_detection_path = (project_path / "marker_detections").string();
 
+        if (boost::filesystem::exists(detection_result_filename))
+        {
+            while (1)
+            {
+                std::cerr << "Output file '" << detection_result_filename << "' already exists. Overwrite? (y/n) ";
+                char yn;
+                std::cin >> yn;
+                if (yn=='n')
+                {
+                    std::cout << "Exiting!" << std::endl;
+                    exit(1);
+                }
+                else if (yn=='y')
+                    break;
+            }
+        }
+
         camSurv::TagDetector tagDetector(marker_detection_path,
             vm["visualization_height"].as<int>(), vm["visualization_width"].as<int>(),
             vm["marker_width"].as<double>(), vm["marker_height"].as<double>());
