@@ -90,9 +90,9 @@ struct TagReconstructionCostFunction
         : observation(observation)
         , tagWidth(tagWidth)
         , tagHeight(tagHeight)
+        , tagCorner(tagCorner)
         , d(d)
         , K(K)
-        , tagCorner(tagCorner)
     {
     }
 

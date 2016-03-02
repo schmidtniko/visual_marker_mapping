@@ -24,14 +24,14 @@ void eigen2cv(
     std::vector<cv::Point2d>& vecCV)
 {
     vecCV.resize(vecEigen.size());
-    for (int i = 0; i < vecCV.size(); ++i)
+    for (size_t i = 0; i < vecCV.size(); ++i)
         vecCV[i] = cv::Point2d(vecEigen[i].x(), vecEigen[i].y());
 }
 //-----------------------------------------------------------------------------
 void eigen2cv(const std::vector<Eigen::Vector3d>& vecEigen, std::vector<cv::Point3d>& vecCV)
 {
     vecCV.resize(vecEigen.size());
-    for (int i = 0; i < vecCV.size(); ++i)
+    for (size_t i = 0; i < vecCV.size(); ++i)
         vecCV[i] = cv::Point3d(vecEigen[i].x(), vecEigen[i].y(), vecEigen[i].z());
 }
 //-----------------------------------------------------------------------------

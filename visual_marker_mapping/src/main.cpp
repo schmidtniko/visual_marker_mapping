@@ -16,7 +16,7 @@ void checkRange(
 {
     if (param < lowerBound)
         throw std::runtime_error(
-            "Value for " + paramName + " is smaller then " + std::to_string(lowerBound) + " .");
+            "Value for " + paramName + " is smaller than " + std::to_string(lowerBound) + " .");
     if (param > upperBound)
         throw std::runtime_error("Value for parameter " + paramName + " is bigger than "
             + std::to_string(upperBound) + " .");

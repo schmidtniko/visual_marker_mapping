@@ -68,7 +68,7 @@ void TagReconstructor::startReconstruction(int numThreads)
         tagById[tag.tagId] = &tag;
 
     // find image with the most markers inside among which the startid is
-    int maxObservations = 0;
+    size_t maxObservations = 0;
     int curImageId = -1;
     for (int imageId : whichImagesObserveTag[originTagId])
     {
@@ -78,7 +78,6 @@ void TagReconstructor::startReconstruction(int numThreads)
             maxObservations = tagsInImage[imageId].size();
         }
     }
-    const int startImageId = curImageId;
 
     if (tagById.find(originTagId) == tagById.end())
     {
@@ -692,9 +691,6 @@ void TagReconstructor::doBundleAdjustment(
 
         std::map<int, Eigen::Matrix3d> covariances;
         Eigen::Vector3d averageCovDiagonal = Eigen::Vector3d::Zero();
-        double squaredAvgCov = 0;
-        double squaredAvgDet = 0;
-        double squaredAvgProj = 0;
         for (const auto& reconstTag : reconstructedTags)
         {
             const int tagId = reconstTag.second.id;
