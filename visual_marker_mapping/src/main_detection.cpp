@@ -99,11 +99,11 @@ int main(int argc, char* argv[])
 
         std::cout << "Wrote " << detection_result_filename << "!" << std::endl;
 
-        std::cout << "Writing visualization results to " << marker_detection_path << " ..."<< std::endl;
+        std::cout << "Writing visualization results to " << marker_detection_path << " ..."
+                  << std::endl;
 
         visual_marker_mapping::visualizeDetectionResults(detection_result, marker_detection_path);
 
-        
 
         const auto end_time = std::chrono::system_clock::now();
         const std::chrono::duration<double> elapsed_seconds = end_time - start_time;

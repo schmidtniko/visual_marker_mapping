@@ -60,21 +60,21 @@ bool writeDetectionResult(const DetectionResult& result, const std::string& file
 {
     boost::property_tree::ptree ptree;
 
+    std::string basePath = boost::filesystem::path(filename).parent_path().string();
+    basePath += boost::filesystem::path::preferred_separator;
+
     boost::property_tree::ptree pt_imgs;
     for (const auto& img : result.images)
     {
         boost::property_tree::ptree pt;
         std::string imageFilename = img.filename;
-        std::string basePath = boost::filesystem::path(filename).parent_path().c_str();
-        basePath += boost::filesystem::path::preferred_separator;
 
-        #if BOOST_VERSION / 100000 >= 1 && BOOST_VERSION / 100 % 1000 < 60
-            imageFilename = boost::replace_all_copy(imageFilename, basePath, "");
-        #else
-            imageFilename = boost::filesystem::relative(boost::filesystem::path(imageFilename), basePath).c_str(); 
-        #endif
-     
-        std::cout << "imageFilename = " << imageFilename << std::endl; 
+#if BOOST_VERSION / 100000 >= 1 && BOOST_VERSION / 100 % 1000 < 60
+        imageFilename = boost::replace_all_copy(imageFilename, basePath, "");
+#else
+        imageFilename = boost::filesystem::relative(imageFilename, basePath).string();
+#endif
+
         pt.put("filename", imageFilename);
         pt.put("id", img.imageId);
         pt_imgs.push_back(std::make_pair("", pt));
