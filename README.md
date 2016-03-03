@@ -24,6 +24,7 @@ Via SSH:
 * [Ceres Solver](http://ceres-solver.org/)
 * [OpenCV](http://opencv.org/)
 * [Eigen 3.0](http://eigen.tuxfamily.org/)
+* [AprilTags implementation](https://github.com/cfneuhaus/fast_mit_apriltags)
 
 In Ubuntu, these dependencies can be installed using the command
 
