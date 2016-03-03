@@ -2,8 +2,11 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/version.hpp>
+#include <boost/algorithm/string/replace.hpp>
 namespace visual_marker_mapping
 {
+
 //-----------------------------------------------------------------------------
 DetectionResult readDetectionResult(const std::string& filename)
 {
@@ -56,11 +59,25 @@ bool writeDetectionResult(const DetectionResult& result, const std::string& file
 {
     boost::property_tree::ptree ptree;
 
+
+
+
     boost::property_tree::ptree pt_imgs;
     for (const auto& img : result.images)
     {
         boost::property_tree::ptree pt;
-        pt.put("file_path", img.filePath);
+        std::string imageFilename = img.filePath;
+        std::string basePath = boost::filesystem::path(filename).parent_path().c_str();
+        basePath += boost::filesystem::path::preferred_separator;
+
+        #if BOOST_VERSION / 100000 >= 1 && BOOST_VERSION / 100 % 1000 < 60
+            imageFilename = boost::replace_all_copy(imageFilename, basePath, "");
+        #else
+            imageFilename = boost::filesystem::relative(boost::filesystem::path(imageFilename), basePath).c_str(); 
+        #endif
+     
+        std::cout << "imageFilename = " << imageFilename << std::endl; 
+        pt.put("file_path", imageFilename);
         pt.put("id", img.imageId);
         pt_imgs.push_back(std::make_pair("", pt));
     }
