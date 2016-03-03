@@ -37,14 +37,12 @@ struct DetectionResult
 };
 
 DetectionResult detectTags(const std::string& folder, double markerWidth, double markerHeight,
-                             const std::string& tagType = "apriltag_36h11", 
-                             bool doCornerRefinement = false);
-DetectionResult detectTags(
-    const std::vector<std::string>& filePaths, double markerWidth, double markerHeight,
     const std::string& tagType = "apriltag_36h11", bool doCornerRefinement = false);
+DetectionResult detectTags(const std::vector<std::string>& filePaths, double markerWidth,
+    double markerHeight, const std::string& tagType = "apriltag_36h11",
+    bool doCornerRefinement = false);
 
 void visualizeTagResult(const DetectionResult& detectionResult, const std::string& exportFolder);
-
 }
 
 #endif
