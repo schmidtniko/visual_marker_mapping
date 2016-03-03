@@ -29,16 +29,15 @@ po::variables_map loadParameters(int argc, char* argv[])
     po::options_description fileOptions("Options for the config file");
     options.add_options()("help,?", "produces this help message")(
         "project_path", po::value<std::string>()->required(), "Path to project to be processed")(
-        "show_tags", po::bool_switch()->default_value(false), "Visualizes the detected markers.")(
         "do_corner_refinement", po::bool_switch()->default_value(false),
         "If this option is set an additional corner refinement of the marker "
         "corners is done.")("marker_width",
-        po::value<double>()->default_value(0.1165)->notifier([](int param)
+        po::value<double>()->default_value(0.1285)->notifier([](int param)
             {
                 checkRange<double>(param, "marker_width", 0.0);
             }),
         "Width of an tag measured parallel to the tag name.")("marker_height",
-        po::value<double>()->default_value(0.1165)->notifier([](int param)
+        po::value<double>()->default_value(0.1285)->notifier([](int param)
             {
                 checkRange<double>(param, "marker_height", 0.0);
             }),
@@ -96,6 +95,8 @@ int main(int argc, char* argv[])
         const auto detection_result
             = tagDetector.detectTags(img_path, vm["do_corner_refinement"].as<bool>());
         camSurv::writeDetectionResult(detection_result, detection_result_filename);
+        
+        tagDetector.visualizeTagResult(detection_result, marker_detection_path);
 
         std::cout << "Wrote " << detection_result_filename << "!" << std::endl;
 

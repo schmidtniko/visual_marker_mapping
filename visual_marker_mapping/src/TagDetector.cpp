@@ -158,6 +158,8 @@ void TagDetector::visualizeTagResult(
         boost::filesystem::create_directories(exportFolder);
     }
 
+    const cv::Scalar colorMap[4] = { cv::Scalar(255, 0, 0), cv::Scalar(0, 255, 0),
+                                     cv::Scalar(0, 0, 255), cv::Scalar(255, 255, 0) };
     for (const auto& image : detectionResult.images)
     {
         cv::Mat cvImg = cv::imread(image.filePath);
@@ -173,17 +175,16 @@ void TagDetector::visualizeTagResult(
 
             for (int i = 0; i < 4; ++i)
             {
-                const cv::Scalar colorMap[4] = { cv::Scalar(255, 0, 0), cv::Scalar(0, 255, 0),
-                    cv::Scalar(0, 0, 255), cv::Scalar(255, 255, 0) };
                 const cv::Scalar color = colorMap[i];
-
                 cv::circle(cvImg,
                     cv::Point2f(tagDetection.corners[i].x(), tagDetection.corners[i].y()),
                     cvImg.cols * 0.002, color, 10);
             }
         }
-
-        cv::imwrite(image.filePath, cvImg);
+        
+        const boost::filesystem::path p(image.filePath);
+        const std::string exportFilePath = exportFolder + "/" + p.filename().string();
+        cv::imwrite(exportFilePath, cvImg);
     }
 }
 //-------------------------------------------------------------------------------------------------
