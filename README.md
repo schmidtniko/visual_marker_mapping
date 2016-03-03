@@ -21,9 +21,9 @@ Via SSH:
 
 ## Dependencies
 
-* [ceres](http://ceres-solver.org/`)
-* [opencv](http://opencv.org/)
-* [eigen](http://eigen.tuxfamily.org/)
+* [Ceres Solver](http://ceres-solver.org/)
+* [OpenCV](http://opencv.org/)
+* [Eigen 3.0](http://eigen.tuxfamily.org/)
 
 In Ubuntu, these dependencies can be installed using the command
 
