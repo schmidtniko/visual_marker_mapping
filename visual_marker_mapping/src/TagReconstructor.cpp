@@ -61,7 +61,7 @@ void TagReconstructor::startReconstruction(int numThreads)
 
     std::map<int, std::string> imageFilenames;
     for (const auto& img : detectionResults_.images)
-        imageFilenames[img.imageId] = img.filePath;
+        imageFilenames[img.imageId] = img.filename;
 
     std::map<int, Tag*> tagById;
     for (auto& tag : detectionResults_.tags)

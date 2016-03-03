@@ -124,7 +124,7 @@ DetectionResult detectTags(const std::vector<std::string>& filePaths, double mar
             std::cout << std::endl;
 
             TagImg img;
-            img.filePath = boost::filesystem::path(filePath).string();
+            img.filename = boost::filesystem::path(filePath).string();
             img.imageId = filteredImageId;
             result.images.push_back(img);
             filteredImageId++;
@@ -169,7 +169,7 @@ void visualizeDetectionResults(
         cv::Scalar(0, 0, 255), cv::Scalar(255, 255, 0) };
     for (const auto& image : detectionResult.images)
     {
-        cv::Mat cvImg = cv::imread(image.filePath);
+        cv::Mat cvImg = cv::imread(image.filename);
         for (const auto& tagDetection : detectionResult.tagObservations)
         {
             if (tagDetection.imageId != image.imageId) continue;
@@ -189,7 +189,7 @@ void visualizeDetectionResults(
             }
         }
 
-        const boost::filesystem::path p(image.filePath);
+        const boost::filesystem::path p(image.filename);
         const std::string exportFilePath
             = (boost::filesystem::path(exportFolder) / p.filename()).string();
         cv::imwrite(exportFilePath, cvImg);

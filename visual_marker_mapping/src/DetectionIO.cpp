@@ -18,7 +18,7 @@ DetectionResult readDetectionResult(const std::string& filename)
     {
         TagImg img;
         img.imageId = pt.second.get<int>("id");
-        img.filePath = pt.second.get<std::string>("file_path");
+        img.filename = pt.second.get<std::string>("filename");
         result.images.push_back(img);
     }
 
@@ -59,9 +59,6 @@ bool writeDetectionResult(const DetectionResult& result, const std::string& file
 {
     boost::property_tree::ptree ptree;
 
-
-
-
     boost::property_tree::ptree pt_imgs;
     for (const auto& img : result.images)
     {
@@ -77,7 +74,7 @@ bool writeDetectionResult(const DetectionResult& result, const std::string& file
         #endif
      
         std::cout << "imageFilename = " << imageFilename << std::endl; 
-        pt.put("file_path", imageFilename);
+        pt.put("filename", imageFilename);
         pt.put("id", img.imageId);
         pt_imgs.push_back(std::make_pair("", pt));
     }
