@@ -48,6 +48,7 @@ make -j5
 
 ## Camera Calibration File
 
+Filename: `camera_intrinsics.json`
 ```json
 {
     "fx" : "8.0752937867635346e+03",
