@@ -15,9 +15,8 @@
 namespace visual_marker_mapping
 {
 //-------------------------------------------------------------------------------------------------
-DetectionResult detectTags(
-    const std::vector<std::string>& filePaths, double markerWidth, double markerHeight, 
-    const std::string& tagType, bool doCornerRefinement)
+DetectionResult detectTags(const std::vector<std::string>& filePaths, double markerWidth,
+    double markerHeight, const std::string& tagType, bool doCornerRefinement)
 {
     if (filePaths.empty()) throw std::runtime_error("Filepaths for tag detections are empty.");
 
@@ -27,16 +26,16 @@ DetectionResult detectTags(
 
 
     std::unique_ptr<AprilTags::TagDetector> tagDetector;
-    if(tagType == "apriltag_16h5")
-            tagDetector.reset(new AprilTags::TagDetector(AprilTags::tagCodes16h5));
-    else if(tagType == "apriltag_25h7")
-            tagDetector.reset(new AprilTags::TagDetector(AprilTags::tagCodes25h7));
-    else if(tagType == "apriltag_25h9")
-            tagDetector.reset(new AprilTags::TagDetector(AprilTags::tagCodes25h9));
-    else if(tagType == "apriltag_36h9")
-            tagDetector.reset(new AprilTags::TagDetector(AprilTags::tagCodes36h9));
-    else if(tagType == "apriltag_36h11")
-            tagDetector.reset(new AprilTags::TagDetector(AprilTags::tagCodes36h11));
+    if (tagType == "apriltag_16h5")
+        tagDetector.reset(new AprilTags::TagDetector(AprilTags::tagCodes16h5));
+    else if (tagType == "apriltag_25h7")
+        tagDetector.reset(new AprilTags::TagDetector(AprilTags::tagCodes25h7));
+    else if (tagType == "apriltag_25h9")
+        tagDetector.reset(new AprilTags::TagDetector(AprilTags::tagCodes25h9));
+    else if (tagType == "apriltag_36h9")
+        tagDetector.reset(new AprilTags::TagDetector(AprilTags::tagCodes36h9));
+    else if (tagType == "apriltag_36h11")
+        tagDetector.reset(new AprilTags::TagDetector(AprilTags::tagCodes36h11));
     else
         throw std::runtime_error("Unsupported marker type " + tagType + "recieved.");
 
@@ -147,7 +146,8 @@ DetectionResult detectTags(
     return result;
 }
 //-------------------------------------------------------------------------------------------------
-DetectionResult detectTags(const std::string& folder, double markerWidth, double markerHeight, const std::string& tagType, bool doCornerRefinement)
+DetectionResult detectTags(const std::string& folder, double markerWidth, double markerHeight,
+    const std::string& tagType, bool doCornerRefinement)
 {
     std::regex reg(
         "(.*)\\.((png)|(jpg))", std::regex_constants::ECMAScript | std::regex_constants::icase);
@@ -155,8 +155,7 @@ DetectionResult detectTags(const std::string& folder, double markerWidth, double
     return detectTags(filePaths, markerWidth, markerHeight, tagType, doCornerRefinement);
 }
 //-------------------------------------------------------------------------------------------------
-void visualizeTagResult(
-    const DetectionResult& detectionResult, const std::string& exportFolder)
+void visualizeTagResult(const DetectionResult& detectionResult, const std::string& exportFolder)
 {
     if (!boost::filesystem::exists(exportFolder))
     {
@@ -164,14 +163,13 @@ void visualizeTagResult(
     }
 
     const cv::Scalar colorMap[4] = { cv::Scalar(255, 0, 0), cv::Scalar(0, 255, 0),
-                                     cv::Scalar(0, 0, 255), cv::Scalar(255, 255, 0) };
+        cv::Scalar(0, 0, 255), cv::Scalar(255, 255, 0) };
     for (const auto& image : detectionResult.images)
     {
         cv::Mat cvImg = cv::imread(image.filePath);
         for (const auto& tagDetection : detectionResult.tagObservations)
         {
-            if (tagDetection.imageId != image.imageId)
-                continue;
+            if (tagDetection.imageId != image.imageId) continue;
 
             const cv::Point pos((tagDetection.corners[0].x() + tagDetection.corners[2].x()) / 2,
                 (tagDetection.corners[0].y() + tagDetection.corners[2].y()) / 2);
@@ -183,10 +181,11 @@ void visualizeTagResult(
             {
                 const cv::Scalar color = colorMap[i];
                 cv::circle(cvImg,
-                    cv::Point2f(tagDetection.corners[i].x(), tagDetection.corners[i].y()), 3, color, 3);
+                    cv::Point2f(tagDetection.corners[i].x(), tagDetection.corners[i].y()), 3, color,
+                    3);
             }
         }
-        
+
         const boost::filesystem::path p(image.filePath);
         const std::string exportFilePath = exportFolder + "/" + p.filename().string();
         cv::imwrite(exportFilePath, cvImg);

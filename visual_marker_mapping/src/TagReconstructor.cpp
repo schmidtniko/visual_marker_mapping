@@ -302,8 +302,8 @@ const std::map<int, double> TagReconstructor::computeReprojectionErrorPerImg() c
         double sum = 0.0;
         for (size_t i = 0; i < pts3d.size(); ++i)
         {
-            const Eigen::Vector2d dist = camModel.projectPoint(R * pts3d[i] + t)
-                - tagObs.corners[i];
+            const Eigen::Vector2d dist
+                = camModel.projectPoint(R * pts3d[i] + t) - tagObs.corners[i];
             sum += dist.norm();
         }
 
@@ -346,8 +346,8 @@ const std::map<int, double> TagReconstructor::computeReprojectionErrorPerTag(dou
         double sum = 0.0;
         for (size_t i = 0; i < pts3d.size(); ++i)
         {
-            const Eigen::Vector2d dist = camModel.projectPoint(R * pts3d[i] + t)
-                - tagObs.corners[i];
+            const Eigen::Vector2d dist
+                = camModel.projectPoint(R * pts3d[i] + t) - tagObs.corners[i];
             sum += dist.norm();
         }
         numObsMap[tagObs.tagId] += pts3d.size();
@@ -748,7 +748,8 @@ void TagReconstructor::removeBadCameras(double threshold)
     }
 }
 //-----------------------------------------------------------------------------
-const std::map<int, visual_marker_mapping::ReconstructedTag> TagReconstructor::getReconstructedTags() const
+const std::map<int, visual_marker_mapping::ReconstructedTag>
+TagReconstructor::getReconstructedTags() const
 {
     return reconstructedTags;
 }

@@ -90,14 +90,13 @@ int main(int argc, char* argv[])
         }
 
 
-       
         double marker_width = vm["marker_width"].as<double>();
         double marker_height = vm["marker_height"].as<double>();
         std::string tag_family = "apriltag_36h11";
-        const auto detection_result
-            = visual_marker_mapping::detectTags(img_path, marker_width, marker_height, tag_family, vm["do_corner_refinement"].as<bool>());
+        const auto detection_result = visual_marker_mapping::detectTags(img_path, marker_width,
+            marker_height, tag_family, vm["do_corner_refinement"].as<bool>());
         visual_marker_mapping::writeDetectionResult(detection_result, detection_result_filename);
-        
+
         visual_marker_mapping::visualizeTagResult(detection_result, marker_detection_path);
 
         std::cout << "Wrote " << detection_result_filename << "!" << std::endl;
