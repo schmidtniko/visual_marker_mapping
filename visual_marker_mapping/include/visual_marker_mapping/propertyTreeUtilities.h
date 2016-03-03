@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-namespace camSurv
+namespace visual_marker_mapping
 {
 namespace pt = boost::property_tree;
 

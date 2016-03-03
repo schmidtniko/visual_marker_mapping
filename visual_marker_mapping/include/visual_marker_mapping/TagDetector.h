@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-namespace camSurv
+namespace visual_marker_mapping
 {
 struct TagObservation
 {
@@ -36,21 +36,15 @@ struct DetectionResult
     std::vector<TagObservation> tagObservations;
 };
 
-class TagDetector
-{
-public:
-    TagDetector(double markerWidth, double markerHeight);
+DetectionResult detectTags(const std::string& folder, double markerWidth, double markerHeight,
+                             const std::string& tagType = "apriltag_36h11", 
+                             bool doCornerRefinement = false);
+DetectionResult detectTags(
+    const std::vector<std::string>& filePaths, double markerWidth, double markerHeight,
+    const std::string& tagType = "apriltag_36h11", bool doCornerRefinement = false);
 
-    DetectionResult detectTags(const std::string& folder, bool doCornerRefinement);
-    DetectionResult detectTags(
-        const std::vector<std::string>& filePaths, bool doCornerRefinement);
+void visualizeTagResult(const DetectionResult& detectionResult, const std::string& exportFolder);
 
-    void visualizeTagResult(const DetectionResult& detectionResult, const std::string& exportFolder) const;
-
-
-private:
-    double _markerWidth, _markerHeight;
-};
 }
 
 #endif

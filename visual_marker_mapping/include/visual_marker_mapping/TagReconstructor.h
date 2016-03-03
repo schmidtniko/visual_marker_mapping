@@ -11,7 +11,7 @@
 #include <vector>
 #include <map>
 
-namespace camSurv
+namespace visual_marker_mapping
 {
 struct ReconstructedTag
 {

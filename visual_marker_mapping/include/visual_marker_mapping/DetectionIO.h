@@ -4,7 +4,7 @@
 #include "visual_marker_mapping/TagDetector.h"
 #include <string>
 
-namespace camSurv
+namespace visual_marker_mapping
 {
 DetectionResult readDetectionResult(const std::string& filename);
 bool writeDetectionResult(const DetectionResult& result, const std::string& filename);

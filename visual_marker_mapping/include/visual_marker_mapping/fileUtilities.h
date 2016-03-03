@@ -5,7 +5,7 @@
 #include <string>
 #include <regex>
 
-namespace camSurv
+namespace visual_marker_mapping
 {
 /**
  * Puts all files in a directory that match a regular expression into a vector.

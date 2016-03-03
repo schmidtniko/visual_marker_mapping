@@ -4,7 +4,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/property_tree/json_parser.hpp>
 
-namespace camSurv
+namespace visual_marker_mapping
 {
 //-----------------------------------------------------------------------------
 boost::property_tree::ptree cameraToPropertyTree(const Camera& camera)

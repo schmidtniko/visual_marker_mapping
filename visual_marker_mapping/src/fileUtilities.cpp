@@ -3,7 +3,7 @@
 #include <iostream>
 #include <regex>
 
-namespace camSurv
+namespace visual_marker_mapping
 {
 std::vector<std::string> readFilesFromDir(
     const std::string& dirPath, const std::regex& extensionFilter)

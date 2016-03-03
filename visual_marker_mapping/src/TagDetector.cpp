@@ -1,40 +1,44 @@
 #include "visual_marker_mapping/TagDetector.h"
 #include "AprilTags/TagDetector.h"
+#include "AprilTags/Tag16h5.h"
+#include "AprilTags/Tag25h7.h"
+#include "AprilTags/Tag25h9.h"
+#include "AprilTags/Tag36h9.h"
 #include "AprilTags/Tag36h11.h"
 #include "visual_marker_mapping/fileUtilities.h"
-#include "visual_marker_mapping/DetectionIO.h"
 #include <set>
 #include <memory>
-#include <map>
 #include <regex>
 #include <opencv2/opencv.hpp>
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
 #include <boost/filesystem.hpp>
 
-namespace camSurv
+namespace visual_marker_mapping
 {
-TagDetector::TagDetector(double markerWidth, double markerHeight)
-    : _markerWidth(markerWidth)
-    , _markerHeight(markerHeight)
-{
-}
 //-------------------------------------------------------------------------------------------------
-DetectionResult TagDetector::detectTags(
-    const std::vector<std::string>& filePaths, bool doCornerRefinement)
+DetectionResult detectTags(
+    const std::vector<std::string>& filePaths, double markerWidth, double markerHeight, 
+    const std::string& tagType, bool doCornerRefinement)
 {
-    using boost::property_tree::ptree;
     if (filePaths.empty()) throw std::runtime_error("Filepaths for tag detections are empty.");
 
     cv::Mat img = cv::imread(filePaths[0], CV_LOAD_IMAGE_GRAYSCALE);
     const int imgWidth = img.cols;
     const int imgHeight = img.rows;
 
-    // optimized AprilTags
-    // auto
-    // tagDetector=std::make_unique<AprilTags::TagDetector>(AprilTags::tagCodes36h11);
-    auto tagDetector = std::unique_ptr<AprilTags::TagDetector>(
-        new AprilTags::TagDetector(AprilTags::tagCodes36h11));
+
+    std::unique_ptr<AprilTags::TagDetector> tagDetector;
+    if(tagType == "apriltag_16h5")
+            tagDetector.reset(new AprilTags::TagDetector(AprilTags::tagCodes16h5));
+    else if(tagType == "apriltag_25h7")
+            tagDetector.reset(new AprilTags::TagDetector(AprilTags::tagCodes25h7));
+    else if(tagType == "apriltag_25h9")
+            tagDetector.reset(new AprilTags::TagDetector(AprilTags::tagCodes25h9));
+    else if(tagType == "apriltag_36h9")
+            tagDetector.reset(new AprilTags::TagDetector(AprilTags::tagCodes36h9));
+    else if(tagType == "apriltag_36h11")
+            tagDetector.reset(new AprilTags::TagDetector(AprilTags::tagCodes36h11));
+    else
+        throw std::runtime_error("Unsupported marker type " + tagType + "recieved.");
 
     DetectionResult result;
 
@@ -117,6 +121,7 @@ DetectionResult TagDetector::detectTags(
             for (int i : goodObservations)
                 std::cout << i << ", ";
             std::cout << std::endl;
+
             TagImg img;
             img.filePath = boost::filesystem::path(filePath).string();
             img.imageId = filteredImageId;
@@ -133,25 +138,25 @@ DetectionResult TagDetector::detectTags(
     {
         Tag tag;
         tag.tagId = i;
-        tag.tagType = "apriltag_36h11"; // hardcoded for now
-        tag.width = _markerWidth;
-        tag.height = _markerHeight;
+        tag.tagType = tagType;
+        tag.width = markerWidth;
+        tag.height = markerHeight;
         result.tags.push_back(tag);
     }
 
     return result;
 }
 //-------------------------------------------------------------------------------------------------
-DetectionResult TagDetector::detectTags(const std::string& folder, bool doCornerRefinement)
+DetectionResult detectTags(const std::string& folder, double markerWidth, double markerHeight, const std::string& tagType, bool doCornerRefinement)
 {
     std::regex reg(
         "(.*)\\.((png)|(jpg))", std::regex_constants::ECMAScript | std::regex_constants::icase);
-    const std::vector<std::string> filePaths = camSurv::readFilesFromDir(folder, reg);
-    return detectTags(filePaths, doCornerRefinement);
+    const std::vector<std::string> filePaths = readFilesFromDir(folder, reg);
+    return detectTags(filePaths, markerWidth, markerHeight, tagType, doCornerRefinement);
 }
 //-------------------------------------------------------------------------------------------------
-void TagDetector::visualizeTagResult(
-    const DetectionResult& detectionResult, const std::string& exportFolder) const
+void visualizeTagResult(
+    const DetectionResult& detectionResult, const std::string& exportFolder)
 {
     if (!boost::filesystem::exists(exportFolder))
     {
@@ -165,20 +170,20 @@ void TagDetector::visualizeTagResult(
         cv::Mat cvImg = cv::imread(image.filePath);
         for (const auto& tagDetection : detectionResult.tagObservations)
         {
-            if (tagDetection.imageId != image.imageId) continue;
+            if (tagDetection.imageId != image.imageId)
+                continue;
 
             const cv::Point pos((tagDetection.corners[0].x() + tagDetection.corners[2].x()) / 2,
                 (tagDetection.corners[0].y() + tagDetection.corners[2].y()) / 2);
 
             cv::putText(cvImg, std::to_string(tagDetection.tagId), pos, cv::FONT_HERSHEY_SIMPLEX,
-                3.5, cv::Scalar(255, 100, 0), 10);
+                3.5, cv::Scalar(255, 100, 0), 4);
 
             for (int i = 0; i < 4; ++i)
             {
                 const cv::Scalar color = colorMap[i];
                 cv::circle(cvImg,
-                    cv::Point2f(tagDetection.corners[i].x(), tagDetection.corners[i].y()),
-                    cvImg.cols * 0.002, color, 10);
+                    cv::Point2f(tagDetection.corners[i].x(), tagDetection.corners[i].y()), 3, color, 3);
             }
         }
         

@@ -1,7 +1,7 @@
 #include "visual_marker_mapping/CameraModel.h"
 #include <iostream>
 
-namespace camSurv
+namespace visual_marker_mapping
 {
 Eigen::Vector2d CameraModel::projectPoint(const Eigen::Vector3d& point3D) const
 {

@@ -2,7 +2,7 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/filesystem.hpp>
-namespace camSurv
+namespace visual_marker_mapping
 {
 //-----------------------------------------------------------------------------
 DetectionResult readDetectionResult(const std::string& filename)

@@ -94,15 +94,15 @@ int main(int argc, char* argv[])
             }
         }
 
-        const camSurv::CameraModel camera_model = camSurv::readCameraModel(cam_intrinsics_file);
+        const visual_marker_mapping::CameraModel camera_model = visual_marker_mapping::readCameraModel(cam_intrinsics_file);
 
-        camSurv::TagReconstructor reconstructor;
+        visual_marker_mapping::TagReconstructor reconstructor;
         reconstructor.readTags(detection_result_filename);
         reconstructor.setCameraModel(camera_model);
         reconstructor.setOriginTagId(startId);
         reconstructor.startReconstruction(maxThreads);
 
-        camSurv::exportReconstructions(reconstruction_file, reconstructor.getReconstructedTags(),
+        visual_marker_mapping::exportReconstructions(reconstruction_file, reconstructor.getReconstructedTags(),
             reconstructor.getReconstructedCameras(), camera_model);
 
         std::cout << "Wrote " << reconstruction_file << "!" << std::endl;

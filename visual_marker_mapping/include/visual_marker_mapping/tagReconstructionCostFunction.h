@@ -4,7 +4,7 @@
 #include <ceres/ceres.h>
 #include <ceres/rotation.h>
 
-namespace camSurv
+namespace visual_marker_mapping
 {
 struct OpenCVReprojectionError
 {

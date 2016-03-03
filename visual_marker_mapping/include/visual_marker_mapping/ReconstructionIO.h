@@ -7,7 +7,7 @@
 #include <string>
 #include <map>
 
-namespace camSurv
+namespace visual_marker_mapping
 {
 
 void exportReconstructions(const std::string& outputPath,

@@ -18,7 +18,7 @@
 #include <ceres/version.h>
 #include <ceres/covariance.h>
 
-namespace camSurv
+namespace visual_marker_mapping
 {
 TagReconstructor::TagReconstructor()
     : originTagId(-1)
@@ -748,12 +748,12 @@ void TagReconstructor::removeBadCameras(double threshold)
     }
 }
 //-----------------------------------------------------------------------------
-const std::map<int, camSurv::ReconstructedTag> TagReconstructor::getReconstructedTags() const
+const std::map<int, visual_marker_mapping::ReconstructedTag> TagReconstructor::getReconstructedTags() const
 {
     return reconstructedTags;
 }
 //-----------------------------------------------------------------------------
-const std::map<int, camSurv::Camera> TagReconstructor::getReconstructedCameras() const
+const std::map<int, visual_marker_mapping::Camera> TagReconstructor::getReconstructedCameras() const
 {
     return reconstructedCameras;
 }

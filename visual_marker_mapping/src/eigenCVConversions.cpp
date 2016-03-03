@@ -3,7 +3,7 @@
 #include <opencv2/core/eigen.hpp>
 #include <iostream>
 
-namespace camSurv
+namespace visual_marker_mapping
 {
 //-----------------------------------------------------------------------------
 void eigen2cv(const Eigen::Vector3d& vecEig, cv::Point3f& ptCv)

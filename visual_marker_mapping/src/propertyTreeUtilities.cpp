@@ -1,6 +1,6 @@
 #include "visual_marker_mapping/propertyTreeUtilities.h"
 
-namespace camSurv
+namespace visual_marker_mapping
 {
 namespace pt = boost::property_tree;
 //-----------------------------------------------------------------------------

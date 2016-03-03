@@ -5,7 +5,7 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 
-namespace camSurv
+namespace visual_marker_mapping
 {
 void getRecTagTree(
     const std::map<int, ReconstructedTag>& reconstructedTags, boost::property_tree::ptree& retTree)

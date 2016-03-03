@@ -4,7 +4,7 @@
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 
-namespace camSurv
+namespace visual_marker_mapping
 {
 struct Camera
 {

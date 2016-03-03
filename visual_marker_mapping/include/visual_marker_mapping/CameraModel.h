@@ -3,7 +3,7 @@
 
 #include <Eigen/Core>
 
-namespace camSurv
+namespace visual_marker_mapping
 {
 //! This is the calibration model that OpenCV uses.
 //! X axis = right
