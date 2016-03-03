@@ -223,7 +223,7 @@ Occurring rotations are represented as a unit quaternion in the order *w, x, y, 
 
 # Authors
 
-* Frank Neuhaus
+* Frank Neuhaus (fneuhaus_AT_uni-koblenz.de)
 * Stephan Manthe
 * Lukas Debald
 
