@@ -31,17 +31,8 @@ po::variables_map loadParameters(int argc, char* argv[])
         "project_path", po::value<std::string>()->required(), "Path to project to be processed")(
         "show_tags", po::bool_switch()->default_value(false), "Visualizes the detected markers.")(
         "do_corner_refinement", po::bool_switch()->default_value(false),
-        "If this option is set an additional corner refinement of the marker corners is done.")(
-        "visualization_width", po::value<int>()->default_value(1500)->notifier([](int param)
-                                   {
-                                       checkRange(param, "visualization_width", 640);
-                                   }),
-        "Width of an tag measured parallel to the tag name.")("visualization_height",
-        po::value<int>()->default_value(1000)->notifier([](int param)
-            {
-                checkRange<int>(param, "visualization_height", 480);
-            }),
-        "Height of an tag measured perpendicular to the tag name.")("marker_width",
+        "If this option is set an additional corner refinement of the marker "
+        "corners is done.")("marker_width",
         po::value<double>()->default_value(0.1165)->notifier([](int param)
             {
                 checkRange<double>(param, "marker_width", 0.0);
@@ -99,12 +90,11 @@ int main(int argc, char* argv[])
             }
         }
 
-        camSurv::TagDetector tagDetector(marker_detection_path,
-            vm["visualization_height"].as<int>(), vm["visualization_width"].as<int>(),
+        camSurv::TagDetector tagDetector(
             vm["marker_width"].as<double>(), vm["marker_height"].as<double>());
 
-        const auto detection_result = tagDetector.detectTags(
-            img_path, vm["do_corner_refinement"].as<bool>(), vm["show_tags"].as<bool>());
+        const auto detection_result
+            = tagDetector.detectTags(img_path, vm["do_corner_refinement"].as<bool>());
         camSurv::writeDetectionResult(detection_result, detection_result_filename);
 
         std::cout << "Wrote " << detection_result_filename << "!" << std::endl;

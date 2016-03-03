@@ -34,14 +34,15 @@ po::variables_map loadParameters(int argc, char* argv[])
         "camera_parameter_file", po::value<std::string>()->default_value(""),
         "Path to the json file with the camera parameters.")("reconstruction_filename",
         po::value<std::string>()->default_value("reconstruction.json"),
-        "Filename of the file in which the json with reconstructed Tags and Cameras is stored. It "
+        "Filename of the file in which the json with reconstructed Tags and "
+        "Cameras is stored. It "
         "is saved in the root folder.")("json_filename",
         po::value<std::string>()->default_value("marker.json"),
-        "Filename of the file in which ths json is stored. It is saved in the root folder.")(
-        "start_tag_id", po::value<int>()->default_value(1)->notifier([](int param)
-                            {
-                                checkRange<int>(param, "start_tag_id", 0);
-                            }),
+        "Filename of the file in which ths json is stored. It is saved in the "
+        "root folder.")("start_tag_id", po::value<int>()->default_value(1)->notifier([](int param)
+                                            {
+                                                checkRange<int>(param, "start_tag_id", 0);
+                                            }),
         "Id of the marker which will be in the origin of the model.");
 
     po::variables_map vm;

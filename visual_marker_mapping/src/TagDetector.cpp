@@ -14,16 +14,14 @@
 
 namespace camSurv
 {
-TagDetector::TagDetector(int visHeight, int visWidth,
-    double markerWidth, double markerHeight)
-    : _visWidth(visWidth)
-    , _visHeight(visHeight)
-    , _markerWidth(markerWidth)
+TagDetector::TagDetector(double markerWidth, double markerHeight)
+    : _markerWidth(markerWidth)
     , _markerHeight(markerHeight)
 {
 }
 //-------------------------------------------------------------------------------------------------
-DetectionResult TagDetector::detectTags(const std::vector<std::string>& filePaths, bool doCornerRefinement)
+DetectionResult TagDetector::detectTags(
+    const std::vector<std::string>& filePaths, bool doCornerRefinement)
 {
     using boost::property_tree::ptree;
     if (filePaths.empty()) throw std::runtime_error("Filepaths for tag detections are empty.");
@@ -33,7 +31,8 @@ DetectionResult TagDetector::detectTags(const std::vector<std::string>& filePath
     const int imgHeight = img.rows;
 
     // optimized AprilTags
-    // auto tagDetector=std::make_unique<AprilTags::TagDetector>(AprilTags::tagCodes36h11);
+    // auto
+    // tagDetector=std::make_unique<AprilTags::TagDetector>(AprilTags::tagCodes36h11);
     auto tagDetector = std::unique_ptr<AprilTags::TagDetector>(
         new AprilTags::TagDetector(AprilTags::tagCodes36h11));
 
@@ -84,7 +83,6 @@ DetectionResult TagDetector::detectTags(const std::vector<std::string>& filePath
             for (int i = 0; i < 4; ++i)
                 tagObs.corners[i] << detectedTag.p[i].first, detectedTag.p[i].second;
 
-
             // do opencv corner refinement
             if (doCornerRefinement)
             {
@@ -102,9 +100,11 @@ DetectionResult TagDetector::detectTags(const std::vector<std::string>& filePath
 
                 for (int i = 0; i < 4; i++)
                 {
-                    // std::cout << "BEFOR: " << tagObs.corners[i].transpose() << std::endl;
+                    // std::cout << "BEFOR: " << tagObs.corners[i].transpose() <<
+                    // std::endl;
                     tagObs.corners[i] << corners[i].x, corners[i].y;
-                    // std::cout << "AFTER: " << tagObs.corners[i].transpose() << std::endl;
+                    // std::cout << "AFTER: " << tagObs.corners[i].transpose() <<
+                    // std::endl;
                 }
             }
 
@@ -142,8 +142,7 @@ DetectionResult TagDetector::detectTags(const std::vector<std::string>& filePath
     return result;
 }
 //-------------------------------------------------------------------------------------------------
-DetectionResult TagDetector::detectTags(
-    const std::string& folder, bool doCornerRefinement)
+DetectionResult TagDetector::detectTags(const std::string& folder, bool doCornerRefinement)
 {
     std::regex reg(
         "(.*)\\.((png)|(jpg))", std::regex_constants::ECMAScript | std::regex_constants::icase);
@@ -151,7 +150,8 @@ DetectionResult TagDetector::detectTags(
     return detectTags(filePaths, doCornerRefinement);
 }
 //-------------------------------------------------------------------------------------------------
-void TagDetector::visualizeTagResult(const DetectionResult& detectionResult, const std::string& exportFolder) const
+void TagDetector::visualizeTagResult(
+    const DetectionResult& detectionResult, const std::string& exportFolder) const
 {
     if (!boost::filesystem::exists(exportFolder))
     {
@@ -163,14 +163,13 @@ void TagDetector::visualizeTagResult(const DetectionResult& detectionResult, con
         cv::Mat cvImg = cv::imread(image.filePath);
         for (const auto& tagDetection : detectionResult.tagObservations)
         {
-            if (tagDetection.imageId != image.imageId)
-                continue;
-           
+            if (tagDetection.imageId != image.imageId) continue;
+
             const cv::Point pos((tagDetection.corners[0].x() + tagDetection.corners[2].x()) / 2,
                 (tagDetection.corners[0].y() + tagDetection.corners[2].y()) / 2);
 
-            cv::putText(cvImg, std::to_string(tagDetection.tagId), pos,
-                cv::FONT_HERSHEY_SIMPLEX, 3.5, cv::Scalar(255, 100, 0), 10);
+            cv::putText(cvImg, std::to_string(tagDetection.tagId), pos, cv::FONT_HERSHEY_SIMPLEX,
+                3.5, cv::Scalar(255, 100, 0), 10);
 
             for (int i = 0; i < 4; ++i)
             {
@@ -178,11 +177,12 @@ void TagDetector::visualizeTagResult(const DetectionResult& detectionResult, con
                     cv::Scalar(0, 0, 255), cv::Scalar(255, 255, 0) };
                 const cv::Scalar color = colorMap[i];
 
-                cv::circle(cvImg, cv::Point2f( tagDetection.corners[i].x(), tagDetection.corners[i].y()),
+                cv::circle(cvImg,
+                    cv::Point2f(tagDetection.corners[i].x(), tagDetection.corners[i].y()),
                     cvImg.cols * 0.002, color, 10);
             }
         }
-        
+
         cv::imwrite(image.filePath, cvImg);
     }
 }

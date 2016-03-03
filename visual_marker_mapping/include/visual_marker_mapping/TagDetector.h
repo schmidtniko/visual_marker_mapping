@@ -39,9 +39,7 @@ struct DetectionResult
 class TagDetector
 {
 public:
-    TagDetector(
-        int visHeight, int visWidth, double markerWidth,
-        double markerHeight);
+    TagDetector(double markerWidth, double markerHeight);
 
     DetectionResult detectTags(const std::string& folder, bool doCornerRefinement);
     DetectionResult detectTags(
@@ -51,7 +49,6 @@ public:
 
 
 private:
-    int _visWidth, _visHeight;
     double _markerWidth, _markerHeight;
 };
 }

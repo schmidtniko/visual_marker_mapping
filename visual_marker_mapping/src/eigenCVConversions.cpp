@@ -73,8 +73,8 @@ void solvePnPRansacEigen(const std::vector<Eigen::Vector3d>& objectPoints,
 
     if (objectPoints.size() != observations.size())
     {
-        std::string error
-            = "For solvePnPRansac the same number of objectPoints and observations is needed. ";
+        std::string error = "For solvePnPRansac the same number of objectPoints "
+                            "and observations is needed. ";
         error += "Num objectPoints: " + std::to_string(objectPoints.size());
         error += " Num observations: " + std::to_string(observations.size());
         throw std::runtime_error(error);

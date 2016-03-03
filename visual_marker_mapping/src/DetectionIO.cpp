@@ -1,7 +1,7 @@
 #include "visual_marker_mapping/DetectionIO.h"
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
-
+#include <boost/filesystem.hpp>
 namespace camSurv
 {
 //-----------------------------------------------------------------------------
@@ -15,8 +15,7 @@ DetectionResult readDetectionResult(const std::string& filename)
     {
         TagImg img;
         img.imageId = pt.second.get<int>("id");
-        img.filename = pt.second.get<std::string>("filename");
-        ;
+        img.filePath = pt.second.get<std::string>("file_path");
         result.images.push_back(img);
     }
 
@@ -29,7 +28,6 @@ DetectionResult readDetectionResult(const std::string& filename)
         tag.height = pt.second.get<double>("height");
         result.tags.push_back(tag);
     }
-
 
     for (const auto& pt : ptree.get_child("tag_observations"))
     {
@@ -62,7 +60,7 @@ bool writeDetectionResult(const DetectionResult& result, const std::string& file
     for (const auto& img : result.images)
     {
         boost::property_tree::ptree pt;
-        pt.put("filename", img.filename);
+        pt.put("file_path", img.filePath);
         pt.put("id", img.imageId);
         pt_imgs.push_back(std::make_pair("", pt));
     }

@@ -61,7 +61,7 @@ void TagReconstructor::startReconstruction(int numThreads)
 
     std::map<int, std::string> imageFilenames;
     for (const auto& img : detectionResults_.images)
-        imageFilenames[img.imageId] = img.filename;
+        imageFilenames[img.imageId] = img.filePath;
 
     std::map<int, Tag*> tagById;
     for (auto& tag : detectionResults_.tags)
@@ -302,8 +302,8 @@ const std::map<int, double> TagReconstructor::computeReprojectionErrorPerImg() c
         double sum = 0.0;
         for (size_t i = 0; i < pts3d.size(); ++i)
         {
-            const Eigen::Vector2d dist
-                = camModel.projectPoint(R * pts3d[i] + t) - tagObs.corners[i];
+            const Eigen::Vector2d dist = camModel.projectPoint(R * pts3d[i] + t)
+                - tagObs.corners[i];
             sum += dist.norm();
         }
 
@@ -346,8 +346,8 @@ const std::map<int, double> TagReconstructor::computeReprojectionErrorPerTag(dou
         double sum = 0.0;
         for (size_t i = 0; i < pts3d.size(); ++i)
         {
-            const Eigen::Vector2d dist
-                = camModel.projectPoint(R * pts3d[i] + t) - tagObs.corners[i];
+            const Eigen::Vector2d dist = camModel.projectPoint(R * pts3d[i] + t)
+                - tagObs.corners[i];
             sum += dist.norm();
         }
         numObsMap[tagObs.tagId] += pts3d.size();
