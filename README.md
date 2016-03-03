@@ -67,6 +67,10 @@ Filename: `camera_intrinsics.json`
 }
 ```
 
+Camera calibration model as defined [here](http://docs.opencv.org/2.4/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html)
+
+Distortion coefficients are in the order *k_1,k2,p1,p2,k3*
+
 ## Marker Detections File
 
 Filename: `marker_detections.json`
