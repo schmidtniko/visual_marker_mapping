@@ -97,9 +97,13 @@ int main(int argc, char* argv[])
             marker_height, tag_family, vm["do_corner_refinement"].as<bool>());
         visual_marker_mapping::writeDetectionResult(detection_result, detection_result_filename);
 
+        std::cout << "Wrote " << detection_result_filename << "!" << std::endl;
+
+        std::cout << "Writing visualization results to " << marker_detection_path << " ..."<< std::endl;
+
         visual_marker_mapping::visualizeDetectionResults(detection_result, marker_detection_path);
 
-        std::cout << "Wrote " << detection_result_filename << "!" << std::endl;
+        
 
         const auto end_time = std::chrono::system_clock::now();
         const std::chrono::duration<double> elapsed_seconds = end_time - start_time;

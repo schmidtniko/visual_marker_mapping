@@ -4,9 +4,10 @@
 #include <boost/filesystem.hpp>
 #include <boost/version.hpp>
 #include <boost/algorithm/string/replace.hpp>
+#include <iostream>
+
 namespace visual_marker_mapping
 {
-
 //-----------------------------------------------------------------------------
 DetectionResult readDetectionResult(const std::string& filename)
 {
@@ -63,7 +64,7 @@ bool writeDetectionResult(const DetectionResult& result, const std::string& file
     for (const auto& img : result.images)
     {
         boost::property_tree::ptree pt;
-        std::string imageFilename = img.filePath;
+        std::string imageFilename = img.filename;
         std::string basePath = boost::filesystem::path(filename).parent_path().c_str();
         basePath += boost::filesystem::path::preferred_separator;
 
