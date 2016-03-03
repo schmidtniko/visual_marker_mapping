@@ -1,6 +1,6 @@
 #include "visual_marker_mapping/ReconstructionIO.h"
-#include "visual_marker_mapping/propertyTreeUtilities.h"
-#include "visual_marker_mapping/cameraUtilities.h"
+#include "visual_marker_mapping/PropertyTreeUtilities.h"
+#include "visual_marker_mapping/CameraUtilities.h"
 #include <iostream>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>

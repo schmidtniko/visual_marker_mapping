@@ -1,8 +1,8 @@
 #include "visual_marker_mapping/TagReconstructor.h"
-#include "visual_marker_mapping/eigenCVConversions.h"
+#include "visual_marker_mapping/EigenCVConversions.h"
 #include "visual_marker_mapping/ReconstructionIO.h"
-#include "visual_marker_mapping/tagReconstructionCostFunction.h"
-#include "visual_marker_mapping/cameraUtilities.h"
+#include "visual_marker_mapping/TagReconstructionCostFunction.h"
+#include "visual_marker_mapping/CameraUtilities.h"
 #include "visual_marker_mapping/DetectionIO.h"
 
 #include <boost/property_tree/ptree.hpp>

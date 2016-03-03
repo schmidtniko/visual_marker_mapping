@@ -1,4 +1,4 @@
-#include "visual_marker_mapping/propertyTreeUtilities.h"
+#include "visual_marker_mapping/PropertyTreeUtilities.h"
 
 namespace visual_marker_mapping
 {

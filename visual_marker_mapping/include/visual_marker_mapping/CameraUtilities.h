@@ -3,7 +3,7 @@
 
 #include "visual_marker_mapping/Camera.h"
 #include "visual_marker_mapping/CameraModel.h"
-#include "visual_marker_mapping/propertyTreeUtilities.h"
+#include "visual_marker_mapping/PropertyTreeUtilities.h"
 #include <boost/property_tree/ptree.hpp>
 
 

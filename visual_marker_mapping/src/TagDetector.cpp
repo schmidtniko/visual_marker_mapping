@@ -5,7 +5,7 @@
 #include "AprilTags/Tag25h9.h"
 #include "AprilTags/Tag36h9.h"
 #include "AprilTags/Tag36h11.h"
-#include "visual_marker_mapping/fileUtilities.h"
+#include "visual_marker_mapping/FileUtilities.h"
 #include <set>
 #include <memory>
 #include <regex>

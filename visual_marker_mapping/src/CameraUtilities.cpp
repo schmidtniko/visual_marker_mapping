@@ -1,5 +1,5 @@
-#include "visual_marker_mapping/cameraUtilities.h"
-#include "visual_marker_mapping/propertyTreeUtilities.h"
+#include "visual_marker_mapping/CameraUtilities.h"
+#include "visual_marker_mapping/PropertyTreeUtilities.h"
 
 #include <boost/filesystem.hpp>
 #include <boost/property_tree/json_parser.hpp>

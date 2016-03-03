@@ -6,7 +6,7 @@
 #include "visual_marker_mapping/TagDetector.h"
 #include <boost/program_options.hpp>
 #include <boost/filesystem.hpp>
-#include "visual_marker_mapping/cameraUtilities.h"
+#include "visual_marker_mapping/CameraUtilities.h"
 #include "visual_marker_mapping/TagReconstructor.h"
 #include "visual_marker_mapping/DetectionIO.h"
 #include "visual_marker_mapping/ReconstructionIO.h"

@@ -1,4 +1,4 @@
-#include "visual_marker_mapping/fileUtilities.h"
+#include "visual_marker_mapping/FileUtilities.h"
 #include <boost/filesystem.hpp>
 #include <iostream>
 #include <regex>

@@ -13,10 +13,10 @@ add_library(visual_marker_mapping_lib
             src/ReconstructionIO.cpp
             src/DetectionIO.cpp
             src/CameraModel.cpp
-            src/cameraUtilities.cpp
-            src/eigenCVConversions.cpp
-            src/fileUtilities.cpp
-            src/propertyTreeUtilities.cpp)
+            src/CameraUtilities.cpp
+            src/EigenCVConversions.cpp
+            src/FileUtilities.cpp
+            src/PropertyTreeUtilities.cpp)
 
 set_property(TARGET visual_marker_mapping_lib PROPERTY CXX_STANDARD 11)
 set_property(TARGET visual_marker_mapping_lib PROPERTY CXX_STANDARD_REQUIRED ON)
