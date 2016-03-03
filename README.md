@@ -49,7 +49,7 @@ make -j5
 ## Camera Calibration File
 
 Filename: `camera_intrinsics.json`
-```json
+```
 {
     "fx" : "8.0752937867635346e+03",
     "fy" : "8.0831676114192869e+03",
@@ -65,6 +65,126 @@ Filename: `camera_intrinsics.json`
     "horizontal_resolution" : "6000"
 }
 ```
+
+## Marker Detections File
+
+Filename: `marker_detections.json`
+```
+{
+    "images":
+    [
+        {
+            "filename": "DSC05028.JPG",
+            "id": "0"
+        },
+        {
+            "filename": "DSC05076.JPG",
+            "id": "1"
+        },
+        [...]
+    ],
+    "tags":
+    [
+        {
+            "id": "0",
+            "tag_type": "apriltag_36h11",
+            "width": "0.11650000000000001",
+            "height": "0.11650000000000001"
+        },
+        {
+            "id": "1",
+            "tag_type": "apriltag_36h11",
+            "width": "0.11650000000000001",
+            "height": "0.11650000000000001"
+        },
+        [...]
+    ],
+    "tag_observations":
+    [
+        {
+            "image_id": "0",
+            "tag_id": "137",
+            "observations":
+            [
+                [
+                    "4753.32275390625",
+                    "572.0101318359375"
+                ],
+                [
+                    "5131.30810546875",
+                    "568.25885009765625"
+                ],
+                [
+                    "5120.79541015625",
+                    "201.8472900390625"
+                ],
+                [
+                    "4744.53369140625",
+                    "205.41494750976562"
+                ]
+            ]
+        },
+        [...]
+    ]
+}
+```
+
+The individual marker corner observations are in the order: Lower left, Lower right, Upper right, Upper left
+
+## Reconstruction Result File
+
+Filename: `reconstruction.json`
+```
+{
+    "reconstructed_tags":
+    [
+        {
+            "id": "0",
+            "type": "apriltag_36h11",
+            "width": "0.11650000000000001",
+            "height": "0.11650000000000001",
+            "rotation":
+            [
+                "0.99998768285276463",
+                "-0.0026651883409995361",
+                "-1.5875056612292212e-05",
+                "0.0041869633189374018"
+            ],
+            "translation":
+            [
+                "0.0061616789246268563",
+                "0.37117687683311673",
+                "-0.0027071129933752556"
+            ]
+        },
+        [...]
+    ],
+    "reconstructed_cameras":
+    [
+        {
+            "id": "0",
+            "rotation":
+            [
+                "0.0071432235474879913",
+                "0.048540245468997004",
+                "0.050213553333055848",
+                "0.9975326651237153"
+            ],
+            "translation":
+            [
+                "1.6566629838776454",
+                "-1.0628296493529241",
+                "-0.5984995791803972"
+            ]
+        },
+        [...]
+    ]
+}
+```
+
+Occurring rotations are represented as a quaternion in the order w,x,y,z. Rotation and translation together define a pose that transforms points from marker/camera space to world space. The local coordinate systems are defines as follows:
+* When looking at a marker, the x-axis goes to the right, y up, and z points out of the marker plane.
+* A cameras x-axis points to the right, y axis down, and the z axis in viewing direction.
 
 # Example
 
