@@ -80,8 +80,8 @@ Filename: `marker_detections.json`
         {
             "filename": "DSC05076.JPG",
             "id": "1"
-        },
-        ...
+        }
+        // [...]
     ],
     "tags":
     [
@@ -96,8 +96,8 @@ Filename: `marker_detections.json`
             "tag_type": "apriltag_36h11",
             "width": "0.11650000000000001",
             "height": "0.11650000000000001"
-        },
-        ...
+        }
+        // [...]
     ],
     "tag_observations":
     [
@@ -122,8 +122,8 @@ Filename: `marker_detections.json`
                     "205.41494750976562"
                 ]
             ]
-        },
-        ...
+        }
+        // [...]
     ]
 }
 ```
