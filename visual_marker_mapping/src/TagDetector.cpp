@@ -189,7 +189,7 @@ void visualizeDetectionResults(
 
         const boost::filesystem::path p(image.filePath);
         const std::string exportFilePath
-            = boost::filesystem::path(exportFolder) / p.filename().string();
+            = (boost::filesystem::path(exportFolder) / p.filename()).string();
         cv::imwrite(exportFilePath, cvImg);
     }
 }
