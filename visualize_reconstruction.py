@@ -315,7 +315,8 @@ class Game(object):
 
             h=str.encode(str(m.id))
             glTranslatef(0,0,0.02)
-            glScale(0.0005,0.0005,0.0005)
+            glScale(m.width,m.width,1)
+            glScale(0.002,0.002,0.002)
             glutStrokeString(GLUT_STROKE_ROMAN, ctypes.c_char_p(h))
             glPopMatrix();
         for c in self.cameras:
