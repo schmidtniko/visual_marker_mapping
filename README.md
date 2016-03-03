@@ -26,9 +26,11 @@ Via SSH:
 * [Eigen 3.0](http://eigen.tuxfamily.org/)
 * [AprilTags implementation](https://github.com/cfneuhaus/fast_mit_apriltags)
 
-In Ubuntu, these dependencies can be installed using the command
+In Ubuntu, the first three dependencies can be installed using the command
 
 `sudo apt-get install libceres-dev libsuitesparse-dev libopencv-dev`
+
+the AprilTags is automatically pulled in as a git submodule.
 
 ## Building
 
