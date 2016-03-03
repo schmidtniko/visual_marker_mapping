@@ -1,3 +1,7 @@
+# Overview
+
+![alt tag](https://github.com/cfneuhaus/visual_marker_mapping/blob/master/doc/images/vmm1.png)
+
 # Install
 
 ## Cloning
