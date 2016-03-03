@@ -129,6 +129,8 @@ Filename: `marker_detections.json`
 }
 ```
 
+The individual marker corner observations are in the order: Lower left, Lower right, Upper right, Upper left
+
 ## Reconstruction Result File
 
 Filename: `reconstruction.json`
