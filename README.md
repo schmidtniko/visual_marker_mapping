@@ -1,5 +1,5 @@
 # Overview
-This software allows the 3D reconstruction of configurations of markers from camera images. It uses AprilTags by Olson, that can simply be printed out and attached to walls or objects. 
+This software allows the 3D reconstruction of configurations of markers from camera images. It uses AprilTags by Olson, that can simply be printed out and attached to walls or objects. To perform the reconstruction, you need a calibrated camera with a fixed focal length (no auto focus). The camera needs to be calibrated using the typical OpenCV camera calibration model.
 
 ![Overview of the Software](https://github.com/cfneuhaus/visual_marker_mapping/blob/master/doc/images/vmm1.png)
 
@@ -56,6 +56,12 @@ visual_marker_mapping --project_path calibration_room1
 
 TODO
 
-# Publication
+# Citing
+
+If you use our work, please cite us:
+
+TODO
+
+# References
 
 Ed Olson, [AprilTag: A robust and flexible visual fiducial system](http://april.eecs.umich.edu/papers/details.php?name=olson2011tags), Proceedings of the IEEE International Conference on Robotics and Automation (ICRA), 2011
