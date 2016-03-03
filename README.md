@@ -221,6 +221,12 @@ Occurring rotations are represented as a unit quaternion in the order *w, x, y, 
 * When looking at a marker, the *x*-axis goes to the right, *y* up, and *z* points out of the marker plane.
 * A cameras *x*-axis points to the right, *y*-axis down, and the *z*-axis in viewing direction.
 
+# Authors
+
+* Frank Neuhaus
+* Stephan Manthe
+* Lukas Debald
+
 # Copyright and License
 
 TODO
