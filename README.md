@@ -161,13 +161,15 @@ Filename: `reconstruction.json`
     [
         {
             "id": "0",
-            "rotation": [
+            "rotation":
+            [
                 "0.0071432235474879913",
                 "0.048540245468997004",
                 "0.050213553333055848",
                 "0.9975326651237153"
             ],
-            "translation": [
+            "translation":
+            [
                 "1.6566629838776454",
                 "-1.0628296493529241",
                 "-0.5984995791803972"
@@ -177,6 +179,10 @@ Filename: `reconstruction.json`
     ]
 }
 ```
+
+Occurring rotations are represented as a quaternion in the order w,x,y,z. Rotation and translation together define a pose that transforms points from marker/camera space to world space. The local coordinate systems are defines as follows:
+* When looking at a marker, the x-axis goes to the right, y up, and z points out of the marker plane.
+* A cameras x-axis points to the right, y axis down, and the negative z axis in viewing direction.
 
 # Example
 
