@@ -14,18 +14,16 @@
 
 namespace camSurv
 {
-TagDetector::TagDetector(const std::string& detectedTagsImgPath, int visHeight, int visWidth,
+TagDetector::TagDetector(int visHeight, int visWidth,
     double markerWidth, double markerHeight)
-    : _detectedTagsImgPath(detectedTagsImgPath)
-    , _visWidth(visWidth)
+    : _visWidth(visWidth)
     , _visHeight(visHeight)
     , _markerWidth(markerWidth)
     , _markerHeight(markerHeight)
 {
 }
 //-------------------------------------------------------------------------------------------------
-DetectionResult TagDetector::detectTags(
-    const std::vector<std::string>& filePaths, bool doCornerRefinement, bool showMarkers)
+DetectionResult TagDetector::detectTags(const std::vector<std::string>& filePaths, bool doCornerRefinement)
 {
     using boost::property_tree::ptree;
     if (filePaths.empty()) throw std::runtime_error("Filepaths for tag detections are empty.");
@@ -38,12 +36,6 @@ DetectionResult TagDetector::detectTags(
     // auto tagDetector=std::make_unique<AprilTags::TagDetector>(AprilTags::tagCodes36h11);
     auto tagDetector = std::unique_ptr<AprilTags::TagDetector>(
         new AprilTags::TagDetector(AprilTags::tagCodes36h11));
-
-    const std::string processedImgsPath = _detectedTagsImgPath;
-    if (!boost::filesystem::exists(processedImgsPath))
-    {
-        boost::filesystem::create_directories(processedImgsPath);
-    }
 
     DetectionResult result;
 
@@ -91,8 +83,9 @@ DetectionResult TagDetector::detectTags(
             tagObs.corners.resize(4);
             for (int i = 0; i < 4; ++i)
                 tagObs.corners[i] << detectedTag.p[i].first, detectedTag.p[i].second;
-            // do opencv corner refinement
 
+
+            // do opencv corner refinement
             if (doCornerRefinement)
             {
                 std::vector<cv::Point2f> corners;
@@ -116,25 +109,6 @@ DetectionResult TagDetector::detectTags(
             }
 
             result.tagObservations.push_back(tagObs);
-
-            tagIds.insert(detectedTag.id);
-
-            // Debug Visualization
-            const cv::Point pos((detectedTag.p[0].first + detectedTag.p[2].first) / 2,
-                (detectedTag.p[0].second + detectedTag.p[2].second) / 2);
-
-            cv::putText(visualization, std::to_string(detectedTag.id), pos,
-                cv::FONT_HERSHEY_SIMPLEX, 3.5, cv::Scalar(255, 100, 0), 10);
-
-            for (int i = 0; i < 4; ++i)
-            {
-                const cv::Scalar colorMap[4] = { cv::Scalar(255, 0, 0), cv::Scalar(0, 255, 0),
-                    cv::Scalar(0, 0, 255), cv::Scalar(255, 255, 0) };
-                const cv::Scalar color = colorMap[i];
-
-                cv::circle(visualization, cv::Point2f(tagObs.corners[i].x(), tagObs.corners[i].y()),
-                    img.cols * 0.002, color, 10);
-            }
         }
 
         if (!goodObservations.empty())
@@ -144,7 +118,7 @@ DetectionResult TagDetector::detectTags(
                 std::cout << i << ", ";
             std::cout << std::endl;
             TagImg img;
-            img.filename = boost::filesystem::path(filePath).filename().string();
+            img.filePath = boost::filesystem::path(filePath).string();
             img.imageId = filteredImageId;
             result.images.push_back(img);
             filteredImageId++;
@@ -152,15 +126,6 @@ DetectionResult TagDetector::detectTags(
         else
             std::cout << "   No tags found!";
 
-        cv::imwrite(processedImgsPath + "/" + p.filename().string(), visualization);
-        if (showMarkers)
-        {
-            cv::resize(visualization, visualization, cv::Size(_visWidth, _visHeight));
-            cv::namedWindow(p.filename().string());
-            cv::imshow(p.filename().string(), visualization);
-            cv::waitKey(5000);
-            cv::destroyWindow(p.filename().string());
-        }
         imageId++;
     }
 
@@ -178,12 +143,48 @@ DetectionResult TagDetector::detectTags(
 }
 //-------------------------------------------------------------------------------------------------
 DetectionResult TagDetector::detectTags(
-    const std::string& folder, bool doCornerRefinement, bool showMarkers)
+    const std::string& folder, bool doCornerRefinement)
 {
     std::regex reg(
         "(.*)\\.((png)|(jpg))", std::regex_constants::ECMAScript | std::regex_constants::icase);
     const std::vector<std::string> filePaths = camSurv::readFilesFromDir(folder, reg);
-    return detectTags(filePaths, doCornerRefinement, showMarkers);
+    return detectTags(filePaths, doCornerRefinement);
+}
+//-------------------------------------------------------------------------------------------------
+void TagDetector::visualizeTagResult(const DetectionResult& detectionResult, const std::string& exportFolder) const
+{
+    if (!boost::filesystem::exists(exportFolder))
+    {
+        boost::filesystem::create_directories(exportFolder);
+    }
+
+    for (const auto& image : detectionResult.images)
+    {
+        cv::Mat cvImg = cv::imread(image.filePath);
+        for (const auto& tagDetection : detectionResult.tagObservations)
+        {
+            if (tagDetection.imageId != image.imageId)
+                continue;
+           
+            const cv::Point pos((tagDetection.corners[0].x() + tagDetection.corners[2].x()) / 2,
+                (tagDetection.corners[0].y() + tagDetection.corners[2].y()) / 2);
+
+            cv::putText(cvImg, std::to_string(tagDetection.tagId), pos,
+                cv::FONT_HERSHEY_SIMPLEX, 3.5, cv::Scalar(255, 100, 0), 10);
+
+            for (int i = 0; i < 4; ++i)
+            {
+                const cv::Scalar colorMap[4] = { cv::Scalar(255, 0, 0), cv::Scalar(0, 255, 0),
+                    cv::Scalar(0, 0, 255), cv::Scalar(255, 255, 0) };
+                const cv::Scalar color = colorMap[i];
+
+                cv::circle(cvImg, cv::Point2f( tagDetection.corners[i].x(), tagDetection.corners[i].y()),
+                    cvImg.cols * 0.002, color, 10);
+            }
+        }
+        
+        cv::imwrite(image.filePath, cvImg);
+    }
 }
 //-------------------------------------------------------------------------------------------------
 }

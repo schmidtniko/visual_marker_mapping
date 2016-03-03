@@ -18,7 +18,7 @@ struct TagObservation
 struct TagImg
 {
     int imageId = -1;
-    std::string filename;
+    std::string filePath;
 };
 
 struct Tag
@@ -40,15 +40,17 @@ class TagDetector
 {
 public:
     TagDetector(
-        const std::string& detectedTagsImgPath, int visHeight, int visWidth, double markerWidth,
+        int visHeight, int visWidth, double markerWidth,
         double markerHeight);
 
-    DetectionResult detectTags(const std::string& folder, bool doCornerRefinement, bool showMarkers);
+    DetectionResult detectTags(const std::string& folder, bool doCornerRefinement);
     DetectionResult detectTags(
-        const std::vector<std::string>& filePaths, bool doCornerRefinement, bool showMarkers);
+        const std::vector<std::string>& filePaths, bool doCornerRefinement);
+
+    void visualizeTagResult(const DetectionResult& detectionResult, const std::string& exportFolder) const;
+
 
 private:
-    std::string _detectedTagsImgPath;
     int _visWidth, _visHeight;
     double _markerWidth, _markerHeight;
 };
