@@ -37,7 +37,7 @@ DetectionResult detectTags(const std::vector<std::string>& filePaths, double mar
     else if (tagType == "apriltag_36h11")
         tagDetector.reset(new AprilTags::TagDetector(AprilTags::tagCodes36h11));
     else
-        throw std::runtime_error("Unsupported marker type " + tagType + "recieved.");
+        throw std::runtime_error("Unsupported marker type " + tagType + "!");
 
     DetectionResult result;
 
