@@ -30,7 +30,11 @@ In Ubuntu, the first three dependencies can be installed using the command
 
 `sudo apt-get install libceres-dev libsuitesparse-dev libopencv-dev`
 
-the AprilTags is automatically pulled in as a git submodule.
+In Arch Linux, use:
+`pacman -S eigen opencv`
+Ceres is available as an AUR package called [ceres-solver](https://aur.archlinux.org/packages/ceres-solver/).
+
+The AprilTags dependency is automatically pulled in as a git submodule.
 
 ## Building
 
