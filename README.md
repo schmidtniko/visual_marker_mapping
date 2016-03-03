@@ -46,7 +46,7 @@ You need at least
 
 If you are using Ubuntu, this means that you need at least Ubuntu 14.04.
 
-### Linux
+### Linux/Mac
 
 ```
 mkdir build
@@ -54,10 +54,6 @@ cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 make -j5
 ```
-
-### Mac 
-
-`cmake -DCMAKE_PREFIX_PATH=<PATH_TO_QT5> -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..`
 
 ### Windows
 
