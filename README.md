@@ -49,7 +49,7 @@ make -j5
 ## Camera Calibration File
 
 Filename: `camera_intrinsics.json`
-```json
+```
 {
     "fx" : "8.0752937867635346e+03",
     "fy" : "8.0831676114192869e+03",
@@ -69,7 +69,7 @@ Filename: `camera_intrinsics.json`
 ## Marker Detections File
 
 Filename: `marker_detections.json`
-```json
+```
 {
     "images":
     [
@@ -80,8 +80,8 @@ Filename: `marker_detections.json`
         {
             "filename": "DSC05076.JPG",
             "id": "1"
-        }
-        // [...]
+        },
+        [...]
     ],
     "tags":
     [
@@ -96,8 +96,8 @@ Filename: `marker_detections.json`
             "tag_type": "apriltag_36h11",
             "width": "0.11650000000000001",
             "height": "0.11650000000000001"
-        }
-        // [...]
+        },
+        [...]
     ],
     "tag_observations":
     [
@@ -122,8 +122,8 @@ Filename: `marker_detections.json`
                     "205.41494750976562"
                 ]
             ]
-        }
-        // [...]
+        },
+        [...]
     ]
 }
 ```
