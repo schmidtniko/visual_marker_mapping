@@ -74,7 +74,7 @@ Test Dataset:
 ```
 wget https://agas.uni-koblenz.de/data/datasets/visual_marker_mapping/calibration_room1.zip
 unzip calibration_room1.zip
-visual_marker_detection --project_path calibration_room1
+visual_marker_detection --project_path calibration_room1 --marker_width 0.1285 --marker_height 0.1295 --do_corner_refinement
 visual_marker_mapping --project_path calibration_room1
 ```
 
