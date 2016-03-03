@@ -28,7 +28,7 @@ Via SSH:
 
 In Ubuntu, the first three dependencies can be installed using the command
 
-* `sudo apt-get install libceres-dev libsuitesparse-dev libopencv-dev`
+* `apt-get install libceres-dev libsuitesparse-dev libopencv-dev`
 
 In Arch Linux, use:
 
