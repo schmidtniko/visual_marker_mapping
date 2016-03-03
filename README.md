@@ -75,7 +75,7 @@ Test Dataset:
 wget https://agas.uni-koblenz.de/data/datasets/visual_marker_mapping/calibration_room1.zip
 unzip calibration_room1.zip
 visual_marker_detection --project_path calibration_room1 --marker_width 0.1285 --marker_height 0.1295 --do_corner_refinement
-visual_marker_mapping --project_path calibration_room1
+visual_marker_mapping --project_path calibration_room1 --start_tag_id 230
 ```
 
 # File Formats
@@ -221,7 +221,7 @@ Filename: `reconstruction.json`
 }
 ```
 
-Occurring rotations are represented as a unit quaternion in the order *w,x,y,z*. Rotation and translation together define a pose that transforms points from marker/camera space to world space. The local coordinate systems are defined as follows:
+Occurring rotations are represented as a unit quaternion in the order *w, x, y, z*. Rotation and translation together define a pose that transforms points from marker/camera space to world space. The local coordinate systems are defined as follows:
 * When looking at a marker, the *x*-axis goes to the right, *y* up, and *z* points out of the marker plane.
 * A cameras *x*-axis points to the right, *y*-axis down, and the *z*-axis in viewing direction.
 
