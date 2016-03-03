@@ -1,3 +1,4 @@
+#!/bin/python
 import pygame
 from pygame.locals import *
 from OpenGL.GL import *
@@ -215,7 +216,7 @@ class Camera(object):
 # Main Game class
 
 class VisMarker(object):
-    def __init__(self, R, t, marker_width, marker_height):
+    def __init__(self, R, t, marker_width, marker_height, id):
         self.R=R
         self.t=t
         self.mat = numpy.eye(4,4)
@@ -223,15 +224,17 @@ class VisMarker(object):
         self.mat[0:3,3]=t
         self.width=marker_width
         self.height=marker_height
+        self.id=id
         
 class VisCamera(object):
-    def __init__(self, R, t):
+    def __init__(self, R, t, id):
         self.R=R
         self.t=t
         self.mat = numpy.eye(4,4)
         self.mat[0:3,0:3]=R
         self.mat[0:3,3]=t
         self.mat=numpy.linalg.inv(self.mat)
+        self.id=id
  
 class Game(object):
     def __init__(self):
@@ -241,6 +244,8 @@ class Game(object):
         self.surface = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT),flag)
         self.opengl_init()
         pygame.display.set_caption("visual marker_mapping -- Visualization")
+
+        glutInit(1,ctypes.c_char_p(0))
 
         self.markers=[]
         self.cameras=[]
@@ -261,14 +266,16 @@ class Game(object):
             rotation_q = [float(v) for v in tag["rotation"]]
             marker_width = float(tag["width"])
             marker_height = float(tag["height"])
-            m = VisMarker(quatToRot(rotation_q), translation,marker_width,marker_height)
+            mid = int(tag["id"])
+            m = VisMarker(quatToRot(rotation_q), translation,marker_width,marker_height, mid)
             self.markers.append(m)
+        print("Read %d Markers"%(len(self.markers)))
         for tag in data["reconstructed_cameras"]:
             translation = [float(v) for v in tag["translation"]]
             rotation_q = [float(v) for v in tag["rotation"]]
-            c = VisCamera(quatToRot(rotation_q), translation)
+            cid = int(tag["id"])
+            c = VisCamera(quatToRot(rotation_q), translation, cid)
             self.cameras.append(c)
-        print("Read %d Markers"%(len(self.markers)))
         print("Read %d Cameras"%(len(self.cameras)))
  
     def opengl_init(self):
@@ -305,11 +312,22 @@ class Game(object):
             glPushMatrix();
             glMultMatrixd(m.mat.T)
             render_marker(m.width,m.height)
+
+            h=str.encode(str(m.id))
+            glTranslatef(0,0,0.02)
+            glScale(0.0005,0.0005,0.0005)
+            glutStrokeString(GLUT_STROKE_ROMAN, ctypes.c_char_p(h))
             glPopMatrix();
         for c in self.cameras:
             glPushMatrix();
             glMultMatrixd(c.mat.T)
             render_coordinate_axes(0.15)
+
+            h=str.encode(str(c.id))
+            glTranslatef(0,0,0.02)
+            glRotatef(180,0,0,1)
+            glScale(0.0005,0.0005,0.0005)
+            glutStrokeString(GLUT_STROKE_ROMAN, ctypes.c_char_p(h))
             glPopMatrix();
 
  
