@@ -18,7 +18,7 @@ struct TagObservation
 struct TagImg
 {
     int imageId = -1;
-    std::string filePath;
+    std::string filename;
 };
 
 struct Tag
