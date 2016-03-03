@@ -2,8 +2,8 @@
 This software allows the accurate 3D reconstruction of configurations of markers from camera images. It uses AprilTags by Olson, that can simply be printed out and attached to walls or objects. To perform the reconstruction, you need a calibrated camera with a fixed focal length (no auto focus). The camera needs to be calibrated using the typical OpenCV camera calibration model. Given good marker planarity, accurate camera calibration, sharp high-resolution images, very high precision (<1-2mm) can be achieved.
 
 Our software consists of two tools:
-* visual_marker_detection: Performs marker detection on a selected folder and writes all detections to a JSON-file.
-* visual_marker_mapping: Reads the marker detection file and performs the 3D reconstruction. The results of the reconstruction are again written to a JSON-file that contains the poses of the reconstructed cameras and markers.
+* *visual_marker_detection*: Performs marker detection on a selected folder and writes all detections to a JSON-file.
+* *visual_marker_mapping*: Reads the marker detection file and performs the 3D reconstruction. The results of the reconstruction are again written to a JSON-file that contains the poses of the reconstructed cameras and markers.
 
 ![Overview of the Software](https://github.com/cfneuhaus/visual_marker_mapping/blob/master/doc/images/vmm1.png)
 
