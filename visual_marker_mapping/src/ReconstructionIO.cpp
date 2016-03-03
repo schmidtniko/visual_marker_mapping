@@ -4,6 +4,8 @@
 #include <iostream>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+#include <boost/filesystem.hpp>
+
 
 namespace visual_marker_mapping
 {
@@ -72,9 +74,16 @@ void exportReconstructions(const std::string& outputPath,
     pt::json_parser::write_json(outputPath, mainTree);
 }
 //-----------------------------------------------------------------------------
-void importReconstructedCameras()
+std::map<int, Camera> importReconstructedCameras(const boost::property_tree::ptree& cameraArray)
 {
-    std::cout << "importing reconstructed cameras is not implemented." << std::endl;
+    std::map<int, Camera> importedCameras;
+    for (const auto& camPair: cameraArray)
+    {
+        const Camera cam = propertyTreeToCamera(camPair.second);
+        importedCameras.emplace(cam.cameraId, std::move(cam));
+    }
+
+    return importedCameras;
 }
 //-----------------------------------------------------------------------------
 std::map<int, ReconstructedTag> importReconstructedTags(const boost::property_tree::ptree& tagArray)
@@ -100,7 +109,7 @@ std::map<int, ReconstructedTag> importReconstructedTags(const boost::property_tr
 //-----------------------------------------------------------------------------
 void parseReconstructions(const std::string& inputPath,
     std::map<int, ReconstructedTag>& reconstructedTags, std::map<int, Camera>& reconstructedCameras,
-    CameraModel& model)
+    visual_marker_mapping::CameraModel& camModel)
 {
     reconstructedCameras.clear();
     reconstructedTags.clear();
@@ -109,6 +118,10 @@ void parseReconstructions(const std::string& inputPath,
     boost::property_tree::json_parser::read_json(inputPath, rootNode);
 
     reconstructedTags = importReconstructedTags(rootNode.get_child("reconstructed_tags"));
+    reconstructedCameras = importReconstructedCameras(rootNode.get_child("reconstructed_cameras"));
+    camModel = propertyTreeToCameraModel(rootNode.get_child("camera_model"));
+
+    std::cout << "K = " << camModel.getK() << std::endl;
 }
 //-----------------------------------------------------------------------------
 }

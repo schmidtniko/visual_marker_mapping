@@ -21,8 +21,8 @@ boost::property_tree::ptree cameraToPropertyTree(const Camera& camera)
 Camera propertyTreeToCamera(const boost::property_tree::ptree& ptree)
 {
     Camera cam;
-    cam.t = propertyTree2EigenMatrix<Eigen::Vector3d>(ptree.get_child("t"));
-    cam.q = propertyTree2EigenMatrix<Eigen::Vector4d>(ptree.get_child("q"));
+    cam.t = propertyTree2EigenMatrix<Eigen::Vector3d>(ptree.get_child("translation"));
+    cam.q = propertyTree2EigenMatrix<Eigen::Vector4d>(ptree.get_child("rotation"));
 
     return cam;
 }

@@ -112,6 +112,8 @@ DetectionResult detectTags(const std::vector<std::string>& filePaths, double mar
             }
 
             result.tagObservations.push_back(tagObs);
+
+            tagIds.insert(detectedTag.id);
         }
 
         if (!goodObservations.empty())
