@@ -183,9 +183,9 @@ Filename: `reconstruction.json`
 }
 ```
 
-Occurring rotations are represented as a quaternion in the order w,x,y,z. Rotation and translation together define a pose that transforms points from marker/camera space to world space. The local coordinate systems are defines as follows:
-* When looking at a marker, the x-axis goes to the right, y up, and z points out of the marker plane.
-* A cameras x-axis points to the right, y axis down, and the z axis in viewing direction.
+Occurring rotations are represented as a unit quaternion in the order *w,x,y,z*. Rotation and translation together define a pose that transforms points from marker/camera space to world space. The local coordinate systems are defines as follows:
+* When looking at a marker, the *x*-axis goes to the right, *y* up, and *z* points out of the marker plane.
+* A cameras *x*-axis points to the right, *y*-axis down, and the *z*-axis in viewing direction.
 
 # Example
 
