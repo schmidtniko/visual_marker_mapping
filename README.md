@@ -36,7 +36,9 @@ the AprilTags is automatically pulled in as a git submodule.
 
 You need at least
 * [CMake 3.0](https://cmake.org/)
-* Ubuntu 14.04
+* GCC 4.7 (?)
+
+If you are using Ubuntu, this means that you need at least Ubuntu 14.04.
 
 ### Linux
 
