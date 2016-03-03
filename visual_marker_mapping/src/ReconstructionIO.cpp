@@ -77,7 +77,7 @@ void exportReconstructions(const std::string& outputPath,
 std::map<int, Camera> importReconstructedCameras(const boost::property_tree::ptree& cameraArray)
 {
     std::map<int, Camera> importedCameras;
-    for (const auto& camPair: cameraArray)
+    for (const auto& camPair : cameraArray)
     {
         const Camera cam = propertyTreeToCamera(camPair.second);
         importedCameras.emplace(cam.cameraId, std::move(cam));
