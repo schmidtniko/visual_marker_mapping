@@ -155,7 +155,8 @@ DetectionResult detectTags(const std::string& folder, double markerWidth, double
     return detectTags(filePaths, markerWidth, markerHeight, tagType, doCornerRefinement);
 }
 //-------------------------------------------------------------------------------------------------
-void visualizeTagResult(const DetectionResult& detectionResult, const std::string& exportFolder)
+void visualizeDetectionResults(
+    const DetectionResult& detectionResult, const std::string& exportFolder)
 {
     if (!boost::filesystem::exists(exportFolder))
     {
@@ -187,7 +188,8 @@ void visualizeTagResult(const DetectionResult& detectionResult, const std::strin
         }
 
         const boost::filesystem::path p(image.filePath);
-        const std::string exportFilePath = exportFolder + "/" + p.filename().string();
+        const std::string exportFilePath
+            = boost::filesystem::path(exportFolder) / p.filename().string();
         cv::imwrite(exportFilePath, cvImg);
     }
 }
