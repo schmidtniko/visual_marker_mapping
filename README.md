@@ -21,9 +21,9 @@ Via SSH:
 
 ## Dependencies
 
-* ceres
-* opencv
-* eigen
+* [ceres](http://ceres-solver.org/`)
+* [opencv](http://opencv.org/)
+* [eigen](http://eigen.tuxfamily.org/)
 
 In Ubuntu, these dependencies can be installed using the command
 
@@ -129,7 +129,7 @@ Filename: `marker_detections.json`
 }
 ```
 
-The individual marker corner observations are in the order: Lower left, Lower right, Upper right, Upper left
+The individual marker corner observations are in the order: *Lower left, Lower right, Upper right, Upper left*
 
 ## Reconstruction Result File
 
