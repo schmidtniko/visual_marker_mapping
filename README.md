@@ -47,6 +47,21 @@ make -j5
 
 `cmake -DCMAKE_PREFIX_PATH=<PATH_TO_QT5> -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..`
 
+### Windows
+
+TODO
+
+# Example
+
+Test Dataset:
+
+```
+wget https://agas.uni-koblenz.de/data/datasets/visual_marker_mapping/calibration_room1.zip
+unzip calibration_room1.zip
+visual_marker_detection --project_path calibration_room1
+visual_marker_mapping --project_path calibration_room1
+```
+
 # File Formats
 
 ## Camera Calibration File
@@ -193,18 +208,6 @@ Filename: `reconstruction.json`
 Occurring rotations are represented as a unit quaternion in the order *w,x,y,z*. Rotation and translation together define a pose that transforms points from marker/camera space to world space. The local coordinate systems are defined as follows:
 * When looking at a marker, the *x*-axis goes to the right, *y* up, and *z* points out of the marker plane.
 * A cameras *x*-axis points to the right, *y*-axis down, and the *z*-axis in viewing direction.
-
-# Example
-
-Test Dataset:
-
-```
-wget https://agas.uni-koblenz.de/data/datasets/visual_marker_mapping/calibration_room1.zip
-unzip calibration_room1.zip
-visual_marker_detection --project_path calibration_room1
-visual_marker_mapping --project_path calibration_room1
-```
-
 
 # Copyright and License
 
