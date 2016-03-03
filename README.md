@@ -66,6 +66,68 @@ Filename: `camera_intrinsics.json`
 }
 ```
 
+## Marker Detections File
+
+Filename: `marker_detections.json`
+```json
+{
+    "images":
+    [
+        {
+            "filename": "DSC05028.JPG",
+            "id": "0"
+        },
+        {
+            "filename": "DSC05076.JPG",
+            "id": "1"
+        },
+        ...
+    ],
+    "tags":
+    [
+        {
+            "id": "0",
+            "tag_type": "apriltag_36h11",
+            "width": "0.11650000000000001",
+            "height": "0.11650000000000001"
+        },
+        {
+            "id": "1",
+            "tag_type": "apriltag_36h11",
+            "width": "0.11650000000000001",
+            "height": "0.11650000000000001"
+        },
+        ...
+    ],
+    "tag_observations":
+    [
+        {
+            "image_id": "0",
+            "tag_id": "137",
+            "observations": [
+                [
+                    "4753.32275390625",
+                    "572.0101318359375"
+                ],
+                [
+                    "5131.30810546875",
+                    "568.25885009765625"
+                ],
+                [
+                    "5120.79541015625",
+                    "201.8472900390625"
+                ],
+                [
+                    "4744.53369140625",
+                    "205.41494750976562"
+                ]
+            ]
+        },
+        ...
+    ]
+}
+```
+
 # Example
 
 Test Dataset:
