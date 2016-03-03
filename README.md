@@ -70,8 +70,8 @@ Filename: `camera_intrinsics.json`
 ```
 
 Camera calibration model as defined [here](http://docs.opencv.org/2.4/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html):
-* fx, fy: Focal Length in px
-* cx, cy: Principal Point in px
+* fx, fy: Focal length in px
+* cx, cy: Principal point in px
 * Exactly 5 distortion coefficients, that are in the order *k_1,k_2,p_1,p_2,k_3*. Not required coefficients can be set to *0*.
 
 ## Marker Detections File
