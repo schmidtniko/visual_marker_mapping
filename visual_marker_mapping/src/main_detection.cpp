@@ -27,22 +27,25 @@ po::variables_map loadParameters(int argc, char* argv[])
 {
     po::options_description options("Allowed options");
     po::options_description fileOptions("Options for the config file");
-    options.add_options()("help,?", "produces this help message")(
-        "project_path", po::value<std::string>()->required(), "Path to project to be processed")(
-        "do_corner_refinement", po::bool_switch()->default_value(false),
-        "If this option is set an additional corner refinement of the marker "
-        "corners is done.")("marker_width",
-        po::value<double>()->default_value(0.1285)->notifier([](int param)
+    // clang-format off
+    options.add_options()("help,?", "produces this help message")
+        ("project_path", po::value<std::string>()->required(), "Path to project to be processed")
+        ("marker_type", po::value<std::string>()->default_value("apriltag_36h11"), "Marker type to be used. "
+         " Options are: apriltag_16h5, apriltag_25h7, apriltag_25h9, apriltag_36h9, apriltag_36h11")
+        ("do_corner_refinement", po::bool_switch()->default_value(false),
+         "If this option is set an additional corner refinement of the marker "
+        "corners is done.")
+        ("marker_width", po::value<double>()->default_value(0.1285)->notifier([](int param)
             {
                 checkRange<double>(param, "marker_width", 0.0);
             }),
-        "Width of an tag measured parallel to the tag name.")("marker_height",
-        po::value<double>()->default_value(0.1285)->notifier([](int param)
+         "Width of an tag measured parallel to the tag name.")
+        ("marker_height", po::value<double>()->default_value(0.1285)->notifier([](int param)
             {
                 checkRange<double>(param, "marker_height", 0.0);
             }),
-        "Height of an tag measured perpendicular to the tag name.");
-
+         "Height of an tag measured perpendicular to the tag name.");
+    // clang-format on
     po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, options), vm);
     if (vm.count("help"))
@@ -92,9 +95,9 @@ int main(int argc, char* argv[])
 
         double marker_width = vm["marker_width"].as<double>();
         double marker_height = vm["marker_height"].as<double>();
-        std::string tag_family = "apriltag_36h11";
+        const std::string marker_type = vm["marker_type"].as<std::string>();
         const auto detection_result = visual_marker_mapping::detectTags(img_path, marker_width,
-            marker_height, tag_family, vm["do_corner_refinement"].as<bool>());
+            marker_height, marker_type, vm["do_corner_refinement"].as<bool>());
         visual_marker_mapping::writeDetectionResult(detection_result, detection_result_filename);
 
         std::cout << "Wrote " << detection_result_filename << "!" << std::endl;
