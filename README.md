@@ -102,7 +102,7 @@ The tool's only parameter it the path of the reconstruction.json file, that is b
 
 ## Example
 
-We provide a test dataset, that you can use to test our tools. It is available [here](https://agas.uni-koblenz.de/data/datasets/visual_marker_mapping/calibration_room1.zip). You can use it 
+We provide a test dataset, that you can use to test our tools. It is available [here](https://agas.uni-koblenz.de/data/datasets/visual_marker_mapping/calibration_room1.zip).
 
 Use the following steps to perform the marker detection and 3D reconstruction (assuming you are in the root folder of this repository):
 
