@@ -74,7 +74,7 @@ my_project/images/anotherimage.png
 ...
 ```
 
-* The *images* folder is supposed to contain all images that you want to use for calibration. Currently, all png and jpg files within the folder are being used.
+* The *images* folder is supposed to contain all images that you want to use for calibration. Currently, all png and jpg files within the folder are being used. Note that they all have to have the same size, and they all have to correspond to the camera intrinsics specified in the *camera_intrinsics.json* file.
 * The camera_intrinsics.json file is something you have to create before mapping (it is not required for detection only). See the [File Formats](#file-formats) section on how to create this one.
 * Results of our tools are automatically written to the root of the project path. For example the marker detection writes a file called "marker_detections.json" to the root. The reconstruction result file is called "reconstruction.json".
 
@@ -84,7 +84,10 @@ Our software contains two command-line tools *visual_marker_detection* and *visu
 
 visual_marker_detection:
 * `--project-path`: path to the aforementioned project directory
-* `--marker_width`, `--marker-height`: The marker width/height in meters. This is a marker size that is written to the *marker_detections.json* file with every marker. It is not used in any other way by the detection right now, but we feel that this information is an essential part of the detection result, which is why we incldue it. The marker can be configured to be slightly non-square, which can be used to compensate for bad and slightly distorted print-outs. If you have markers with different sizes, you will have to edit the *marker_detections.json* file by hand. If you do not care about the metrical size if your reconstruction, you can simply set both the width/height to any value, say *0.1*.
+* `--marker_width`, `--marker-height`: The marker width/height in meters. This is a marker size that is written to the *marker_detections.json* file with every marker. It is not used in any other way by the detection right now, but we feel that this information is an essential part of the detection result, which is why we incldue it. The marker can be configured to be slightly non-square, which can be used to compensate for bad and slightly distorted print-outs. If you have markers with different sizes, you will have to edit the *marker_detections.json* file by hand. If you do not care about the metrical size if your reconstruction, you can simply set both the width/height to any value, say *0.1*, or simply stick to the default value.
+* `--do-corner-refinement`: We noticed that the AprilTags library we used, has issues with very high-resolution images, like DSLR images of slightly non-planar markers. To counteract this issue, we have added OpenCVs corner refinement to our software. We only recommend using flag in the described case though. For lower resolution images or planar markers, existing corner localization method is fine.
+* `--marker_type`: Allows to configure the type of markers that are being searched in the images. The default value is "apriltag_36h11", but we also support: ["apriltag_16h5", "apriltag_25h7", "apriltag_25h9", "apriltag_36h9"]
+* Returns: While running, our tool will print the file it is currently working on, as well as the marker ids that have been detected in the respective image. Upon completion, the *marker_detections.json* file is written to the project path.
 
 
 ## Example
