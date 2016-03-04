@@ -80,7 +80,7 @@ my_project/images/anotherimage.png
 
 ## Running
 
-Our software contains two command-line tools *visual_marker_detection* and *visual_marker_mapping*, both located in the *build/bin* folder. 
+Our software contains two command-line tools *visual_marker_detection* and *visual_marker_mapping*, both located in the *build/bin* folder, and a python script that can optionally be used to visualize the results in 3D.
 
 visual_marker_detection:
 * `--help`: Shows a help text.
@@ -96,9 +96,9 @@ visual_marker_mapping:
 * `--start-tag-id`: The id of a tag that should be used as the origin of the coordinate system. It is suggested to use a tag that is located on the ground as one of the start tags. If you do not specify a start tag, the software will chose one itself.
 * **Returns**: Upon completion, the *reconstruction.json* file is written to the project path.
 
-For visualization of the results in 3D, we also include a Python script called "visualize_reconstruction.py". It is based on 
-* pygame, OpenGL, GLU, GLUT, numpy
-Its only parameter it the path of the reconstruction.json file, that is being written by the visual_marker_mapping tool upon completion. The camera can be controlled using W, S, A, D. The mouse can be used to look around by holding the left mouse button. The camera speed can be increased by holding space.
+For visualization of the results in 3D, we also include a Python (2.7/3.0) script called "visualize_reconstruction.py". It is based on *pygame*, *OpenGL*, *GLU*, *GLUT*, *numpy*, and you may need to install the corresponding Python packages for your distribution in order to be able to run it.
+
+The tool's only parameter it the path of the reconstruction.json file, that is being written by the visual_marker_mapping tool upon completion. The camera can be controlled using W, S, A, D. The mouse can be used to look around by holding the left mouse button. The camera speed can be increased by holding space.
 
 ## Example
 
