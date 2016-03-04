@@ -57,7 +57,7 @@ make -j5
 
 ### Windows
 
-TODO
+It should be possible to build our software on Windows, given that we do not use any platform specific features, but so far we have not attempted to build it there. Please let us know if you run into problems doing this.
 
 # Usage
 
@@ -96,8 +96,13 @@ visual_marker_mapping:
 * `--start-tag-id`: The id of a tag that should be used as the origin of the coordinate system. It is suggested to use a tag that is located on the ground as one of the start tags. If you do not specify a start tag, the software will chose one itself.
 * **Returns**: Upon completion, the *reconstruction.json* file is written to the project path.
 
+For visualization of the results in 3D, we also include a Python script called "visualize_reconstruction.py". It is based on 
+* pygame, OpenGL, GLU, GLUT, numpy
+Its only parameter it the path of the reconstruction.json file, that is being written by the visual_marker_mapping tool upon completion. The camera can be controlled using W, S, A, D. The mouse can be used to look around by holding the left mouse button. The camera speed can be increased by holding space.
 
 ## Example
+
+We provide a test dataset, that you can use to test our tools. It is available [here](https://agas.uni-koblenz.de/data/datasets/visual_marker_mapping/calibration_room1.zip). You can use it 
 
 Test Dataset:
 
@@ -107,6 +112,12 @@ unzip calibration_room1.zip
 visual_marker_detection --project_path calibration_room1 --marker_width 0.1285 --marker_height 0.1295 --do_corner_refinement
 visual_marker_mapping --project_path calibration_room1 --start_tag_id 230
 ```
+
+If you want to visualize the results, run:
+```
+python3 visualize_reconstruction.py calibration_room1/reconstruction.json
+```
+
 
 # File Formats
 
