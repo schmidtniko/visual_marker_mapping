@@ -61,15 +61,19 @@ TODO
 
 # Usage
 
-Our software works on *project paths*. A project path initially has the following layout:
+Our software works on *project paths*. A project path initially has to have the following layout:
 
 ```
   my_project/.
+  my_project/camera_intrinsics.json
   my_project/images/
   my_project/images/your_image_1.jpg
   my_project/images/anotherimage.png
   ...
 ```
+
+* The *images* folder is supposed to contain all images that you want to use for calibration. Currently, all png and jpg files within the folder are being used.
+* The camera_intrinsics.json file is something you have to create before mapping (it is not required for detection only). See the File Formats section on how to create this one.
 
 ## Example
 
