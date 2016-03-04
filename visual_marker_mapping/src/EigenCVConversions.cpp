@@ -8,9 +8,9 @@ namespace visual_marker_mapping
 //-----------------------------------------------------------------------------
 void eigen2cv(const Eigen::Vector3d& vecEig, cv::Point3f& ptCv)
 {
-    ptCv.x = static_cast<double>(vecEig.x());
-    ptCv.y = static_cast<double>(vecEig.y());
-    ptCv.z = static_cast<double>(vecEig.z());
+    ptCv.x = static_cast<float>(vecEig.x());
+    ptCv.y = static_cast<float>(vecEig.y());
+    ptCv.z = static_cast<float>(vecEig.z());
 }
 //-----------------------------------------------------------------------------
 void cv2eigen(const cv::Point2f& ptCv, Eigen::Vector2d& vecEig)
