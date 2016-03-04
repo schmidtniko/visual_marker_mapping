@@ -9,16 +9,6 @@ Our software consists of two tools:
 
 # Installation
 
-## Cloning
-
-Via HTTPS:
-
-`git clone --recursive https://github.com/cfneuhaus/visual_marker_mapping.git`
-
-Via SSH:
-
-`git clone --recursive git@github.com:cfneuhaus/visual_marker_mapping.git`
-
 ## Dependencies
 
 * [Ceres Solver](http://ceres-solver.org/)
@@ -37,6 +27,16 @@ In Arch Linux, use:
 * Ceres is available as an AUR package called [ceres-solver](https://aur.archlinux.org/packages/ceres-solver/).
 
 The AprilTags dependency is automatically pulled in as a git submodule.
+
+## Cloning
+
+Via HTTPS:
+
+`git clone --recursive https://github.com/cfneuhaus/visual_marker_mapping.git`
+
+Via SSH:
+
+`git clone --recursive git@github.com:cfneuhaus/visual_marker_mapping.git`
 
 ## Building
 
