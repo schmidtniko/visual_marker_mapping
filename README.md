@@ -83,8 +83,8 @@ my_project/images/anotherimage.png
 Our software contains two command-line tools *visual_marker_detection* and *visual_marker_mapping*, both located in the *build/bin* folder. 
 
 visual_marker_detection:
-* `--project-path` path to the aforementioned project directory
-* `--marker_width`, `--marker-height`
+* `--project-path`: path to the aforementioned project directory
+* `--marker_width`, `--marker-height`: The marker width/height in meters. This is a marker size that is written to the *marker_detections.json* file with every marker. It is not used in any other way by the detection right now, but we feel that this information is an essential part of the detection result, which is why we incldue it. The marker can be configured to be slightly non-square, which can be used to compensate for bad and slightly distorted print-outs. If you have markers with different sizes, you will have to edit the *marker_detections.json* file by hand. If you do not care about the metrical size if your reconstruction, you can simply set both the width/height to any value, say *0.1*.
 
 
 ## Example
