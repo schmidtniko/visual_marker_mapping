@@ -83,14 +83,14 @@ DetectionResult detectTags(const std::vector<std::string>& filePaths, double mar
             tagObs.imageId = imageId;
             tagObs.tagId = detectedTag.id;
             tagObs.corners.resize(4);
-            for (int i = 0; i < 4; ++i)
+            for (size_t i = 0; i < 4; ++i)
                 tagObs.corners[i] << detectedTag.p[i].first, detectedTag.p[i].second;
 
             // do opencv corner refinement
             if (doCornerRefinement)
             {
                 std::vector<cv::Point2f> corners;
-                for (int i = 0; i < 4; i++)
+                for (size_t i = 0; i < 4; i++)
                     corners.emplace_back(tagObs.corners[i].x(), tagObs.corners[i].y());
 
                 cv::Size winSize = cv::Size(10, 10);
@@ -101,7 +101,7 @@ DetectionResult detectTags(const std::vector<std::string>& filePaths, double mar
                 /// Calculate the refined corner locations
                 cv::cornerSubPix(img, corners, winSize, zeroZone, criteria);
 
-                for (int i = 0; i < 4; i++)
+                for (size_t i = 0; i < 4; i++)
                 {
                     // std::cout << "BEFOR: " << tagObs.corners[i].transpose() <<
                     // std::endl;
@@ -174,13 +174,16 @@ void visualizeDetectionResults(
         {
             if (tagDetection.imageId != image.imageId) continue;
 
-            const cv::Point pos((tagDetection.corners[0].x() + tagDetection.corners[2].x()) / 2,
-                (tagDetection.corners[0].y() + tagDetection.corners[2].y()) / 2);
+            const int px
+                = static_cast<int>((tagDetection.corners[0].x() + tagDetection.corners[2].x()) / 2);
+            const int py
+                = static_cast<int>((tagDetection.corners[0].y() + tagDetection.corners[2].y()) / 2);
+            const cv::Point pos(px, py);
 
             cv::putText(cvImg, std::to_string(tagDetection.tagId), pos, cv::FONT_HERSHEY_SIMPLEX,
                 3.5, cv::Scalar(255, 100, 0), 4);
 
-            for (int i = 0; i < 4; ++i)
+            for (size_t i = 0; i < 4; ++i)
             {
                 const cv::Scalar color = colorMap[i];
                 cv::circle(cvImg,

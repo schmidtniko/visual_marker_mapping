@@ -107,7 +107,7 @@ bool writeDetectionResult(const DetectionResult& result, const std::string& file
             return pt;
         };
         boost::property_tree::ptree observations;
-        for (int i = 0; i < 4; ++i)
+        for (size_t i = 0; i < 4; ++i)
         {
             boost::property_tree::ptree coord;
             coord.push_back(std::make_pair("", mkPt(tagObs.corners[i].x())));

@@ -8,9 +8,9 @@ namespace visual_marker_mapping
 //-----------------------------------------------------------------------------
 void eigen2cv(const Eigen::Vector3d& vecEig, cv::Point3f& ptCv)
 {
-    ptCv.x = vecEig.x();
-    ptCv.y = vecEig.y();
-    ptCv.z = vecEig.z();
+    ptCv.x = static_cast<double>(vecEig.x());
+    ptCv.y = static_cast<double>(vecEig.y());
+    ptCv.z = static_cast<double>(vecEig.z());
 }
 //-----------------------------------------------------------------------------
 void cv2eigen(const cv::Point2f& ptCv, Eigen::Vector2d& vecEig)
@@ -46,7 +46,7 @@ void solvePnPEigen(const std::vector<Eigen::Vector3d>& objectPoints,
     std::vector<cv::Point2d> observationsCv;
     eigen2cv(observations, observationsCv);
 
-    cv::Mat distCoefficentsCv(distCoefficents.rows(), 1, CV_64FC1);
+    cv::Mat distCoefficentsCv(static_cast<int>(distCoefficents.rows()), 1, CV_64FC1);
     for (int i = 0; i < distCoefficents.rows(); ++i)
         distCoefficentsCv.at<double>(i, 0) = distCoefficents(i, 0);
 
@@ -88,7 +88,7 @@ void solvePnPRansacEigen(const std::vector<Eigen::Vector3d>& objectPoints,
     for (const auto& p : observations)
         observationsCv.emplace_back(p.x(), p.y());
 
-    cv::Mat distCoefficentsCv(distCoefficents.rows(), 1, CV_64FC1);
+    cv::Mat distCoefficentsCv(static_cast<int>(distCoefficents.rows()), 1, CV_64FC1);
     for (int i = 0; i < distCoefficents.rows(); ++i)
         distCoefficentsCv.at<double>(i, 0) = distCoefficents(i, 0);
 
