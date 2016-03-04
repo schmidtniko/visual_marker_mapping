@@ -61,6 +61,8 @@ TODO
 
 # Usage
 
+## Preliminaries
+
 Our software works on *project paths*. A project path initially has to have the following layout:
 
 ```
@@ -74,6 +76,16 @@ my_project/images/anotherimage.png
 
 * The *images* folder is supposed to contain all images that you want to use for calibration. Currently, all png and jpg files within the folder are being used.
 * The camera_intrinsics.json file is something you have to create before mapping (it is not required for detection only). See the [File Formats](#file-formats) section on how to create this one.
+* Results of our tools are automatically written to the root of the project path. For example the marker detection writes a file called "marker_detections.json" to the root. The reconstruction result file is called "reconstruction.json".
+
+## Running
+
+Our software contains two command-line tools *visual_marker_detection* and *visual_marker_mapping*, both located in the *build/bin* folder. 
+
+visual_marker_detection:
+* `--project-path` path to the aforementioned project directory
+* `--marker_width`, `--marker-height`
+
 
 ## Example
 
