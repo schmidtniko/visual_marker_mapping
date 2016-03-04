@@ -120,8 +120,6 @@ void parseReconstructions(const std::string& inputPath,
     reconstructedTags = importReconstructedTags(rootNode.get_child("reconstructed_tags"));
     reconstructedCameras = importReconstructedCameras(rootNode.get_child("reconstructed_cameras"));
     camModel = propertyTreeToCameraModel(rootNode.get_child("camera_model"));
-
-    std::cout << "K = " << camModel.getK() << std::endl;
 }
 //-----------------------------------------------------------------------------
 }
