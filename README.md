@@ -57,7 +57,7 @@ make -j5
 
 ### Windows
 
-TODO
+It should be possible to build our software on Windows, given that we do not use any platform specific features, but so far we have not attempted to build it there. Please let us know if you run into problems doing this.
 
 # Usage
 
@@ -80,26 +80,44 @@ my_project/images/anotherimage.png
 
 ## Running
 
-Our software contains two command-line tools *visual_marker_detection* and *visual_marker_mapping*, both located in the *build/bin* folder. 
+Our software contains two command-line tools *visual_marker_detection* and *visual_marker_mapping*, both located in the *build/bin* folder, and a python script that can optionally be used to visualize the results in 3D.
 
 visual_marker_detection:
-* `--project-path`: path to the aforementioned project directory
+* `--help`: Shows a help text.
+* `--project-path`: Path to the aforementioned project directory.
 * `--marker_width`, `--marker-height`: The marker width/height in meters. This is a marker size that is written to the *marker_detections.json* file with every marker. It is not used in any other way by the detection right now, but we feel that this information is an essential part of the detection result, which is why we incldue it. The marker can be configured to be slightly non-square, which can be used to compensate for bad and slightly distorted print-outs. If you have markers with different sizes, you will have to edit the *marker_detections.json* file by hand. If you do not care about the metrical size if your reconstruction, you can simply set both the width/height to any value, say *0.1*, or simply stick to the default value.
 * `--do-corner-refinement`: We noticed that the AprilTags library we used, has issues with very high-resolution images, like DSLR images of slightly non-planar markers. To counteract this issue, we have added OpenCVs corner refinement to our software. We only recommend using flag in the described case though. For lower resolution images or planar markers, existing corner localization method is fine.
-* `--marker_type`: Allows to configure the type of markers that are being searched in the images. The default value is "apriltag_36h11", but we also support: ["apriltag_16h5", "apriltag_25h7", "apriltag_25h9", "apriltag_36h9"]
-* Returns: While running, our tool will print the file it is currently working on, as well as the marker ids that have been detected in the respective image. Upon completion, the *marker_detections.json* file is written to the project path.
+* `--marker_type`: Allows to configure the type of markers that are being searched in the images. The default value is "apriltag_36h11", but we also support: "apriltag_16h5", "apriltag_25h7", "apriltag_25h9" or "apriltag_36h9"
+* **Returns**: While running, our tool will print the file it is currently working on, as well as the marker ids that have been detected in the respective image. Upon completion, the *marker_detections.json* file is written to the project path.
 
+visual_marker_mapping:
+* `--help`: Shows a help text.
+* `--project-path`: Path to the aforementioned project directory.
+* `--start-tag-id`: The id of a tag that should be used as the origin of the coordinate system. It is suggested to use a tag that is located on the ground as one of the start tags. If you do not specify a start tag, the software will chose one itself.
+* **Returns**: Upon completion, the *reconstruction.json* file is written to the project path.
+
+For visualization of the results in 3D, we also include a Python (2.7/3.0) script called "visualize_reconstruction.py". It is based on *pygame*, *OpenGL*, *GLU*, *GLUT*, *numpy*, and you may need to install the corresponding Python packages for your distribution in order to be able to run it.
+
+The tool's only parameter it the path of the reconstruction.json file, that is being written by the visual_marker_mapping tool upon completion. The camera can be controlled using W, S, A, D. The mouse can be used to look around by holding the left mouse button. The camera speed can be increased by holding space.
 
 ## Example
 
-Test Dataset:
+We provide a test dataset, that you can use to test our tools. It is available [here](https://agas.uni-koblenz.de/data/datasets/visual_marker_mapping/calibration_room1.zip).
+
+Use the following steps to perform the marker detection and 3D reconstruction (assuming you are in the root folder of this repository):
 
 ```
 wget https://agas.uni-koblenz.de/data/datasets/visual_marker_mapping/calibration_room1.zip
 unzip calibration_room1.zip
-visual_marker_detection --project_path calibration_room1 --marker_width 0.1285 --marker_height 0.1295 --do_corner_refinement
-visual_marker_mapping --project_path calibration_room1 --start_tag_id 230
+./build/bin/visual_marker_detection --project_path calibration_room1 --marker_width 0.1285 --marker_height 0.1295 --do_corner_refinement
+./build/bin/visual_marker_mapping --project_path calibration_room1 --start_tag_id 230
 ```
+
+If you want to visualize the results, simply run:
+```
+python3 visualize_reconstruction.py calibration_room1/reconstruction.json
+```
+
 
 # File Formats
 
