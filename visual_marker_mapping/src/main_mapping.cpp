@@ -65,8 +65,8 @@ int main(int argc, char* argv[])
 
         const std::string cam_intrinsics_file = (project_path / "camera_intrinsics.json").string();
         const int startId = vm["start_tag_id"].as<int>();
-		const std::string reconstruction_file = (project_path / "reconstruction.json").string();
-		const size_t maxThreads
+        const std::string reconstruction_file = (project_path / "reconstruction.json").string();
+        const size_t maxThreads
             = std::thread::hardware_concurrency() ? std::thread::hardware_concurrency() : 4;
 
         if (boost::filesystem::exists(detection_result_filename))
@@ -82,7 +82,7 @@ int main(int argc, char* argv[])
                     std::cout << "Exiting!" << std::endl;
                     exit(1);
                 }
-				else if (yn == 'y')
+                else if (yn == 'y')
                     break;
             }
         }
