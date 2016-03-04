@@ -61,7 +61,15 @@ TODO
 
 # Usage
 
-TODO
+Our software works on *project paths*. A project path initially has the following layout:
+
+```
+  my_project/.
+  my_project/images/
+  my_project/images/your_image_1.jpg
+  my_project/images/anotherimage.png
+  ...
+```
 
 ## Example
 
