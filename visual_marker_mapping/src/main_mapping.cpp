@@ -29,21 +29,15 @@ po::variables_map loadParameters(int argc, char* argv[])
 {
     po::options_description options("Allowed options");
     po::options_description fileOptions("Options for the config file");
-    options.add_options()("help,?", "produces this help message")(
-        "project_path", po::value<std::string>()->required(), "Path to project to be processed")(
-        "camera_parameter_file", po::value<std::string>()->default_value(""),
-        "Path to the json file with the camera parameters.")("reconstruction_filename",
-        po::value<std::string>()->default_value("reconstruction.json"),
-        "Filename of the file in which the json with reconstructed Tags and "
-        "Cameras is stored. It "
-        "is saved in the root folder.")("json_filename",
-        po::value<std::string>()->default_value("marker.json"),
-        "Filename of the file in which ths json is stored. It is saved in the "
-        "root folder.")("start_tag_id", po::value<int>()->default_value(1)->notifier([](int param)
-                                            {
-                                                checkRange<int>(param, "start_tag_id", 0);
-                                            }),
-        "Id of the marker which will be in the origin of the model.");
+    // clang-format off
+    options.add_options()("help,?", "produces this help message")
+        ("project_path", po::value<std::string>()->required(), "Path to project to be processed")
+        ("start_tag_id", po::value<int>()->default_value(-1)->notifier([](int param)
+            {
+                checkRange<int>(param, "start_tag_id", 0);
+            }),
+            "Id of the marker which will be in the origin of the model.");
+    // clang-format on
 
     po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, options), vm);
@@ -71,9 +65,8 @@ int main(int argc, char* argv[])
 
         const std::string cam_intrinsics_file = (project_path / "camera_intrinsics.json").string();
         const int startId = vm["start_tag_id"].as<int>();
-        const std::string reconstruction_file
-            = (project_path / vm["reconstruction_filename"].as<std::string>()).string();
-        const int maxThreads
+		const std::string reconstruction_file = (project_path / "reconstruction.json").string();
+		const size_t maxThreads
             = std::thread::hardware_concurrency() ? std::thread::hardware_concurrency() : 4;
 
         if (boost::filesystem::exists(detection_result_filename))
@@ -89,7 +82,7 @@ int main(int argc, char* argv[])
                     std::cout << "Exiting!" << std::endl;
                     exit(1);
                 }
-                else if (yn == 'y')
+				else if (yn == 'y')
                     break;
             }
         }

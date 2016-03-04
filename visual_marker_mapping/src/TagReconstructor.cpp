@@ -40,7 +40,7 @@ int TagReconstructor::getLowestTag()
     return min;
 }
 //-------------------------------------------------------------------------------------------------
-void TagReconstructor::startReconstruction(int numThreads)
+void TagReconstructor::startReconstruction(size_t numThreads)
 {
     if (originTagId == -1)
     {
@@ -582,7 +582,7 @@ void TagReconstructor::doBundleAdjustment_points(int maxNumIterations,
 #endif
 //-----------------------------------------------------------------------------
 void TagReconstructor::doBundleAdjustment(
-    int maxNumIterations, int ceresThreads, bool robustify, bool printSummary)
+	int maxNumIterations, size_t ceresThreads, bool robustify, bool printSummary)
 {
     std::map<int, std::set<int> > whichImagesObserveTag; // tagid -> [imageId]
     for (const auto& tagObs : detectionResults_.tagObservations)
@@ -646,7 +646,7 @@ void TagReconstructor::doBundleAdjustment(
 
         auto corners = reconstructedTags[tagObs.tagId].computeLocalMarkerCorners3D();
 
-        for (int i = 0; i < 4; i++)
+		for (size_t i = 0; i < 4; i++)
         {
             auto* currentCostFunc = TagReconstructionCostFunction::Create(tagObs.corners[i],
                 tagById[tagObs.tagId]->width, tagById[tagObs.tagId]->height, d, K, corners[i]);
@@ -664,8 +664,8 @@ void TagReconstructor::doBundleAdjustment(
 #endif
     options.minimizer_progress_to_stdout = false;
     options.max_num_iterations = maxNumIterations;
-    options.num_threads = ceresThreads;
-    options.num_linear_solver_threads = ceresThreads;
+	options.num_threads = static_cast<int>(ceresThreads);
+	options.num_linear_solver_threads = static_cast<int>(ceresThreads);
     // options.eta = 1e-2;
 
     ceres::Solver::Summary summary;
@@ -684,7 +684,7 @@ void TagReconstructor::doBundleAdjustment(
         }
 
         ceres::Covariance::Options covOptions;
-        covOptions.num_threads = ceresThreads;
+		covOptions.num_threads = static_cast<int>(ceresThreads);
 
         ceres::Covariance covarianceComputation(covOptions);
         covarianceComputation.Compute(covarianceBlocks, &markerBAProblem);

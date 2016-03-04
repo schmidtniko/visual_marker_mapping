@@ -16,7 +16,18 @@ add_library(visual_marker_mapping_lib
             src/CameraUtilities.cpp
             src/EigenCVConversions.cpp
             src/FileUtilities.cpp
-            src/PropertyTreeUtilities.cpp)
+            src/PropertyTreeUtilities.cpp
+            include/visual_marker_mapping/Camera.h
+            include/visual_marker_mapping/TagReconstructor.h
+            include/visual_marker_mapping/DetectionIO.h
+            include/visual_marker_mapping/TagDetector.h
+            include/visual_marker_mapping/PropertyTreeUtilities.h
+            include/visual_marker_mapping/ReconstructionIO.h
+            include/visual_marker_mapping/EigenCVConversions.h
+            include/visual_marker_mapping/FileUtilities.h
+            include/visual_marker_mapping/CameraModel.h
+            include/visual_marker_mapping/CameraUtilities.h
+            include/visual_marker_mapping/TagReconstructionCostFunction.h)
 
 set_property(TARGET visual_marker_mapping_lib PROPERTY CXX_STANDARD 11)
 set_property(TARGET visual_marker_mapping_lib PROPERTY CXX_STANDARD_REQUIRED ON)

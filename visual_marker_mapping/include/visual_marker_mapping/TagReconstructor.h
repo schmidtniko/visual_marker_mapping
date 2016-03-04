@@ -20,7 +20,7 @@ struct ReconstructedTag
     Eigen::Vector4d q = Eigen::Vector4d::UnitX();
     Eigen::Vector3d t = Eigen::Vector3d::Zero(); // translation vector
     double tagWidth = 0.0;
-    double tagHeight = 0.0;
+	double tagHeight = 0.0;
 
     Eigen::Quaterniond quat() const { return Eigen::Quaterniond(q(0), q(1), q(2), q(3)); }
     void setQuat(const Eigen::Quaterniond& quat)
@@ -37,7 +37,7 @@ struct ReconstructedTag
 
         const Eigen::Matrix3d R = quat().toRotationMatrix();
 
-        for (int i = 0; i < 4; ++i)
+		for (size_t i = 0; i < 4; ++i)
             markerCorners3D[i] = R * markerCorners3D[i] + t;
 
         return markerCorners3D;
@@ -63,7 +63,7 @@ public:
      * Starts the reconstruction
      * @param numThreads Number of threads with which ceres is working
      */
-    void startReconstruction(int numThreads = 1);
+	void startReconstruction(size_t numThreads = 1);
 
     /**
      * Calculates the reprojection error per image.
@@ -127,8 +127,8 @@ protected:
 
     // void doBundleAdjustment_points(int maxNumIterations,
     //                         int ceresThreads, bool printSummary=false);
-    void doBundleAdjustment(
-        int maxNumIterations, int ceresThreads, bool robustify = true, bool printSummary = false);
+	void doBundleAdjustment(int maxNumIterations, size_t ceresThreads, bool robustify = true,
+		bool printSummary = false);
 
     int originTagId;
 
