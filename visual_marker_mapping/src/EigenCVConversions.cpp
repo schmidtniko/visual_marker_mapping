@@ -67,8 +67,7 @@ void solvePnPEigen(const std::vector<Eigen::Vector3d>& objectPoints,
 void solvePnPRansacEigen(const std::vector<Eigen::Vector3d>& objectPoints,
     const std::vector<Eigen::Vector2d, Eigen::aligned_allocator<Eigen::Vector2d> >& observations,
     const Eigen::Matrix3d& K, const Eigen::Matrix<double, 5, 1>& distCoefficents,
-    Eigen::Matrix3d& R, Eigen::Vector3d& t, int iterationsCount, float reprojectionError,
-    int minInliersCount)
+    Eigen::Matrix3d& R, Eigen::Vector3d& t)
 {
 
     if (objectPoints.size() != observations.size())

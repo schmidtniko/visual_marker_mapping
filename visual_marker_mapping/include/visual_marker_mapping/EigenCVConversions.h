@@ -25,8 +25,7 @@ void solvePnPEigen(const std::vector<Eigen::Vector3d>& objectPoints,
 void solvePnPRansacEigen(const std::vector<Eigen::Vector3d>& objectPoints,
     const std::vector<Eigen::Vector2d, Eigen::aligned_allocator<Eigen::Vector2d> >& observations,
     const Eigen::Matrix3d& K, const Eigen::Matrix<double, 5, 1>& distCoefficents,
-    Eigen::Matrix3d& R, Eigen::Vector3d& t, int iterationsCount = 50, float reprojectionError = 1.0,
-    int minInliersCount = 15);
+    Eigen::Matrix3d& R, Eigen::Vector3d& t);
 } /* namespace libba */
 
 #endif /* EIGENCVCONVERSIONS_H_ */
