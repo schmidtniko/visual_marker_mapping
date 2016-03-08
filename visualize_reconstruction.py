@@ -252,6 +252,9 @@ class Game(object):
         if len(sys.argv)==2:
             self.load_reconstruction_results(sys.argv[1])
 
+
+        self.display_list = -1
+
         self.last_lbtn=False
 
         self.stategame=1
@@ -303,6 +306,12 @@ class Game(object):
         glLoadIdentity()
         gluLookAt(self.cam.pos[0],self.cam.pos[1],self.cam.pos[2],self.cam.look_at[0],self.cam.look_at[1],self.cam.look_at[2],self.cam.up[0],self.cam.up[1],self.cam.up[2]);
 
+        if self.display_list!=-1:
+            glCallList(self.display_list)
+            return
+        self.display_list=glGenLists(1)
+        glNewList(self.display_list, GL_COMPILE_AND_EXECUTE)
+
         render_floor()
         render_coordinate_axes()
         #glColor3f(1,0,0)
@@ -329,7 +338,8 @@ class Game(object):
             glRotatef(180,0,0,1)
             glScale(0.0005,0.0005,0.0005)
             glutStrokeString(GLUT_STROKE_ROMAN, ctypes.c_char_p(h))
-            glPopMatrix();
+            glPopMatrix()
+        glEndList()
 
  
     def handle_events(self,dt):
