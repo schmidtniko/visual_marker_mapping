@@ -12,18 +12,6 @@
 #include "visual_marker_mapping/ReconstructionIO.h"
 
 //------------------------------------------------------------------------------------------------------------
-template <typename T>
-void checkRange(
-    T param, std::string paramName, T lowerBound = 0, T upperBound = std::numeric_limits<T>::max())
-{
-    if (param < lowerBound)
-        throw std::runtime_error(
-            "Value for " + paramName + " is smaller than " + std::to_string(lowerBound) + " .");
-    if (param > upperBound)
-        throw std::runtime_error("Value for parameter " + paramName + " is bigger than "
-            + std::to_string(upperBound) + " .");
-}
-//------------------------------------------------------------------------------------------------------------
 namespace po = boost::program_options;
 po::variables_map loadParameters(int argc, char* argv[])
 {
@@ -32,10 +20,7 @@ po::variables_map loadParameters(int argc, char* argv[])
     // clang-format off
     options.add_options()("help,?", "produces this help message")
         ("project_path", po::value<std::string>()->required(), "Path to project to be processed")
-        ("start_tag_id", po::value<int>()->default_value(-1)->notifier([](int param)
-            {
-                checkRange<int>(param, "start_tag_id", 0);
-            }),
+        ("start_tag_id", po::value<int>()->default_value(-1),
             "Id of the marker which will be in the origin of the model.");
     // clang-format on
 
