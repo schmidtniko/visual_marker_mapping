@@ -64,6 +64,23 @@ void exportReconstructions(const std::string& outputPath,
     getRecTagTree(reconstructedTags, tagTree);
     mainTree.add_child("reconstructed_tags", tagTree);
 
+    {
+        const std::map<std::uint32_t, Eigen::Vector3d> flattened
+            = flattenReconstruction(reconstructedTags);
+        pt::ptree pointTree;
+        for (const auto& pt : flattened)
+        {
+            boost::property_tree::ptree curTree;
+
+            curTree.put("id", pt.first);
+
+            const boost::property_tree::ptree tTree = matrix2PropertyTreeEigen(pt.second);
+            curTree.add_child("point", tTree);
+            pointTree.push_back(std::make_pair("", curTree));
+        }
+        mainTree.add_child("reconstructed_marker_points", pointTree);
+    }
+
     pt::ptree camTree;
     getRecCamTree(reconstructedCameras, camTree);
     mainTree.add_child("reconstructed_cameras", camTree);

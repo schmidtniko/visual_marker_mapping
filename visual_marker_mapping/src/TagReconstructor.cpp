@@ -20,6 +20,29 @@
 
 namespace visual_marker_mapping
 {
+//-------------------------------------------------------------------------------------------------
+std::map<std::uint32_t, Eigen::Vector3d> flattenReconstruction(
+    const std::map<int, ReconstructedTag>& reconstructedTags)
+{
+	std::map<std::uint32_t, Eigen::Vector3d> ret;
+    for (const auto& reconstTag : reconstructedTags)
+    {
+        const int tagId = reconstTag.second.id;
+        const auto corners = reconstTag.second.computeLocalMarkerCorners3D();
+		
+		assert(tagId>=0);
+		const std::uint32_t utagId = static_cast<std::uint32_t>(tagId);
+		
+		for (size_t i=0;i<4;i++)
+		{
+			const std::uint32_t id=(utagId<<12)+i;
+			ret.emplace(id, corners[i]);
+		}
+    }
+	return ret;
+}
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 TagReconstructor::TagReconstructor()
     : originTagId(-1)
 {
@@ -35,7 +58,8 @@ int TagReconstructor::getLowestTag()
     int min = detectionResults_.tags[0].tagId;
     for (const auto& tagIt : detectionResults_.tags)
     {
-        if (tagIt.tagId < min) min = tagIt.tagId;
+        if (tagIt.tagId < min)
+            min = tagIt.tagId;
     }
     return min;
 }
@@ -122,9 +146,11 @@ void TagReconstructor::startReconstruction(size_t numThreads)
         reconstructedCameras.emplace(curImageId, newCamera);
         for (const auto& tagObs : detectionResults_.tagObservations)
         {
-            if (tagObs.imageId != curImageId) continue;
+            if (tagObs.imageId != curImageId)
+                continue;
             // reconstruct tag if not already reconstructed
-            if (reconstructedTags.count(tagObs.tagId)) continue;
+            if (reconstructedTags.count(tagObs.tagId))
+                continue;
 
             // check if tag is large enough in image to avoid a wrong reconstruction
             if (0)
@@ -191,14 +217,16 @@ void TagReconstructor::startReconstruction(size_t numThreads)
         int maxPairs = 0;
         for (const auto& img : detectionResults_.images)
         {
-            if (reconstructedCameras.count(img.imageId)) continue;
+            if (reconstructedCameras.count(img.imageId))
+                continue;
 
             // look for an unreconstructed image with the maximum number of
             // reconsturcted tags
             int numCorrespondences = 0;
             for (int tagId : tagsInImage[img.imageId])
             {
-                if (reconstructedTags.count(tagId)) numCorrespondences++;
+                if (reconstructedTags.count(tagId))
+                    numCorrespondences++;
             }
             if (numCorrespondences > maxPairs)
             {
@@ -207,7 +235,8 @@ void TagReconstructor::startReconstruction(size_t numThreads)
             }
         }
 
-        if (maxPairs == 0) break;
+        if (maxPairs == 0)
+            break;
 
         // if (reconstructedCameras.size()==1)
         // break;
@@ -234,9 +263,11 @@ bool TagReconstructor::computeRelativeCameraPoseFromImg(int imageId, const Eigen
     // find all matches between this image and the reconstructions
     for (const auto& tagObs : detectionResults_.tagObservations)
     {
-        if (tagObs.imageId != imageId) continue;
+        if (tagObs.imageId != imageId)
+            continue;
         const auto tagIt = reconstructedTags.find(tagObs.tagId);
-        if (tagIt == reconstructedTags.end()) continue;
+        if (tagIt == reconstructedTags.end())
+            continue;
 
         const std::vector<Eigen::Vector3d> tagCorners = tagIt->second.computeMarkerCorners3D();
 
@@ -246,7 +277,8 @@ bool TagReconstructor::computeRelativeCameraPoseFromImg(int imageId, const Eigen
     std::cout << "   Reconstructing camera pose from " << observations2D.size()
               << " 2d/3d correspondences" << std::endl;
 
-    if (observations2D.empty()) return false;
+    if (observations2D.empty())
+        return false;
 
     Eigen::Matrix3d R;
     // solvePnPEigen(markerCorners3D, observations2D, K, distCoefficients, R, t);
@@ -290,9 +322,11 @@ const std::map<int, double> TagReconstructor::computeReprojectionErrorPerImg() c
     for (const auto& tagObs : detectionResults_.tagObservations)
     {
         const auto camIt = reconstructedCameras.find(tagObs.imageId);
-        if (camIt == reconstructedCameras.end()) continue;
+        if (camIt == reconstructedCameras.end())
+            continue;
         const auto tagIt = reconstructedTags.find(tagObs.tagId);
-        if (tagIt == reconstructedTags.end()) continue;
+        if (tagIt == reconstructedTags.end())
+            continue;
 
         const auto pts3d = tagIt->second.computeMarkerCorners3D();
         const auto& camera = camIt->second;
@@ -322,7 +356,8 @@ const std::map<int, double> TagReconstructor::computeReprojectionErrorPerImg() c
     // invalid
     for (const auto& repCam : reconstructedCameras)
     {
-        if (repErrorMap.count(repCam.first) == 0) repErrorMap[repCam.first] = -1.0;
+        if (repErrorMap.count(repCam.first) == 0)
+            repErrorMap[repCam.first] = -1.0;
     }
     return repErrorMap;
 }
@@ -334,9 +369,11 @@ const std::map<int, double> TagReconstructor::computeReprojectionErrorPerTag(dou
     for (const auto& tagObs : detectionResults_.tagObservations)
     {
         const auto camIt = reconstructedCameras.find(tagObs.imageId);
-        if (camIt == reconstructedCameras.end()) continue;
+        if (camIt == reconstructedCameras.end())
+            continue;
         const auto tagIt = reconstructedTags.find(tagObs.tagId);
-        if (tagIt == reconstructedTags.end()) continue;
+        if (tagIt == reconstructedTags.end())
+            continue;
 
         const auto pts3d = tagIt->second.computeMarkerCorners3D();
         const auto& camera = camIt->second;
@@ -363,7 +400,8 @@ const std::map<int, double> TagReconstructor::computeReprojectionErrorPerTag(dou
         numTotal += numObsMap[errs.first];
     }
 
-    if (numTotal) avg /= numTotal;
+    if (numTotal)
+        avg /= numTotal;
     return repErrorMap;
 }
 //-----------------------------------------------------------------------------
@@ -373,9 +411,11 @@ const std::vector<Eigen::Vector2d> TagReconstructor::computeReprojectionErrorPer
     for (const auto& tagObs : detectionResults_.tagObservations)
     {
         const auto camIt = reconstructedCameras.find(tagObs.imageId);
-        if (camIt == reconstructedCameras.end()) continue;
+        if (camIt == reconstructedCameras.end())
+            continue;
         const auto tagIt = reconstructedTags.find(tagObs.tagId);
-        if (tagIt == reconstructedTags.end()) continue;
+        if (tagIt == reconstructedTags.end())
+            continue;
 
         const auto pts3d = tagIt->second.computeMarkerCorners3D();
         const auto& camera = camIt->second;
@@ -617,13 +657,15 @@ void TagReconstructor::doBundleAdjustment(
     std::map<int, int> numTagsInImage;
     for (const auto& tagObs : detectionResults_.tagObservations)
     {
-        if (reconstructedTags.count(tagObs.tagId)) numTagsInImage[tagObs.imageId]++;
+        if (reconstructedTags.count(tagObs.tagId))
+            numTagsInImage[tagObs.imageId]++;
     }
 
     for (auto& recCam : reconstructedCameras) // get list of images containing tagId
     {
         const int imageId = recCam.first;
-        if (!numTagsInImage[imageId]) continue;
+        if (!numTagsInImage[imageId])
+            continue;
 
         markerBAProblem.AddParameterBlock(&recCam.second.q(0), 4, quaternion_parameterization);
         markerBAProblem.AddParameterBlock(&recCam.second.t(0), 3);
@@ -635,10 +677,12 @@ void TagReconstructor::doBundleAdjustment(
     for (const auto& tagObs : detectionResults_.tagObservations)
     {
         const auto camIt = reconstructedCameras.find(tagObs.imageId);
-        if (camIt == reconstructedCameras.end()) continue;
+        if (camIt == reconstructedCameras.end())
+            continue;
         auto& recCam = camIt->second;
         const auto tagIt = reconstructedTags.find(tagObs.tagId);
-        if (tagIt == reconstructedTags.end()) continue;
+        if (tagIt == reconstructedTags.end())
+            continue;
         auto& recTag = tagIt->second;
 
         const Eigen::Matrix<double, 5, 1> d = camModel.distortionCoefficients;
@@ -672,7 +716,8 @@ void TagReconstructor::doBundleAdjustment(
     Solve(options, &markerBAProblem, &summary);
 
     std::cout << "Solution " << summary.termination_type << std::endl;
-    if (printSummary) std::cout << summary.FullReport() << std::endl;
+    if (printSummary)
+        std::cout << summary.FullReport() << std::endl;
 
 #if 1 // Compute covariances
     if (printSummary)

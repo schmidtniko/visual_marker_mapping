@@ -52,6 +52,10 @@ struct ReconstructedTag
         return markerCorners3D;
     }
 };
+
+std::map<std::uint32_t, Eigen::Vector3d> flattenReconstruction(
+    const std::map<int, ReconstructedTag>& reconstructedTags);
+
 class TagReconstructor
 {
 public:
