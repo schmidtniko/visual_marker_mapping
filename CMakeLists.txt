@@ -31,4 +31,4 @@ link_directories(${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 add_subdirectory(visual_marker_mapping)
-add_subdirectory(fast_mit_apriltags)
+add_subdirectory(fast_mit_apriltags EXCLUDE_FROM_ALL)

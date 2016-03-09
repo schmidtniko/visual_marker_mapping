@@ -42,11 +42,13 @@ DetectionResult readDetectionResult(const std::string& filename)
             for (const auto& value : corner.second)
                 values.push_back(value.second.get_value<double>());
 
-            if (values.size() != 2) throw std::runtime_error("Unexpected number of values");
+            if (values.size() != 2)
+                throw std::runtime_error("Unexpected number of values");
 
             tagObs.corners.emplace_back(values.at(0), values.at(1));
         }
-        if (tagObs.corners.size() != 4) throw std::runtime_error("Unexpected number of values");
+        if (tagObs.corners.size() != 4)
+            throw std::runtime_error("Unexpected number of values");
 
         tagObs.imageId = pt.second.get<int>("image_id");
         tagObs.tagId = pt.second.get<int>("tag_id");
@@ -119,6 +121,32 @@ bool writeDetectionResult(const DetectionResult& result, const std::string& file
         pt_tag_observations.push_back(std::make_pair("", pt));
     }
     ptree.add_child("tag_observations", pt_tag_observations);
+#if 0
+    boost::property_tree::ptree pt_tag_corner_observations;
+    for (const auto& tagObs : result.tagObservations)
+    {
+        auto mkPt = [](double p)
+        {
+            boost::property_tree::ptree pt;
+            pt.put("", p);
+            return pt;
+        };
+        for (std::uint32_t i = 0; i < 4; ++i)
+        {
+            boost::property_tree::ptree pt;
+            pt.put("image_id", tagObs.imageId);
+			std::uint32_t utagId=static_cast<std::uint32_t>(tagObs.tagId);
+            pt.put("point_id", (utagId << 2) + i);
+            boost::property_tree::ptree coord;
+            coord.push_back(std::make_pair("", mkPt(tagObs.corners[i].x())));
+            coord.push_back(std::make_pair("", mkPt(tagObs.corners[i].y())));
+            // observations.push_back(std::make_pair("", coord));
+            pt.add_child("coords", coord);
+            pt_tag_corner_observations.push_back(std::make_pair("", pt));
+        }
+    }
+    ptree.add_child("marker_corner_observations", pt_tag_corner_observations);
+#endif
 
     boost::property_tree::json_parser::write_json(filename, ptree);
 

@@ -64,22 +64,27 @@ void exportReconstructions(const std::string& outputPath,
     getRecTagTree(reconstructedTags, tagTree);
     mainTree.add_child("reconstructed_tags", tagTree);
 
+#if 1
     {
-        const std::map<std::uint32_t, Eigen::Vector3d> flattened
-            = flattenReconstruction(reconstructedTags);
         pt::ptree pointTree;
-        for (const auto& pt : flattened)
+        for (const auto& reconstTag : reconstructedTags)
         {
-            boost::property_tree::ptree curTree;
+            const int tagId = reconstTag.second.id;
+            const auto corners = reconstTag.second.computeMarkerCorners3D();
 
-            curTree.put("id", pt.first);
-
-            const boost::property_tree::ptree tTree = matrix2PropertyTreeEigen(pt.second);
-            curTree.add_child("point", tTree);
-            pointTree.push_back(std::make_pair("", curTree));
+            for (size_t i = 0; i < 4; i++)
+            {
+                boost::property_tree::ptree curTree;
+                curTree.put("marker_id", tagId);
+                curTree.put("corner_index", i);
+                const boost::property_tree::ptree tTree = matrix2PropertyTreeEigen(corners[i]);
+                curTree.add_child("coords", tTree);
+                pointTree.push_back(std::make_pair("", curTree));
+            }
         }
-        mainTree.add_child("reconstructed_marker_points", pointTree);
+        mainTree.add_child("reconstructed_marker_corners", pointTree);
     }
+#endif
 
     pt::ptree camTree;
     getRecCamTree(reconstructedCameras, camTree);
@@ -120,7 +125,7 @@ std::map<int, ReconstructedTag> importReconstructedTags(const boost::property_tr
         reconstructedTags[id].tagHeight = tag.get<double>("height");
         reconstructedTags[id].tagType = tag.get<std::string>("type");
     }
-    //std::cout << "size = " << reconstructedTags.size() << std::endl;
+    // std::cout << "size = " << reconstructedTags.size() << std::endl;
     return reconstructedTags;
 }
 //-----------------------------------------------------------------------------
