@@ -240,7 +240,7 @@ class Game(object):
     def __init__(self):
  
         pygame.init()
-        flag = OPENGL | DOUBLEBUF
+        flag = OPENGL | DOUBLEBUF | RESIZABLE
         self.surface = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT),flag)
         self.opengl_init()
         pygame.display.set_caption("visual marker_mapping -- Visualization")
@@ -374,6 +374,14 @@ class Game(object):
                 if event.type == QUIT \
                 or (event.type == KEYDOWN and event.key ==  K_ESCAPE):
                     self.stategame = 0
+                if event.type == VIDEORESIZE:
+                    SCREEN_WIDTH = event.w
+                    SCREEN_HEIGHT = event.h
+                    flag = OPENGL | DOUBLEBUF | RESIZABLE
+                    self.surface = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT),flag)
+                    glViewport(0,0,event.w,event.h)
+                    self.opengl_init()
+
 
             cur_time=int(round(time.time() * 1000))
             dt=(cur_time-last_time)/1000.0
