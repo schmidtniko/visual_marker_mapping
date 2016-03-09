@@ -69,7 +69,7 @@ int main(int argc, char* argv[])
         const size_t maxThreads
             = std::thread::hardware_concurrency() ? std::thread::hardware_concurrency() : 4;
 
-        if (boost::filesystem::exists(detection_result_filename))
+        if (boost::filesystem::exists(reconstruction_file))
         {
             while (1)
             {

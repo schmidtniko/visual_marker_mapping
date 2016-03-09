@@ -120,7 +120,7 @@ std::map<int, ReconstructedTag> importReconstructedTags(const boost::property_tr
         reconstructedTags[id].tagHeight = tag.get<double>("height");
         reconstructedTags[id].tagType = tag.get<std::string>("type");
     }
-    std::cout << "size = " << reconstructedTags.size() << std::endl;
+    //std::cout << "size = " << reconstructedTags.size() << std::endl;
     return reconstructedTags;
 }
 //-----------------------------------------------------------------------------
