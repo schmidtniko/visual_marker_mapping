@@ -75,8 +75,8 @@ int main(int argc, char* argv[])
         const visual_marker_mapping::CameraModel camera_model
             = visual_marker_mapping::readCameraModel(cam_intrinsics_file);
 
-        visual_marker_mapping::TagReconstructor reconstructor;
-        reconstructor.readTags(detection_result_filename);
+        auto detectionResult = visual_marker_mapping::readDetectionResult(detection_result_filename);
+        visual_marker_mapping::TagReconstructor reconstructor(std::move(detectionResult));
         reconstructor.setCameraModel(camera_model);
         reconstructor.setOriginTagId(startId);
         reconstructor.startReconstruction(maxThreads);

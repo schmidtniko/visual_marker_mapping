@@ -59,9 +59,7 @@ std::map<std::uint32_t, Eigen::Vector3d> flattenReconstruction(
 class TagReconstructor
 {
 public:
-    TagReconstructor();
-
-    void readTags(const std::string& jsonPath);
+    TagReconstructor(DetectionResult detection_result);
 
     /**
      * Starts the reconstruction
@@ -98,7 +96,7 @@ public:
      */
     // int imgName2ImgId(const std::string& name);
 
-    int getLowestTag();
+    int getLowestTag() const;
 
     const std::map<int, ReconstructedTag> getReconstructedTags() const;
     const std::map<int, Camera> getReconstructedCameras() const;

@@ -3,7 +3,6 @@
 #include "visual_marker_mapping/ReconstructionIO.h"
 #include "visual_marker_mapping/TagReconstructionCostFunction.h"
 #include "visual_marker_mapping/CameraUtilities.h"
-#include "visual_marker_mapping/DetectionIO.h"
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
@@ -21,6 +20,31 @@
 namespace visual_marker_mapping
 {
 //-------------------------------------------------------------------------------------------------
+template<typename Map1, typename Map2, typename F>
+void iterateMatches(const Map1& m1, const Map2& m2, F&& f)
+{
+    if (m1.size() < m2.size())
+    {
+        for (auto it1 = std::begin(m1); it1 != std::end(m1); ++it1)
+        {
+            const auto it2 = m2.find(it1->first);
+            if (it2 == m2.end())
+                continue;
+            f(it1->first, it1->second, it2->second);
+        }
+    }
+	else
+	{
+		for (auto it2 = std::begin(m2); it2 != std::end(m2); ++it2)
+        {
+            const auto it1 = m1.find(it2->first);
+            if (it1 == m1.end())
+                continue;
+            f(it1->first, it1->second, it2->second);
+        }
+	}
+}
+//-------------------------------------------------------------------------------------------------
 std::map<std::uint32_t, Eigen::Vector3d> flattenReconstruction(
     const std::map<int, ReconstructedTag>& reconstructedTags)
 {
@@ -33,9 +57,9 @@ std::map<std::uint32_t, Eigen::Vector3d> flattenReconstruction(
 		assert(tagId>=0);
 		const std::uint32_t utagId = static_cast<std::uint32_t>(tagId);
 		
-		for (size_t i=0;i<4;i++)
+		for (std::uint32_t i=0;i<4;i++)
 		{
-			const std::uint32_t id=(utagId<<12)+i;
+			const std::uint32_t id=(utagId<<2)+i;
 			ret.emplace(id, corners[i]);
 		}
     }
@@ -43,17 +67,12 @@ std::map<std::uint32_t, Eigen::Vector3d> flattenReconstruction(
 }
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-TagReconstructor::TagReconstructor()
-    : originTagId(-1)
+TagReconstructor::TagReconstructor(DetectionResult detection_result)
+    : originTagId(-1), detectionResults_(std::move(detection_result))
 {
 }
 //-------------------------------------------------------------------------------------------------
-void TagReconstructor::readTags(const std::string& jsonPath)
-{
-    detectionResults_ = readDetectionResult(jsonPath);
-}
-//-------------------------------------------------------------------------------------------------
-int TagReconstructor::getLowestTag()
+int TagReconstructor::getLowestTag() const
 {
     int min = detectionResults_.tags[0].tagId;
     for (const auto& tagIt : detectionResults_.tags)
