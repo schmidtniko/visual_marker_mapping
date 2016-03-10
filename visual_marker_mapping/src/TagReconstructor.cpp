@@ -52,7 +52,7 @@ std::map<std::uint32_t, Eigen::Vector3d> flattenReconstruction(
     for (const auto& reconstTag : reconstructedTags)
     {
         const int tagId = reconstTag.second.id;
-        const auto corners = reconstTag.second.computeLocalMarkerCorners3D();
+        const auto corners = reconstTag.second.computeMarkerCorners3D();
 		
 		assert(tagId>=0);
 		const std::uint32_t utagId = static_cast<std::uint32_t>(tagId);
