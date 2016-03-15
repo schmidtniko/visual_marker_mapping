@@ -1,6 +1,7 @@
 #include "visual_marker_mapping/TagDetector.h"
 #include "AprilTags/TagDetector.h"
 #include "AprilTags/Tag16h5.h"
+#include "AprilTags/Tag16h6.h"
 #include "AprilTags/Tag25h7.h"
 #include "AprilTags/Tag25h9.h"
 #include "AprilTags/Tag36h9.h"
@@ -26,8 +27,10 @@ DetectionResult detectTags(const std::vector<std::string>& filePaths, double mar
 
 
     std::unique_ptr<AprilTags::TagDetector> tagDetector;
-    if (tagType == "apriltag_16h5")
+	if (tagType == "apriltag_16h5")
         tagDetector.reset(new AprilTags::TagDetector(AprilTags::tagCodes16h5));
+	else if (tagType == "apriltag_16h6")
+        tagDetector.reset(new AprilTags::TagDetector(AprilTags::tagCodes16h6));
     else if (tagType == "apriltag_25h7")
         tagDetector.reset(new AprilTags::TagDetector(AprilTags::tagCodes25h7));
     else if (tagType == "apriltag_25h9")
