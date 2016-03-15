@@ -266,6 +266,10 @@ Occurring rotations are represented as a unit quaternion in the order *w, x, y, 
 * When looking at a marker, the *x*-axis goes to the right, *y* up, and *z* points out of the marker plane.
 * A cameras *x*-axis points to the right, *y*-axis down, and the *z*-axis in viewing direction.
 
+# Known Issues
+
+* The marker detector appears to have some issues with very high resolution camera images. As a temporary workaround, try downscaling the images. Don't forget to scale *fx*, *fy*, *cx* and *cy* in the *camera_calibration.json* file by the same amount. The marker detector is typically much more successful on smaller camera images.
+
 # Authors
 
 * Frank Neuhaus (fneuhaus_AT_uni-koblenz.de)
