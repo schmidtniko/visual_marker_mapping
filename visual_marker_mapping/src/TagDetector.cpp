@@ -83,7 +83,7 @@ DetectionResult detectTags(const std::vector<std::string>& filePaths, double mar
             goodObservations.insert(detectedTag.id);
 
             TagObservation tagObs;
-            tagObs.imageId = imageId;
+            tagObs.imageId = filteredImageId;
             tagObs.tagId = detectedTag.id;
             tagObs.corners.resize(4);
             for (size_t i = 0; i < 4; ++i)
