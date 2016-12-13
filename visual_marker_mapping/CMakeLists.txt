@@ -19,6 +19,8 @@ add_library(visual_marker_mapping_lib
             src/EigenCVConversions.cpp
             src/FileUtilities.cpp
             src/PropertyTreeUtilities.cpp
+            src/TagDetector_MIT.cpp
+            src/TagDetector_Umich.cpp
             include/visual_marker_mapping/Camera.h
             include/visual_marker_mapping/TagReconstructor.h
             include/visual_marker_mapping/DetectionIO.h
@@ -29,7 +31,10 @@ add_library(visual_marker_mapping_lib
             include/visual_marker_mapping/FileUtilities.h
             include/visual_marker_mapping/CameraModel.h
             include/visual_marker_mapping/CameraUtilities.h
-            include/visual_marker_mapping/TagReconstructionCostFunction.h)
+            include/visual_marker_mapping/TagReconstructionCostFunction.h
+            include/visual_marker_mapping/DetectionResults.h
+            include/visual_marker_mapping/TagDetector_MIT.h
+            include/visual_marker_mapping/TagDetector_Umich.h)
 
 set_property(TARGET visual_marker_mapping_lib PROPERTY CXX_STANDARD 11)
 set_property(TARGET visual_marker_mapping_lib PROPERTY CXX_STANDARD_REQUIRED ON)
@@ -43,7 +48,8 @@ target_link_libraries(visual_marker_mapping_lib
                       ${OpenCV_LIBS}
                       ${CERES_LIBRARIES}
                       ${Boost_LIBRARIES}
-                      apriltags)
+                      apriltags
+                      umich_apriltags)
 
 ###############################################################################
 
@@ -83,4 +89,5 @@ target_link_libraries(visual_marker_detection
                       ${CERES_LIBRARIES}
                       ${Boost_LIBRARIES}
                       visual_marker_mapping_lib
-                      apriltags)
+                      apriltags
+                      umich_apriltags)

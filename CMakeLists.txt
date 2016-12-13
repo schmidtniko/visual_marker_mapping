@@ -15,8 +15,11 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 find_package(Boost COMPONENTS filesystem system program_options REQUIRED) 
 include_directories(${Boost_INCLUDE_DIR})
 
-# AprilTags
+# MIT AprilTags
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/fast_mit_apriltags)
+
+# umich AprilTags
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/umich_apriltags)
 
 # Ceres 
 find_package(Ceres REQUIRED)
@@ -32,3 +35,4 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 add_subdirectory(visual_marker_mapping)
 add_subdirectory(fast_mit_apriltags EXCLUDE_FROM_ALL)
+add_subdirectory(umich_apriltags)

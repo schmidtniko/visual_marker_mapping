@@ -1,3 +1,6 @@
 [submodule "fast_mit_apriltags"]
 	path = fast_mit_apriltags
 	url = https://github.com/cfneuhaus/fast_mit_apriltags
+[submodule "umich_apriltags"]
+	path = umich_apriltags
+	url = https://github.com/schmidtniko/umich_apriltags.git

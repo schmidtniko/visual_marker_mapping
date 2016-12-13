@@ -1,13 +1,16 @@
-#include <ceres/ceres.h>
-#include <iostream>
-#include <fstream>
-#include <chrono>
-#include "visual_marker_mapping/TagDetector.h"
-#include <boost/program_options.hpp>
-#include <boost/filesystem.hpp>
 #include "visual_marker_mapping/CameraUtilities.h"
-#include "visual_marker_mapping/TagReconstructor.h"
 #include "visual_marker_mapping/DetectionIO.h"
+#include "visual_marker_mapping/DetectionResults.h"
+#include "visual_marker_mapping/TagDetector.h"
+#include "visual_marker_mapping/TagDetector_MIT.h"
+#include "visual_marker_mapping/TagDetector_Umich.h"
+#include "visual_marker_mapping/TagReconstructor.h"
+#include <boost/filesystem.hpp>
+#include <boost/program_options.hpp>
+#include <ceres/ceres.h>
+#include <chrono>
+#include <fstream>
+#include <iostream>
 
 //------------------------------------------------------------------------------------------------------------
 template <typename T>
@@ -44,7 +47,10 @@ po::variables_map loadParameters(int argc, char* argv[])
             {
                 checkRange<double>(param, "marker_height", 0.0);
             }),
-         "Height of an tag measured perpendicular to the tag name.");
+         "Height of an tag measured perpendicular to the tag name.")
+        ("tag_detector_backend", po::value<std::string>()->default_value("fast_mit_apriltags"),
+            "Choose if either fast_mit_apriltags or umich_apriltags will be used as backend to detect the tags."
+            "Default value is fast_mit_apriltags");
     // clang-format on
     po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, options), vm);
@@ -92,12 +98,31 @@ int main(int argc, char* argv[])
             }
         }
 
+        visual_marker_mapping::DetectionResult detection_result;
 
         double marker_width = vm["marker_width"].as<double>();
         double marker_height = vm["marker_height"].as<double>();
         const std::string marker_type = vm["marker_type"].as<std::string>();
-        const auto detection_result = visual_marker_mapping::detectTags(img_path, marker_width,
-            marker_height, marker_type, vm["do_corner_refinement"].as<bool>());
+
+        if (vm["tag_detector_backend"].as<std::string>() == "umich_apriltags")
+        {
+            std::cout << "Using the tag detector implementation by the University of Michigan."
+                      << std::endl;
+            detection_result = visual_marker_mapping::umich::detectTags(img_path, marker_width,
+                marker_height, marker_type, vm["do_corner_refinement"].as<bool>());
+        }
+        else if (vm["tag_detector_backend"].as<std::string>() == "fast_mit_apriltags")
+        {
+            std::cout << "Using the tag detector implementation by the MIT." << std::endl;
+            detection_result = visual_marker_mapping::mit::detectTags(img_path, marker_width,
+                marker_height, marker_type, vm["do_corner_refinement"].as<bool>());
+        }
+        else
+        {
+            std::cout << "unknown marker detection backend. Exiting!" << std::endl;
+        }
+
+
         visual_marker_mapping::writeDetectionResult(detection_result, detection_result_filename);
 
         std::cout << "Wrote " << detection_result_filename << "!" << std::endl;
