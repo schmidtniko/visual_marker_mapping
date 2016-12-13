@@ -119,7 +119,8 @@ int main(int argc, char* argv[])
         }
         else
         {
-            std::cout << "unknown marker detection backend. Exiting!" << std::endl;
+            std::cout << "Unknown marker detection backend. Exiting!" << std::endl;
+            return 1;
         }
 
 
