@@ -1,26 +1,26 @@
 #include "visual_marker_mapping/TagReconstructor.h"
+#include "visual_marker_mapping/CameraUtilities.h"
 #include "visual_marker_mapping/EigenCVConversions.h"
 #include "visual_marker_mapping/ReconstructionIO.h"
 #include "visual_marker_mapping/TagReconstructionCostFunction.h"
-#include "visual_marker_mapping/CameraUtilities.h"
 
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
-#include <opencv2/calib3d/calib3d.hpp>
-#include <opencv2/core/eigen.hpp>
 #include <Eigen/Dense>
 #include <Eigen/LU>
 #include <Eigen/StdVector>
-#include <memory>
+#include <boost/property_tree/json_parser.hpp>
+#include <boost/property_tree/ptree.hpp>
 #include <ceres/ceres.h>
+#include <ceres/covariance.h>
 #include <ceres/rotation.h>
 #include <ceres/version.h>
-#include <ceres/covariance.h>
+#include <memory>
+#include <opencv2/calib3d/calib3d.hpp>
+#include <opencv2/core/eigen.hpp>
 
 namespace visual_marker_mapping
 {
 //-------------------------------------------------------------------------------------------------
-template<typename Map1, typename Map2, typename F>
+template <typename Map1, typename Map2, typename F>
 void iterateMatches(const Map1& m1, const Map2& m2, F&& f)
 {
     if (m1.size() < m2.size())
@@ -33,42 +33,43 @@ void iterateMatches(const Map1& m1, const Map2& m2, F&& f)
             f(it1->first, it1->second, it2->second);
         }
     }
-	else
-	{
-		for (auto it2 = std::begin(m2); it2 != std::end(m2); ++it2)
+    else
+    {
+        for (auto it2 = std::begin(m2); it2 != std::end(m2); ++it2)
         {
             const auto it1 = m1.find(it2->first);
             if (it1 == m1.end())
                 continue;
             f(it1->first, it1->second, it2->second);
         }
-	}
+    }
 }
 //-------------------------------------------------------------------------------------------------
 std::map<std::uint32_t, Eigen::Vector3d> flattenReconstruction(
     const std::map<int, ReconstructedTag>& reconstructedTags)
 {
-	std::map<std::uint32_t, Eigen::Vector3d> ret;
+    std::map<std::uint32_t, Eigen::Vector3d> ret;
     for (const auto& reconstTag : reconstructedTags)
     {
         const int tagId = reconstTag.second.id;
         const auto corners = reconstTag.second.computeMarkerCorners3D();
-		
-		assert(tagId>=0);
-		const std::uint32_t utagId = static_cast<std::uint32_t>(tagId);
-		
-		for (std::uint32_t i=0;i<4;i++)
-		{
-			const std::uint32_t id=(utagId<<2)+i;
-			ret.emplace(id, corners[i]);
-		}
+
+        assert(tagId >= 0);
+        const std::uint32_t utagId = static_cast<std::uint32_t>(tagId);
+
+        for (std::uint32_t i = 0; i < 4; i++)
+        {
+            const std::uint32_t id = (utagId << 2) + i;
+            ret.emplace(id, corners[i]);
+        }
     }
-	return ret;
+    return ret;
 }
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 TagReconstructor::TagReconstructor(DetectionResult detection_result)
-    : originTagId(-1), detectionResults_(std::move(detection_result))
+    : originTagId(-1)
+    , detectionResults_(std::move(detection_result))
 {
 }
 //-------------------------------------------------------------------------------------------------
