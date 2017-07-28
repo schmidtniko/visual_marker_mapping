@@ -284,7 +284,7 @@ Occurring rotations are represented as a unit quaternion in the order *w, x, y, 
 
 If you use our work, please cite us:
 
-TODO
+Practical Calibration of Actuated Multi-DOF Camera Systems. International Conference on Pattern Recognition Systems (ICPRS-17), 2017, IET. Juli 2017
 
 # References
 
