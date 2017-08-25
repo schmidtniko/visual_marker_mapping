@@ -1,15 +1,14 @@
 #ifndef VISUAL_MARKER_MAPPING_TAGRECONSTRUCTOR_H_
 #define VISUAL_MARKER_MAPPING_TAGRECONSTRUCTOR_H_
 
-#include "visual_marker_mapping/TagDetector.h"
-#include "visual_marker_mapping/CameraModel.h"
 #include "visual_marker_mapping/Camera.h"
-
+#include "visual_marker_mapping/CameraModel.h"
+#include "visual_marker_mapping/TagDetector.h"
 #include <Eigen/Core>
+#include <Eigen/Geometry>
 #include <Eigen/StdVector>
-
-#include <vector>
 #include <map>
+#include <vector>
 
 namespace visual_marker_mapping
 {
