@@ -1,13 +1,13 @@
-#include "AprilTags/TagDetector.h"
+#include "visual_marker_mapping/TagDetector_MIT.h"
 #include "AprilTags/Tag16h5.h"
 #include "AprilTags/Tag16h6.h"
 #include "AprilTags/Tag25h7.h"
 #include "AprilTags/Tag25h9.h"
 #include "AprilTags/Tag36h11.h"
 #include "AprilTags/Tag36h9.h"
+#include "AprilTags/TagDetector.h"
 #include "visual_marker_mapping/DetectionResults.h"
 #include "visual_marker_mapping/FileUtilities.h"
-#include "visual_marker_mapping/TagDetector_MIT.h"
 #include <boost/filesystem.hpp>
 #include <memory>
 #include <opencv2/opencv.hpp>

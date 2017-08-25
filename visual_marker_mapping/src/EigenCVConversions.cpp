@@ -1,7 +1,7 @@
 #include "visual_marker_mapping/EigenCVConversions.h"
+#include <iostream>
 #include <opencv2/calib3d/calib3d.hpp>
 #include <opencv2/core/eigen.hpp>
-#include <iostream>
 
 namespace visual_marker_mapping
 {

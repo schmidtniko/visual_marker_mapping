@@ -21,13 +21,15 @@ std::vector<std::string> readFilesFromDir(
     std::vector<std::string> files;
     for (fs::directory_iterator dir_iter(someDir); dir_iter != end_iter; ++dir_iter)
     {
-        if (!fs::is_regular_file(dir_iter->status())) continue;
+        if (!fs::is_regular_file(dir_iter->status()))
+            continue;
 
         const std::string path = dir_iter->path().string();
         try
         {
             std::smatch matchResults;
-            if (!std::regex_match(path, matchResults, extensionFilter)) continue;
+            if (!std::regex_match(path, matchResults, extensionFilter))
+                continue;
         }
         catch (const std::regex_error& e)
         {

@@ -1,10 +1,10 @@
 #include "visual_marker_mapping/ReconstructionIO.h"
-#include "visual_marker_mapping/PropertyTreeUtilities.h"
 #include "visual_marker_mapping/CameraUtilities.h"
-#include <iostream>
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
+#include "visual_marker_mapping/PropertyTreeUtilities.h"
 #include <boost/filesystem.hpp>
+#include <boost/property_tree/json_parser.hpp>
+#include <boost/property_tree/ptree.hpp>
+#include <iostream>
 
 
 namespace visual_marker_mapping

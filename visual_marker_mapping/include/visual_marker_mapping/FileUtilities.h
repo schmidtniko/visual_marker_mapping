@@ -1,9 +1,9 @@
 #ifndef VISUAL_MARKER_MAPPING_FILEUTILITIES_H_
 #define VISUAL_MARKER_MAPPING_FILEUTILITIES_H_
 
-#include <vector>
-#include <string>
 #include <regex>
+#include <string>
+#include <vector>
 
 namespace visual_marker_mapping
 {

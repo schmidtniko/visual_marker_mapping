@@ -1,9 +1,9 @@
 #include "visual_marker_mapping/DetectionIO.h"
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/version.hpp>
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/property_tree/json_parser.hpp>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/version.hpp>
 #include <iostream>
 
 namespace visual_marker_mapping
@@ -102,8 +102,7 @@ bool writeDetectionResult(const DetectionResult& result, const std::string& file
         pt.put("image_id", tagObs.imageId);
         pt.put("tag_id", tagObs.tagId);
 
-        auto mkPt = [](double p)
-        {
+        auto mkPt = [](double p) {
             boost::property_tree::ptree pt;
             pt.put("", p);
             return pt;

@@ -1,10 +1,10 @@
 #ifndef VISUAL_MARKER_MAPPING_PROPERTYTREEUTILITIES_H_
 #define VISUAL_MARKER_MAPPING_PROPERTYTREEUTILITIES_H_
 
-#include <vector>
-#include <boost/property_tree/ptree.hpp>
 #include <Eigen/Core>
+#include <boost/property_tree/ptree.hpp>
 #include <opencv2/core/core.hpp>
+#include <vector>
 
 #include <iostream>
 

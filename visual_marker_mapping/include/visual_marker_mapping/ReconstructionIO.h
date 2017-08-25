@@ -1,11 +1,11 @@
 #ifndef VISUAL_MARKER_MAPPING_RECONSTRUCTIONIO_H_
 #define VISUAL_MARKER_MAPPING_RECONSTRUCTIONIO_H_
 
-#include "visual_marker_mapping/TagReconstructor.h"
-#include "visual_marker_mapping/CameraModel.h"
 #include "visual_marker_mapping/Camera.h"
-#include <string>
+#include "visual_marker_mapping/CameraModel.h"
+#include "visual_marker_mapping/TagReconstructor.h"
 #include <map>
+#include <string>
 
 namespace visual_marker_mapping
 {

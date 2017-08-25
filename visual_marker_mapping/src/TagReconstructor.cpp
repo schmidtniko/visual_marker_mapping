@@ -3,7 +3,6 @@
 #include "visual_marker_mapping/EigenCVConversions.h"
 #include "visual_marker_mapping/ReconstructionIO.h"
 #include "visual_marker_mapping/TagReconstructionCostFunction.h"
-
 #include <Eigen/Dense>
 #include <Eigen/LU>
 #include <Eigen/StdVector>

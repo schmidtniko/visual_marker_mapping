@@ -1,6 +1,6 @@
+#include "visual_marker_mapping/TagDetector_Umich.h"
 #include "visual_marker_mapping/DetectionResults.h"
 #include "visual_marker_mapping/FileUtilities.h"
-#include "visual_marker_mapping/TagDetector_Umich.h"
 #include <apriltag.h>
 #include <boost/filesystem.hpp>
 #include <memory>
