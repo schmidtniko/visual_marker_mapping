@@ -52,4 +52,27 @@ void visualizeDetectionResults(
     }
 }
 //-------------------------------------------------------------------------------------------------
+void refineTagObservation(const cv::Mat& img, TagObservation& tagObs)
+{
+    std::vector<cv::Point2f> corners;
+    for (size_t i = 0; i < 4; i++)
+        corners.emplace_back(tagObs.corners[i].x(), tagObs.corners[i].y());
+
+    cv::Size winSize = cv::Size(10, 10);
+    cv::Size zeroZone = cv::Size(-1, -1);
+    cv::TermCriteria criteria = cv::TermCriteria(CV_TERMCRIT_EPS + CV_TERMCRIT_ITER, 100, 0.001);
+
+    /// Calculate the refined corner locations
+    cv::cornerSubPix(img, corners, winSize, zeroZone, criteria);
+
+    for (size_t i = 0; i < 4; i++)
+    {
+        // std::cout << "BEFOR: " << tagObs.corners[i].transpose() <<
+        // std::endl;
+        tagObs.corners[i] << corners[i].x, corners[i].y;
+        // std::cout << "AFTER: " << tagObs.corners[i].transpose() <<
+        // std::endl;
+    }
+}
+//-------------------------------------------------------------------------------------------------
 }

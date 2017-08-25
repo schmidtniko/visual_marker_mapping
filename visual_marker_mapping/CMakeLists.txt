@@ -75,7 +75,7 @@ target_link_libraries(visual_marker_mapping
                       ${OpenCV_LIBS}
                       ${CERES_LIBRARIES}
                       ${Boost_LIBRARIES}
-                      ${GLOG_LIBRARY}
+					  ${GLOG_LIBRARY}
                       visual_marker_mapping_lib
                       apriltags)
 
