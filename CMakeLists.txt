@@ -1,43 +1,25 @@
 cmake_minimum_required(VERSION 3.0)
-project(visual_marker_mapping_project)
+project(visual_marker_mapping)
 
 SET(BUILD_UMICH ON CACHE BOOL
     "Build library by the University of Michigan")
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules)
+if(BUILD_UMICH)
+add_definitions(-DBUILD_UMICH)
+endif(BUILD_UMICH)
 
-# Eigen
-find_package(Eigen3 REQUIRED)
-include_directories(${Eigen3_INCLUDE_DIRS})
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic")
+elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang") # Works for Clang and AppleClang
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic")
+endif()
 
-# OpenCV
+find_package(Eigen3 REQUIRED NO_MODULE)
 find_package(OpenCV REQUIRED)
-include_directories(${OpenCV_INCLUDE_DIRS})
 
 # Find Boost
 find_package(Boost COMPONENTS filesystem system program_options REQUIRED) 
 include_directories(${Boost_INCLUDE_DIR})
-
-# MIT AprilTags
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/fast_mit_apriltags)
-
-# umich AprilTags
-if(BUILD_UMICH)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/umich_apriltags)
-endif(BUILD_UMICH)
-
-# Ceres 
-find_package(Ceres REQUIRED)
-include_directories(${CERES_INCLUDE_DIRS})
-
-# library dir for library targets
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-link_directories(${CMAKE_BINARY_DIR}/lib)
-
-# bin dir for executable targets
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
 if(WIN32)
 add_definitions(-D_USE_MATH_DEFINES)
 add_definitions(-DBOOST_ALL_DYN_LINK)
@@ -45,13 +27,105 @@ set(Boost_USE_STATIC_LIBS OFF )
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 endif(WIN32)
+
+# Ceres 
+find_package(Ceres REQUIRED HINTS /usr/lib/cmake/Ceres)
+
+# bin dir for executable targets
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+
+###############################################################################
+
+add_library(visual_marker_mapping_lib
+            src/TagReconstructor.cpp
+            src/TagDetector.cpp
+            src/ReconstructionIO.cpp
+            src/DetectionIO.cpp
+            src/CameraModel.cpp
+            src/CameraUtilities.cpp
+            src/EigenCVConversions.cpp
+            src/FileUtilities.cpp
+            src/PropertyTreeUtilities.cpp
+            src/TagDetector_MIT.cpp
+            include/visual_marker_mapping/Camera.h
+            include/visual_marker_mapping/TagReconstructor.h
+            include/visual_marker_mapping/DetectionIO.h
+            include/visual_marker_mapping/TagDetector.h
+            include/visual_marker_mapping/PropertyTreeUtilities.h
+            include/visual_marker_mapping/ReconstructionIO.h
+            include/visual_marker_mapping/EigenCVConversions.h
+            include/visual_marker_mapping/FileUtilities.h
+            include/visual_marker_mapping/CameraModel.h
+            include/visual_marker_mapping/CameraUtilities.h
+            include/visual_marker_mapping/TagReconstructionCostFunction.h
+            include/visual_marker_mapping/DetectionResults.h
+            include/visual_marker_mapping/TagDetector_MIT.h)
+
 if(BUILD_UMICH)
-add_definitions(-DBUILD_UMICH)
+target_sources(visual_marker_mapping_lib PRIVATE
+			src/TagDetector_Umich.cpp
+			include/visual_marker_mapping/TagDetector_Umich.h)
+endif(BUILD_UMICH)
+			
+set_property(TARGET visual_marker_mapping_lib PROPERTY CXX_STANDARD 11)
+set_property(TARGET visual_marker_mapping_lib PROPERTY CXX_STANDARD_REQUIRED ON)
+
+target_include_directories(visual_marker_mapping_lib PUBLIC
+                           include
+                           ${Boost_INCLUDE_DIRS}
+                           ${CERES_INCLUDE_DIRS})
+
+target_link_libraries(visual_marker_mapping_lib
+                      ${OpenCV_LIBS}
+                      ${CERES_LIBRARIES}
+                      ${Boost_LIBRARIES}
+                      ${FLEP_PACKAGE_DEPS})
+					  
+if(BUILD_UMICH)
+target_link_libraries(visual_marker_mapping_lib umich_apriltags)
 endif(BUILD_UMICH)
 
-add_subdirectory(visual_marker_mapping)
-add_subdirectory(fast_mit_apriltags EXCLUDE_FROM_ALL)
+###############################################################################
 
+add_executable(visual_marker_mapping
+               src/main_mapping.cpp)
+
+set_property(TARGET visual_marker_mapping PROPERTY CXX_STANDARD 11)
+set_property(TARGET visual_marker_mapping PROPERTY CXX_STANDARD_REQUIRED ON)
+
+target_include_directories(visual_marker_mapping_lib PUBLIC
+                           include
+                           ${Boost_INCLUDE_DIRS}
+                           ${CERES_INCLUDE_DIRS})
+
+target_link_libraries(visual_marker_mapping
+                      ${OpenCV_LIBS}
+                      ${CERES_LIBRARIES}
+                      ${Boost_LIBRARIES}
+					  ${GLOG_LIBRARY}
+                      visual_marker_mapping_lib
+                      ${FLEP_PACKAGE_DEPS})
+
+###############################################################################
+
+add_executable(visual_marker_detection
+               src/main_detection.cpp)
+
+set_property(TARGET visual_marker_detection PROPERTY CXX_STANDARD 11)
+set_property(TARGET visual_marker_detection PROPERTY CXX_STANDARD_REQUIRED ON)
+
+target_include_directories(visual_marker_mapping_lib PUBLIC
+                           include
+                           ${Boost_INCLUDE_DIRS}
+                           ${CERES_INCLUDE_DIRS})
+
+target_link_libraries(visual_marker_detection
+                      ${OpenCV_LIBS}
+                      ${CERES_LIBRARIES}
+                      ${Boost_LIBRARIES}
+                      visual_marker_mapping_lib
+                      ${FLEP_PACKAGE_DEPS})
 if(BUILD_UMICH)
-add_subdirectory(umich_apriltags)
+target_link_libraries(visual_marker_detection umich_apriltags)
 endif(BUILD_UMICH)
