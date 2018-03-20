@@ -80,6 +80,7 @@ target_link_libraries(visual_marker_mapping_lib
                       ${OpenCV_LIBS}
                       ${CERES_LIBRARIES}
                       ${Boost_LIBRARIES}
+                      Eigen3::Eigen
                       ${FLEP_PACKAGE_DEPS})
 					  
 if(BUILD_UMICH)
@@ -103,7 +104,8 @@ target_link_libraries(visual_marker_mapping
                       ${OpenCV_LIBS}
                       ${CERES_LIBRARIES}
                       ${Boost_LIBRARIES}
-					  ${GLOG_LIBRARY}
+                      ${GLOG_LIBRARY}
+                      Eigen3::Eigen
                       visual_marker_mapping_lib
                       ${FLEP_PACKAGE_DEPS})
 
@@ -124,6 +126,7 @@ target_link_libraries(visual_marker_detection
                       ${OpenCV_LIBS}
                       ${CERES_LIBRARIES}
                       ${Boost_LIBRARIES}
+                      Eigen3::Eigen
                       visual_marker_mapping_lib
                       ${FLEP_PACKAGE_DEPS})
 if(BUILD_UMICH)

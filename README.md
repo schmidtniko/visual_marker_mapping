@@ -26,33 +26,35 @@ In Arch Linux, use:
 
 * Ceres is available as an AUR package called [ceres-solver](https://aur.archlinux.org/packages/ceres-solver/).
 
-The AprilTags dependency is automatically pulled in as a git submodule.
-
-## Cloning
-
-Via HTTPS:
-
-`git clone --recursive https://github.com/cfneuhaus/visual_marker_mapping.git`
-
-Via SSH:
-
-`git clone --recursive git@github.com:cfneuhaus/visual_marker_mapping.git`
+The AprilTags dependency is automatically pulled in using flep.
 
 ## Building
 
 You need at least
 * [CMake 3.0](https://cmake.org/)
 * GCC 4.7 (?)
+* Flep (see https://github.com/cfneuhaus/flep)
 
 If you are using Ubuntu, this means that you need at least Ubuntu 14.04.
 
 ### Linux/Mac
 
+1. Install flep:
+
 ```
-mkdir build
-cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release
-make -j5
+git clone https://github.com/cfneuhaus/flep
+pip install --user ./flep
+```
+
+2. Install visual_marker_mapping and deps:
+
+```
+mkdir flep_ws && cd flep_ws && flep init
+cd src
+git clone https://github.com/cfneuhaus/visual_marker_mapping.git
+flep get_deps
+flep cmake -DCMAKE_BUILD_TYPE=Release
+flep make -j5
 ```
 
 ### Windows
