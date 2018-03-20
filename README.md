@@ -14,15 +14,17 @@ Our software consists of two tools:
 * [Ceres Solver](http://ceres-solver.org/)
 * [OpenCV](http://opencv.org/)
 * [Eigen 3.0](http://eigen.tuxfamily.org/)
-* [AprilTags implementation](https://github.com/cfneuhaus/fast_mit_apriltags)
+* [Boost](http://www.boost.org/)
+* [AprilTags implementation (MIT)](https://github.com/cfneuhaus/fast_mit_apriltags)
+* [AprilTags implementation (Umich)](https://github.com/cfneuhaus/umich_apriltags)
 
 In Ubuntu, the first three dependencies can be installed using the command
 
-* `apt-get install libceres-dev libsuitesparse-dev libopencv-dev`
+* `apt-get install libceres-dev libsuitesparse-dev libopencv-dev libeigen3-dev libboost-dev libboost-filesystem-dev libboost-program-options-dev libboost-system-dev python-pip`
 
 In Arch Linux, use:
 
-* `pacman -S eigen opencv`
+* `pacman -S eigen opencv boost python-pip`
 
 * Ceres is available as an AUR package called [ceres-solver](https://aur.archlinux.org/packages/ceres-solver/).
 
