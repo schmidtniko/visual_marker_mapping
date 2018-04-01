@@ -11,10 +11,10 @@ namespace visual_marker_mapping
 namespace mit
 {
     DetectionResult detectTags(const std::string& folder, double markerWidth, double markerHeight,
-        const std::string& tagType = "apriltag_36h11", bool doCornerRefinement = false);
+        const std::string& tagType = "apriltag_36h11", bool doCornerRefinement = false, float sigma = 0);
     DetectionResult detectTags(const std::vector<std::string>& filePaths, double markerWidth,
         double markerHeight, const std::string& tagType = "apriltag_36h11",
-        bool doCornerRefinement = false);
+        bool doCornerRefinement = false, float sigma = 0);
 }
 }
 

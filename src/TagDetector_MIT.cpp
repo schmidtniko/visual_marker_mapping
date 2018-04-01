@@ -21,7 +21,7 @@ namespace mit
 {
     //-------------------------------------------------------------------------------------------------
     DetectionResult detectTags(const std::vector<std::string>& filePaths, double markerWidth,
-        double markerHeight, const std::string& tagType, bool doCornerRefinement)
+        double markerHeight, const std::string& tagType, bool doCornerRefinement, float sigma)
     {
         if (filePaths.empty())
             throw std::runtime_error("Filepaths for tag detections are empty.");
@@ -77,7 +77,7 @@ namespace mit
             cv::Mat visualization = img.clone();
             cv::cvtColor(visualization, visualization, CV_GRAY2BGR);
 
-            const std::vector<AprilTags::TagDetection> detectedTags = tagDetector->extractTags(img);
+            const std::vector<AprilTags::TagDetection> detectedTags = tagDetector->extractTags(img, sigma);
 
             std::set<int> goodObservations;
 
@@ -139,12 +139,12 @@ namespace mit
     }
     //-------------------------------------------------------------------------------------------------
     DetectionResult detectTags(const std::string& folder, double markerWidth, double markerHeight,
-        const std::string& tagType, bool doCornerRefinement)
+        const std::string& tagType, bool doCornerRefinement, float sigma)
     {
         std::regex reg(
             "(.*)\\.((png)|(jpg))", std::regex_constants::ECMAScript | std::regex_constants::icase);
         const std::vector<std::string> filePaths = readFilesFromDir(folder, reg);
-        return detectTags(filePaths, markerWidth, markerHeight, tagType, doCornerRefinement);
+        return detectTags(filePaths, markerWidth, markerHeight, tagType, doCornerRefinement, sigma);
     }
     //-------------------------------------------------------------------------------------------------
 }
