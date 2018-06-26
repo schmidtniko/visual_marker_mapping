@@ -132,3 +132,8 @@ target_link_libraries(visual_marker_detection
 if(BUILD_UMICH)
 target_link_libraries(visual_marker_detection umich_apriltags)
 endif(BUILD_UMICH)
+
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    target_compile_definitions(${PROJECT_NAME} PUBLIC EIGEN_DONT_ALIGN_STATICALLY)
+    target_compile_definitions(${PROJECT_NAME} PUBLIC _USE_MATH_DEFINES)
+endif()

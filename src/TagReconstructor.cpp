@@ -85,6 +85,7 @@ int TagReconstructor::getLowestTag() const
 //-------------------------------------------------------------------------------------------------
 void TagReconstructor::startReconstruction(size_t numThreads)
 {
+
     if (originTagId == -1)
     {
         originTagId = getLowestTag();
@@ -192,6 +193,8 @@ void TagReconstructor::startReconstruction(size_t numThreads)
                 continue;
             }
 
+            tagById[tagObs.tagId]->tagType;
+            std::cout << "cdnf " << std::endl;
             ReconstructedTag recTag;
             recTag.id = tagObs.tagId;
             recTag.tagType = tagById[tagObs.tagId]->tagType;
@@ -653,7 +656,7 @@ void TagReconstructor::doBundleAdjustment(
 
     ceres::Problem markerBAProblem;
 
-    auto ordering = new ceres::ParameterBlockOrdering;
+    auto ordering = new ceres::ParameterBlockOrdering();
 
     auto quaternion_parameterization = new ceres::QuaternionParameterization;
 
@@ -723,12 +726,12 @@ void TagReconstructor::doBundleAdjustment(
 #if (CERES_VERSION_MAJOR == 1) && (CERES_VERSION_MINOR >= 11)
     options.linear_solver_ordering.reset(ordering);
 #else
-    options.linear_solver_ordering = ordering;
+    options.linear_solver_ordering.reset(ordering);
 #endif
     options.minimizer_progress_to_stdout = false;
     options.max_num_iterations = maxNumIterations;
     options.num_threads = static_cast<int>(ceresThreads);
-    options.num_linear_solver_threads = static_cast<int>(ceresThreads);
+    //options.num_linear_solver_threads = static_cast<int>(ceresThreads);
     // options.eta = 1e-2;
 
     ceres::Solver::Summary summary;
