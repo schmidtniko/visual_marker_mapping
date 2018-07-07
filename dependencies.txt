@@ -1,2 +1,0 @@
-fast_mit_apriltags https://github.com/schmidtniko/fast_mit_apriltags.git
-umich_apriltags https://github.com/schmidtniko/umich_apriltags.git
