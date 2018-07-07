@@ -1,18 +1,18 @@
 #include "visual_marker_mapping/TagDetector_Umich.h"
 #include "visual_marker_mapping/DetectionResults.h"
 #include "visual_marker_mapping/FileUtilities.h"
-#include "../umich_apriltags/apriltag.h"
+#include <apriltag.h>
 #include <boost/filesystem.hpp>
 #include <memory>
 #include <opencv2/opencv.hpp>
 #include <regex>
 #include <set>
-#include "../umich_apriltags/tag16h5.h"
-#include "../umich_apriltags/tag25h7.h"
-#include "../umich_apriltags/tag25h9.h"
-#include "../umich_apriltags/tag36artoolkit.h"
-#include "../umich_apriltags/tag36h10.h"
-#include "../umich_apriltags/tag36h11.h"
+#include <tag16h5.h>
+#include <tag25h7.h>
+#include <tag25h9.h>
+#include <tag36artoolkit.h>
+#include <tag36h10.h>
+#include <tag36h11.h>
 
 namespace visual_marker_mapping
 {
