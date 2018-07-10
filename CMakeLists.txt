@@ -14,7 +14,8 @@ elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang") # Works for Clang and AppleClang
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic")
 endif()
 
-find_package(Eigen3 REQUIRED NO_MODULE)
+find_package(Eigen3 REQUIRED)
+include_directories(${EIGEN3_INCLUDE_DIR})
 find_package(OpenCV REQUIRED)
 
 # Find Boost
@@ -28,11 +29,21 @@ set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 endif(WIN32)
 
+add_subdirectory(fast_mit_apriltags EXCLUDE_FROM_ALL)
+
 # Ceres 
 find_package(Ceres REQUIRED HINTS /usr/lib/cmake/Ceres)
 
 # bin dir for executable targets
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+# MIT AprilTags
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/fast_mit_apriltags/include)
+
+# umich AprilTags
+if(BUILD_UMICH)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/umich_apriltags)
+endif(BUILD_UMICH)
 
 
 ###############################################################################
@@ -80,8 +91,7 @@ target_link_libraries(visual_marker_mapping_lib
                       ${OpenCV_LIBS}
                       ${CERES_LIBRARIES}
                       ${Boost_LIBRARIES}
-                      Eigen3::Eigen
-                      ${FLEP_PACKAGE_DEPS})
+                      apriltags)
 					  
 if(BUILD_UMICH)
 target_link_libraries(visual_marker_mapping_lib umich_apriltags)
@@ -100,14 +110,14 @@ target_include_directories(visual_marker_mapping_lib PUBLIC
                            ${Boost_INCLUDE_DIRS}
                            ${CERES_INCLUDE_DIRS})
 
+
+
 target_link_libraries(visual_marker_mapping
                       ${OpenCV_LIBS}
                       ${CERES_LIBRARIES}
                       ${Boost_LIBRARIES}
                       ${GLOG_LIBRARY}
-                      Eigen3::Eigen
-                      visual_marker_mapping_lib
-                      ${FLEP_PACKAGE_DEPS})
+                      visual_marker_mapping_lib)
 
 ###############################################################################
 
@@ -126,10 +136,9 @@ target_link_libraries(visual_marker_detection
                       ${OpenCV_LIBS}
                       ${CERES_LIBRARIES}
                       ${Boost_LIBRARIES}
-                      Eigen3::Eigen
-                      visual_marker_mapping_lib
-                      ${FLEP_PACKAGE_DEPS})
+                      visual_marker_mapping_lib)
 if(BUILD_UMICH)
+add_subdirectory(umich_apriltags)
 target_link_libraries(visual_marker_detection umich_apriltags)
 endif(BUILD_UMICH)
 
