@@ -7,6 +7,7 @@
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 #include <Eigen/StdVector>
+#include <functional>
 #include <map>
 #include <vector>
 
@@ -64,7 +65,8 @@ public:
      * Starts the reconstruction
      * @param numThreads Number of threads with which ceres is working
      */
-    void startReconstruction(size_t numThreads = 1);
+    void startReconstruction(size_t numThreads = 1,
+        const std::function<void(const std::string&, double)>* progress_cb = nullptr);
 
     /**
      * Calculates the reprojection error per image.
@@ -144,6 +146,6 @@ protected:
      */
     CameraModel camModel;
 };
-}
+} // namespace visual_marker_mapping
 
 #endif

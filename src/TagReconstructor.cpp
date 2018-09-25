@@ -83,7 +83,8 @@ int TagReconstructor::getLowestTag() const
     return min;
 }
 //-------------------------------------------------------------------------------------------------
-void TagReconstructor::startReconstruction(size_t numThreads)
+void TagReconstructor::startReconstruction(
+    size_t numThreads, const std::function<void(const std::string&, double)>* progress_cb)
 {
 
     if (originTagId == -1)
@@ -145,9 +146,14 @@ void TagReconstructor::startReconstruction(size_t numThreads)
     // tag id will be taken to reconstruct the inital tag
     while (1)
     {
-        std::cout << "Reconstructing image " << reconstructedCameras.size() << "/"
-                  << detectionResults_.images.size() << " | " << imageFilenames[curImageId]
-                  << " with id: " << curImageId << std::endl;
+        std::stringstream ss;
+        ss << "Reconstructing image " << reconstructedCameras.size() << "/"
+           << detectionResults_.images.size() << " | " << imageFilenames[curImageId]
+           << " with id: " << curImageId;
+        std::cout << ss.str() << std::endl;
+        if (progress_cb != nullptr)
+            (*progress_cb)(
+                ss.str(), reconstructedCameras.size() / double(detectionResults_.images.size()));
 
         Camera newCamera;
         newCamera.cameraId = curImageId;
@@ -731,7 +737,7 @@ void TagReconstructor::doBundleAdjustment(
     options.minimizer_progress_to_stdout = false;
     options.max_num_iterations = maxNumIterations;
     options.num_threads = static_cast<int>(ceresThreads);
-    //options.num_linear_solver_threads = static_cast<int>(ceresThreads);
+    // options.num_linear_solver_threads = static_cast<int>(ceresThreads);
     // options.eta = 1e-2;
 
     ceres::Solver::Summary summary;
@@ -840,4 +846,4 @@ void TagReconstructor::setOriginTagId(int originTagId)
 {
     this->originTagId = originTagId;
 }
-}
+} // namespace visual_marker_mapping
