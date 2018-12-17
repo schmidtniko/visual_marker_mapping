@@ -199,7 +199,11 @@ void TagReconstructor::startReconstruction(
                 continue;
             }
 
-            tagById[tagObs.tagId]->tagType;
+
+            if (tagById.find(tagObs.tagId) == tagById.end())
+                throw std::runtime_error("Received observation which isn't in known pattern!");
+
+            //            tagById[tagObs.tagId]->tagType;
             std::cout << "cdnf " << std::endl;
             ReconstructedTag recTag;
             recTag.id = tagObs.tagId;
@@ -747,7 +751,7 @@ void TagReconstructor::doBundleAdjustment(
     if (printSummary)
         std::cout << summary.FullReport() << std::endl;
 
-#if 1 // Compute covariances
+#if 0 // Compute covariances
     if (printSummary)
     {
         std::vector<std::pair<const double*, const double*> > covarianceBlocks;
